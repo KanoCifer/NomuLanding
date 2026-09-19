@@ -143,7 +143,7 @@ function retry(): void {
   display: grid;
   place-items: center;
   margin-bottom: 40px;
-  animation: bloom-glyph-in 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: bloom-glyph-in 760ms var(--ease-out) both;
 }
 .bloom-glyph-wrap[data-phase='success'] {
   animation: bloom-glyph-pop 720ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -276,7 +276,7 @@ function retry(): void {
   letter-spacing: -0.024em;
   line-height: 1.18;
   color: var(--ink);
-  animation: bloom-fade-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 160ms both;
+  animation: bloom-fade-up 600ms var(--ease-out) 160ms both;
 }
 .bloom-subline {
   margin: 12px 0 0;
@@ -286,7 +286,7 @@ function retry(): void {
   letter-spacing: -0.005em;
   color: var(--muted-text);
   max-width: 380px;
-  animation: bloom-fade-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 240ms both;
+  animation: bloom-fade-up 600ms var(--ease-out) 240ms both;
 }
 @keyframes bloom-fade-up {
   from {
@@ -312,7 +312,7 @@ function retry(): void {
   transition:
     background-color 180ms ease-out,
     transform 120ms ease-out;
-  animation: bloom-fade-up 600ms cubic-bezier(0.16, 1, 0.3, 1) 360ms both;
+  animation: bloom-fade-up 600ms var(--ease-out) 360ms both;
 }
 .bloom-btn:active {
   transform: scale(0.985);

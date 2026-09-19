@@ -116,7 +116,7 @@ function onFigureKeydown(e: KeyboardEvent) {
       />
 
       <span
-        class="bg-card/80 text-ink/70 pointer-events-none absolute top-3 right-3 inline-flex items-center justify-center rounded-full p-1.5 opacity-0 shadow-sm backdrop-blur transition-opacity duration-150 ease-[cubic-bezier(0.2,0,0,1)] group-hover/zoom:opacity-100 group-focus-visible/zoom:opacity-100"
+        class="bg-card/80 text-ink/70 pointer-events-none absolute top-3 right-3 inline-flex items-center justify-center rounded-full p-1.5 opacity-0 shadow-sm backdrop-blur transition-opacity duration-150 ease-[var(--ease-out)] group-hover/zoom:opacity-100 group-focus-visible/zoom:opacity-100"
         aria-hidden="true"
       >
         <svg
