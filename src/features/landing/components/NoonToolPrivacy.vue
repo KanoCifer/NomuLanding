@@ -4,6 +4,7 @@
  * Same content, glass material. Apple-style heavy blur for navigation-grade surfaces.
  */
 import { useI18n } from 'vue-i18n';
+import { motion, useReducedMotion } from 'motion-v';
 import * as LucideIcons from '@lucide/vue';
 import { icons } from '../icons';
 
@@ -18,10 +19,27 @@ const columns = [
 function lines(key: string): string[] {
   return tm(`noonTool.privacy.${key}`) as string[];
 }
+
+const reduceMotion = useReducedMotion();
+
+function sectionFadeUp() {
+  return reduceMotion.value
+    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true } }
+    : {
+        initial: { opacity: 0, y: 12 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '0px 0px -15% 0px' },
+        transition: { duration: 0.45, ease: 'var(--ease-out)' as string },
+      };
+}
 </script>
 
 <template>
-  <section aria-labelledby="privacy-heading" class="space-y-8">
+  <motion.section
+    v-bind="sectionFadeUp()"
+    aria-labelledby="privacy-heading"
+    class="space-y-8"
+  >
     <header class="max-w-3xl space-y-3">
       <p class="text-[11px] font-medium tracking-[0.22em] text-muted uppercase">
         {{ t('noonTool.privacy.eyebrow') }}
@@ -70,5 +88,5 @@ function lines(key: string): string[] {
         </ul>
       </article>
     </div>
-  </section>
+  </motion.section>
 </template>

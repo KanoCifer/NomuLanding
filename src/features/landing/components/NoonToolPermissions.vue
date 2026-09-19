@@ -8,6 +8,7 @@
  */
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { motion, useReducedMotion } from 'motion-v';
 import * as LucideIcons from '@lucide/vue';
 import Card from '@/components/Card.vue';
 import { icons, type IconKey } from '../icons';
@@ -44,10 +45,27 @@ const hostKeys = [
 ] as const;
 
 const showFull = ref(false);
+
+const reduceMotion = useReducedMotion();
+
+function sectionFadeUp() {
+  return reduceMotion.value
+    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true } }
+    : {
+        initial: { opacity: 0, y: 12 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '0px 0px -15% 0px' },
+        transition: { duration: 0.45, ease: 'var(--ease-out)' as string },
+      };
+}
 </script>
 
 <template>
-  <section aria-labelledby="permissions-heading" class="space-y-8">
+  <motion.section
+    v-bind="sectionFadeUp()"
+    aria-labelledby="permissions-heading"
+    class="space-y-8"
+  >
     <header class="space-y-3 text-center">
       <h2
         id="permissions-heading"
@@ -155,5 +173,5 @@ const showFull = ref(false);
         </div>
       </div>
     </div>
-  </section>
+  </motion.section>
 </template>

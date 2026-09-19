@@ -4,6 +4,7 @@
  * Spatial language: glass chips for icons, frosted background with surface highlight.
  */
 import { useI18n } from 'vue-i18n';
+import { motion, useReducedMotion } from 'motion-v';
 import * as LucideIcons from '@lucide/vue';
 import { icons } from '../icons';
 
@@ -12,10 +13,24 @@ const { t } = useI18n();
 const DOCS_URL = 'https://nomu.kanocifer.chat/docs/';
 
 const channelKeys = ['wechat', 'docs'] as const;
+
+const reduceMotion = useReducedMotion();
+
+function sectionFadeUp() {
+  return reduceMotion.value
+    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true } }
+    : {
+        initial: { opacity: 0, y: 12 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '0px 0px -15% 0px' },
+        transition: { duration: 0.45, ease: 'var(--ease-out)' as string },
+      };
+}
 </script>
 
 <template>
-  <section
+  <motion.section
+    v-bind="sectionFadeUp()"
     :id="$attrs.id as string"
     aria-labelledby="support-heading"
     class="space-y-8"
@@ -66,7 +81,7 @@ const channelKeys = ['wechat', 'docs'] as const;
         </a>
       </li>
     </ul>
-  </section>
+  </motion.section>
 </template>
 
 <script lang="ts">

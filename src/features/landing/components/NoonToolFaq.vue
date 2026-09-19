@@ -6,6 +6,7 @@
  */
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { motion, useReducedMotion } from 'motion-v';
 
 const { t } = useI18n();
 
@@ -29,10 +30,28 @@ function toggle(key: string) {
     ? openKeys.value.filter((k) => k !== key)
     : [...openKeys.value, key];
 }
+
+const reduceMotion = useReducedMotion();
+
+function sectionFadeUp() {
+  return reduceMotion.value
+    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true } }
+    : {
+        initial: { opacity: 0, y: 12 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '0px 0px -15% 0px' },
+        transition: { duration: 0.45, ease: 'var(--ease-out)' as string },
+      };
+}
 </script>
 
 <template>
-  <section :id="id" aria-labelledby="faq-heading" class="space-y-8">
+  <motion.section
+    v-bind="sectionFadeUp()"
+    :id="id"
+    aria-labelledby="faq-heading"
+    class="space-y-8"
+  >
     <header class="text-center">
       <h2
         id="faq-heading"
@@ -87,5 +106,5 @@ function toggle(key: string) {
         </div>
       </div>
     </div>
-  </section>
+  </motion.section>
 </template>

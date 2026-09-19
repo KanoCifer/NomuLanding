@@ -6,6 +6,7 @@
  * of abrupt. Apple closer pattern: title + body on the left, single CTA right.
  */
 import { useI18n } from 'vue-i18n';
+import { motion, useReducedMotion } from 'motion-v';
 import * as LucideIcons from '@lucide/vue';
 import { icons } from '../icons';
 
@@ -13,10 +14,26 @@ const { t } = useI18n();
 
 const installHref =
   'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
+
+const reduceMotion = useReducedMotion();
+
+function sectionFadeUp() {
+  return reduceMotion.value
+    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true } }
+    : {
+        initial: { opacity: 0, y: 12 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '0px 0px -15% 0px' },
+        transition: { duration: 0.45, ease: 'var(--ease-out)' as string },
+      };
+}
 </script>
 
 <template>
-  <section aria-labelledby="final-cta-heading">
+  <motion.section
+    v-bind="sectionFadeUp()"
+    aria-labelledby="final-cta-heading"
+  >
     <div
       class="flex flex-col items-center justify-between gap-8 rounded-[28px] border border-white/50 bg-white/55 px-8 py-12 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 md:flex-row md:items-center md:px-12 md:py-16"
     >
@@ -50,5 +67,5 @@ const installHref =
         {{ t('noonTool.finalCta.button') }}
       </a>
     </div>
-  </section>
+  </motion.section>
 </template>
