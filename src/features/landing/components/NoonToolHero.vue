@@ -16,28 +16,59 @@ const installHref =
   'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
 const DOCS_URL = 'https://nomu.kanocifer.chat/docs/';
 
-const fade = (delay = 0) => ({
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  transition: {
-    duration: 0.55,
-    ease: EASE_OUT,
-    delay,
+/**
+ * Slow + staggered intro.
+ * - Container drives the cadence via `staggerChildren` so each child
+ *   animates in sequence instead of using hand-tuned delays.
+ * - Per-item duration is doubled (≈0.95s) so each element fully settles
+ *   before the next one enters — feels like a deliberate reveal.
+ * - A 12px→0px blur fade gives each layer a soft "focus pull" as it lands.
+ */
+const heroContainer = {
+  initial: 'hidden',
+  animate: 'visible',
+  variants: {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.18,
+        delayChildren: 0.1,
+      },
+    },
   },
-});
+};
+
+const heroItem = {
+  variants: {
+    hidden: { opacity: 0, y: 16, filter: 'blur(12px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.95,
+        ease: EASE_OUT,
+      },
+    },
+  },
+};
 </script>
 
 <template>
-  <section aria-labelledby="hero-heading" class="text-center">
+  <motion.section
+    aria-labelledby="hero-heading"
+    class="text-center"
+    v-bind="heroContainer"
+  >
     <motion.p
-      v-bind="fade(0.05)"
+      v-bind="heroItem"
       class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase"
     >
       {{ t('noonTool.hero.eyebrow') }}
     </motion.p>
 
     <motion.h1
-      v-bind="fade(0.15)"
+      v-bind="heroItem"
       id="hero-heading"
       class="text-ink mx-auto mt-5 max-w-[16ch] text-[48px] leading-[1.02] font-semibold tracking-[-0.03em] md:text-[96px] md:leading-[0.98] md:tracking-[-0.05em]"
     >
@@ -47,14 +78,14 @@ const fade = (delay = 0) => ({
     </motion.h1>
 
     <motion.p
-      v-bind="fade(0.25)"
+      v-bind="heroItem"
       class="text-muted mx-auto mt-7 max-w-[58ch] text-[17px] leading-[1.55] md:text-[19px]"
     >
       {{ t('noonTool.hero.subheadline') }}
     </motion.p>
 
     <motion.div
-      v-bind="fade(0.34)"
+      v-bind="heroItem"
       class="mt-9 flex flex-wrap items-center justify-center gap-3"
     >
       <a
@@ -87,7 +118,7 @@ const fade = (delay = 0) => ({
       </a>
     </motion.div>
 
-    <motion.div v-bind="fade(0.5)" class="mt-14">
+    <motion.div v-bind="heroItem" class="mt-14">
       <NoonToolScreenshot
         video-src="/screens/01-hero.mp4"
         :alt="t('noonTool.hero.screenshotAlt')"
@@ -95,5 +126,5 @@ const fade = (delay = 0) => ({
         :caption="t('noonTool.hero.screenshotCaption')"
       />
     </motion.div>
-  </section>
+  </motion.section>
 </template>

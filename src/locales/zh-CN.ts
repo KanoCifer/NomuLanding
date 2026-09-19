@@ -1,9 +1,9 @@
 export default {
   noonTool: {
     meta: {
-      title: 'Nomu：一款易用的 Chrome 扩展',
+      title: 'Nomu：一款易用的 Noon 插件',
       description:
-        'Nomu 是一款 Chrome 浏览器扩展，帮你从 1688、淘宝/天猫、京东采集商品，自动整理标题、价格和图片，翻译成英文和阿拉伯语，再逐件发布到 Noon 阿联酋和沙特站。多店铺集中管理、任务面板、店铺间复制与 AI 类目推荐内置其中；店铺设置默认保存在本地。',
+        'Nomu 是一款 Chrome 浏览器扩展，帮你从 1688、淘宝/天猫、京东采集商品，自动整理标题、价格和图片，翻译成英文和阿拉伯语，再逐件发布到 Noon 阿联酋和沙特站。多店铺集中管理、任务面板、店铺间复制、AI 类目推荐均已内置；店铺设置默认保存在本地。',
       keywords: [
         'Nomu',
         '1688',
@@ -20,10 +20,10 @@ export default {
       headline: '一款易用的',
       headlineTail: 'Noon Chrome 插件',
       subheadline:
-        '还是熟悉的采购页面，还是你自己的 Noon 店铺。Nomu 把采集、翻译、图片处理和逐件发布收进同一条流水线：从源页到已上架，黄色高亮逐条确认。',
+        '还是熟悉的采购页面，还是你的 Noon 店铺。Nomu 加速采集、翻译、图片处理和逐件发布，方便你的运营工作。',
       ctaPrimary: '添加到 Chrome',
       ctaPrimaryHint: '跳转到 Chrome 网上应用商店，一键安装 Nomu',
-      ctaSecondary: '看看它做什么',
+      ctaSecondary: '看看Nomu能做什么',
       ctaDocs: '查看文档',
       localeZh: '中文',
       localeEn: 'EN',
@@ -64,14 +64,14 @@ export default {
           body: '在同一个面板里管理多家 Noon 店铺，切换店铺时自动填好上架设置。',
         },
         translate: {
-          title: '中译英 / 阿 自动翻译',
+          title: '中译英 / 阿拉伯语 自动翻译',
           imageAlt: '翻译结果的截图',
           body: '标题、卖点与商品属性自动翻译，覆盖阿联酋与沙特两个站点。',
         },
         image: {
           title: '图片自动处理成可上架',
           imageAlt: '商品图按 660×900 规格处理的截图',
-          body: '商品图自动调整为 Noon 要求的尺寸和白底（660×900），规格不对的图片会被处理到位，不会让上架被卡。',
+          body: '商品图自动调整为 Noon 要求的尺寸和白底。规格不符的图片也能处理到位，不会让上架被卡。',
         },
         serial: {
           title: '逐件发布，出错即停',
@@ -140,118 +140,144 @@ export default {
     },
     audience: {
       motto:
-        '为在 1688 / 淘宝 / 京东采购、在 Noon 阿联酋和沙特站上架的中文卖家而做',
+        '为在 1688 / 淘宝 / 京东采购、在 Noon 阿联酋和沙特站上架的卖家而做',
     },
-    privacy: {
-      eyebrow: '隐私',
-      sectionTitle: '你的隐私数据受到保护',
-      sectionSubtitle:
-        '扩展能接触你的店铺配置和每一次提交——这些数据该让你看清楚流向。云端共享池、配置同步与 AI 功能只在你主动使用时才上传数据。',
-      colLocal: '默认留在本地',
-      colEgress: '只发给 Noon',
-      colNever: '永远不会看到',
-      local: [
-        '店铺设置（国家、合作方代码、仓库、数量、质保、品牌）',
-        '店铺记录与当前使用的店铺',
-        '商品批次草稿与任务记录',
-      ],
-      egress: [
-        '商品信息（标题、描述、属性、价格、库存）',
-        '商品图片（已处理为合规尺寸）',
-        '质保、激活与复制请求',
-      ],
-      never: [
-        '你的 Noon 账号密码',
-        '任何追踪、统计、埋点数据',
-        '你的浏览历史或不相关网站的 Cookie',
-        '未经你操作就上传的商品或配置',
-      ],
-    },
-    permissions: {
-      sectionTitle: '权限说明',
-      sectionSubtitle: '几项核心权限；用到的网站列在下面',
-      top: {
-        activeTab: {
-          name: '当前标签页',
-          reason:
-            '只在你点击扩展时读取当前页面，用来识别你正打开的商品页或店铺页。',
+    privacyPermissions: {
+      eyebrow: '隐私 & 权限',
+      sectionTitle: '你的数据，有清楚的去向。',
+      sectionSubtitle: '你的数据保存在本地，商品数据来自Noon',
+      cols: {
+        yours: {
+          name: '你的设备',
+          chip: '本地',
+          tagline: '保存在浏览器里，你不动手就不会上传。',
         },
-        scripting: {
-          name: '脚本注入',
-          reason: '把采集与确认界面放进页面里；仅在匹配到的站点上运行。',
+        noon: {
+          name: 'Noon',
+          chip: '发出',
+          tagline: '只在你点击发布商品时才会发出。',
+        },
+        nowhere: {
+          name: 'Nowhere',
+          chip: '不看',
+          tagline: '设计上就排除，扩展永远不接收。',
+        },
+      },
+      items: {
+        storeSettings: {
+          name: '店铺设置',
+          detail: '国家、合作方代码、仓库、数量、质保、品牌。',
+        },
+        storeRecords: {
+          name: '店铺记录与当前店铺',
+          detail: '记录所有店铺与正在使用的那一家。',
+        },
+        batches: {
+          name: '批次、草稿、历史',
+          detail: '保存在本地，浏览器重启后可继续。',
         },
         storage: {
-          name: '本地存储',
-          reason: '把你的店铺记录、设置与批次草稿保存在浏览器里。',
+          name: '本地存储权限',
+          detail: '把店铺记录、设置与批次草稿保存在浏览器里。',
+        },
+        alarms: {
+          name: '定时任务权限',
+          detail: '定时扫描待处理的上架与复制任务，可自动续跑。',
+        },
+        productDetails: {
+          name: '商品信息',
+          detail: '标题、描述、属性、价格、库存，仅在发布时发出。',
+        },
+        productImages: {
+          name: '商品图片',
+          detail: '已重新裁切、去背景，处理到合规规格。',
+        },
+        warranty: {
+          name: '质保与复制请求',
+          detail: '在你点击「发布」时提交给 Noon。',
+        },
+        activeTab: {
+          name: '当前标签页权限',
+          detail: '只在你点击扩展时读取该页面。',
+        },
+        scripting: {
+          name: '脚本注入权限',
+          detail: '把采集界面注入到匹配的站点页面里。',
+        },
+        password: {
+          name: 'Noon 账号密码',
+          detail: '你直接登录 Noon，扩展看不到密码。',
+        },
+        analytics: {
+          name: '埋点与统计',
+          detail: '没有追踪像素、事件上报或埋点。',
+        },
+        browsingHistory: {
+          name: '浏览历史',
+          detail: 'Cookie 只在匹配的站点、点击时才读取。',
+        },
+        notifications: {
+          name: '通知（默认关闭）',
+          detail: '只有你主动开启批次完成提醒时才会启用。',
+        },
+        contextMenus: {
+          name: '右键菜单（默认关闭）',
+          detail: '只有你主动启用后，才会出现右键入口。',
         },
       },
-      fullTitle: '展开完整权限列表',
-      full: {
-        hostsTitle: '工具会用到的网站',
-        permissions: {
+      permissionsStrip: {
+        title: '权限一览',
+        subtitle: '共 6 项',
+        perms: {
           storage: {
-            name: '本地存储',
-            reason: '保存店铺记录、设置与批次草稿。',
+            label: '本地存储',
+            detail: '在本地保存店铺记录与设置。',
           },
           alarms: {
-            name: '定时任务',
-            reason: '定时扫描待处理的上架与复制任务，浏览器重启后能自动续跑。',
+            label: '定时任务',
+            detail: '浏览器重启后继续执行待处理任务。',
           },
           notifications: {
-            name: '通知',
-            reason: '批次跑完或任务失败时提醒你，不用一直盯着页面。',
+            label: '通知',
+            detail: '批次完成或失败时提醒你。',
           },
           activeTab: {
-            name: '当前标签页',
-            reason: '只在你点击扩展时读取当前页面。',
+            label: '当前标签页',
+            detail: '只在你点击扩展时读取当前页面。',
           },
           scripting: {
-            name: '脚本注入',
-            reason: '把采集与确认界面放进页面里。',
+            label: '脚本注入',
+            detail: '在匹配的站点页面注入采集界面。',
           },
           contextMenus: {
-            name: '右键菜单',
-            reason: '添加「用 AI 解析」等右键入口。',
-          },
-        },
-        hosts: {
-          noonPartners: {
-            name: 'Noon 合作方后台',
-            reason: 'Noon 的合作方管理页面（商品目录），上架请求都发往这里',
-          },
-          noonCdn: {
-            name: 'Noon 图片服务',
-            reason: 'Noon 的图片与文件服务器',
-          },
-          alicdn: {
-            name: '1688 / 淘宝图片服务',
-            reason: '1688 与淘宝商品图片的服务器',
-          },
-          jdimg: {
-            name: '京东图片服务',
-            reason: '京东商品图片的服务器',
-          },
-          backend: {
-            name: '扩展自带服务',
-            reason: '负责翻译、图片处理与 AI 能力，不记录任何账号数据',
+            label: '右键菜单',
+            detail: '类似「用 AI 解析」的右键入口。',
           },
         },
       },
+      hosts: {
+        noonPartners: 'Noon 合作伙伴后台',
+        noonCdn: 'Noon 图片CDN服务',
+        alicdn: '1688 / 淘宝图片CDN服务',
+        jdimg: '京东图片CDN服务',
+        backend: '工具自有服务',
+      },
+      hostsTitle: 'Nomu请求的Hosts',
     },
     faq: {
       sectionTitle: '常见疑问',
       items: {
         free: {
           q: 'Nomu 是免费的吗？',
-          a: '工具本身免费使用。设置与登录信息（Cookie）都留在你自己的浏览器里，没有订阅费。',
+          a: '工具部分功能免费使用。设置与登录信息都留在你自己的浏览器里。',
         },
         apiKey: {
           q: '我需要提供任何密钥或登录授权吗？',
-          a: '不需要。Nomu 通过你已登录的 Noon 会话（Cookie）直接操作，你完全不用输入密码或密钥。',
+          a: '不需要。Nomu 通过你已登录的 Noon 会话直接操作，你完全不用输入密码或密钥。',
         },
         regions: {
-          q: '支持哪些 Noon 站点？',
-          a: '目前支持 Noon 阿联酋站和沙特站。其他站点没测过，暂不承诺。',
+          q: '紫鸟浏览器怎么安装？',
+          a: '紫鸟浏览器暂未上架，请自行同步或联系我获取支持。',
         },
         sources: {
           q: '除了 1688 还支持其它源吗？',
@@ -263,7 +289,7 @@ export default {
         },
         ai: {
           q: 'AI 功能要另外付费吗？',
-          a: 'AI 助手、类目推荐和右键解析需要登录 Nomu 账户，按积分计费，用完了在账户页充值；采集、翻译、上架等主流程不需要登录。',
+          a: 'AI 助手、类目推荐和右键解析需要登录 Nomu 账户，按积分计费；采集、上架等主流程不需要登录。',
         },
         translation: {
           q: '翻译质量如何？是否需要二次校对？',
@@ -294,7 +320,7 @@ export default {
     },
     finalCta: {
       title: '让上架变得更简单',
-      body: '采集、翻译、建图、发布、复制、盯任务，一个插件走完。',
+      body: '采集、翻译、建图、发布、复制、盯任务。',
       button: '添加到 Chrome',
       hint: '在 Chrome 网上应用商店一键安装 Nomu',
     },
@@ -306,12 +332,12 @@ export default {
       sublinePending: '正在和 Nomu 服务确认这次登录…',
       sublineSuccess: '现在可以回到 Nomu 扩展继续你的工作。',
       sublineFallbackError: 'Nomu 没有在有效时间内确认这个链接，可能已过期。',
-      missingTokenError: '缺少 token，链接无效',
+      missingTokenError: '缺少 token，链接无效。',
       closePage: '关闭此页',
       retry: '再试一次',
     },
     footer: {
-      tagline: 'Nomu：一款易用的 Noon 平台插件',
+      tagline: 'Nomu：一款易用的 Noon 插件',
       links: {
         privacy: '隐私',
         changelog: '更新日志',

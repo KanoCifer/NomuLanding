@@ -5,9 +5,8 @@ import { useHead } from '@vueuse/head';
 import NoonToolNav from './components/NoonToolNav.vue';
 import NoonToolHero from './components/NoonToolHero.vue';
 import NoonToolFeatureGrid from './components/NoonToolFeatureGrid.vue';
-import NoonToolPrivacy from './components/NoonToolPrivacy.vue';
+import NoonToolPrivacyPermissions from './components/NoonToolPrivacyPermissions.vue';
 import NoonToolSupport from './components/NoonToolSupport.vue';
-import NoonToolPermissions from './components/NoonToolPermissions.vue';
 import NoonToolFaq from './components/NoonToolFaq.vue';
 import NoonToolFinalCta from './components/NoonToolFinalCta.vue';
 import NoonToolFooter from './components/NoonToolFooter.vue';
@@ -59,9 +58,8 @@ onMounted(async () => {
     <main class="mx-auto max-w-[1180px] space-y-24 px-4 pt-32 pb-16 md:px-8 md:pt-40 md:space-y-32">
       <NoonToolHero />
       <NoonToolFeatureGrid id="features" />
-      <NoonToolPrivacy />
+      <NoonToolPrivacyPermissions />
       <NoonToolSupport id="support" />
-      <NoonToolPermissions />
       <NoonToolFaq id="faq" />
       <NoonToolFinalCta />
       <NoonToolFooter />
