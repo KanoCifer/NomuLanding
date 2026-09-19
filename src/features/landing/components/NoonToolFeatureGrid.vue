@@ -7,6 +7,7 @@
  */
 import { useI18n } from 'vue-i18n';
 import * as LucideIcons from '@lucide/vue';
+import { motion, useReducedMotion } from 'motion-v';
 import { icons, type IconKey } from '../icons';
 import NoonToolScreenshot from './NoonToolScreenshot.vue';
 import NoonToolPlaceholder from './NoonToolPlaceholder.vue';
@@ -62,6 +63,33 @@ const featureImages: Partial<Record<FeatureKey, string>> = {
   tasks: '/screens/08-feature-post.png',
   duplicate: '/screens/09-feature-post-right.png',
 };
+
+const reduceMotion = useReducedMotion();
+const gridContainer = () =>
+  reduceMotion.value
+    ? { initial: 'hidden', whileInView: 'visible', viewport: { once: true, margin: '0px 0px -10% 0px' } }
+    : {
+        initial: 'hidden',
+        whileInView: 'visible',
+        viewport: { once: true, margin: '0px 0px -10% 0px' },
+        variants: {
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.04, delayChildren: 0 } },
+        },
+      };
+const cardItem = () =>
+  reduceMotion.value
+    ? {
+        initial: { opacity: 0 },
+        whileInView: { opacity: 1 },
+        viewport: { once: true },
+      }
+    : {
+        initial: { opacity: 0, y: 8 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.4, ease: 'var(--ease-out)' as string },
+      };
 </script>
 
 <template>
@@ -85,9 +113,13 @@ const featureImages: Partial<Record<FeatureKey, string>> = {
       </p>
     </header>
 
-    <ul class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <li
+    <motion.ul
+      v-bind="gridContainer()"
+      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+    >
+      <motion.li
         v-for="(key, idx) in featureKeys"
+        v-bind="cardItem()"
         :key="key"
         class="group relative flex flex-col gap-3 overflow-hidden rounded-2xl border border-white/50 bg-white/55 p-6 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 transition-shadow hover:shadow-[0_20px_50px_-16px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.8)]"
       >
@@ -125,8 +157,8 @@ const featureImages: Partial<Record<FeatureKey, string>> = {
           :label="t('noonTool.features.items.' + key + '.title')"
           :caption="t('noonTool.features.placeholder.caption')"
         />
-      </li>
-    </ul>
+      </motion.li>
+    </motion.ul>
   </section>
 </template>
 
