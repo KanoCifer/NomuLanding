@@ -60,12 +60,19 @@ const featureImages: Partial<Record<FeatureKey, string>> = {
 </script>
 
 <template>
-  <section :id="$attrs.id as string" aria-labelledby="features-heading" class="space-y-10">
+  <section
+    :id="$attrs.id as string"
+    aria-labelledby="features-heading"
+    class="space-y-10"
+  >
     <header class="max-w-3xl space-y-3">
       <p class="text-muted text-xs font-medium tracking-widest uppercase">
         {{ t('noonTool.features.eyebrow') }}
       </p>
-      <h2 id="features-heading" class="text-ink text-3xl leading-tight font-semibold md:text-5xl">
+      <h2
+        id="features-heading"
+        class="text-ink text-3xl leading-tight font-semibold md:text-5xl"
+      >
         {{ t('noonTool.features.sectionTitle') }}
       </h2>
       <p class="text-muted max-w-xl text-sm leading-relaxed md:text-base">
@@ -82,8 +89,14 @@ const featureImages: Partial<Record<FeatureKey, string>> = {
         class="border-border/60 flex flex-col gap-3 py-6 sm:border-b sm:last:border-b-0 md:px-6 lg:[&:not(:nth-child(3n+1))]:border-l lg:[&:nth-child(-n+3)]:border-b-0"
       >
         <div class="flex items-center gap-2.5">
-          <span class="text-accent bg-accent/10 inline-flex size-7 shrink-0 items-center justify-center rounded-md">
-            <component :is="(LucideIcons as any)[icons[key]]" :size="14" :stroke-width="1.75" />
+          <span
+            class="text-accent bg-accent/10 inline-flex size-7 shrink-0 items-center justify-center rounded-md"
+          >
+            <component
+              :is="(LucideIcons as any)[icons[key]]"
+              :size="14"
+              :stroke-width="1.75"
+            />
           </span>
           <h3 class="text-ink text-base font-semibold">
             {{ t(`noonTool.features.items.${key}.title`) }}

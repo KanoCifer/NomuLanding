@@ -36,9 +36,7 @@ useHead({
 
 <template>
   <div class="bg-page">
-    <div
-      class="mx-auto max-w-6xl space-y-20 px-4 py-12 md:space-y-28 md:px-8 md:py-20"
-    >
+    <div class="mx-auto max-w-6xl space-y-20 px-4 py-12 md:px-8">
       <NoonToolHero />
       <NoonToolSplash />
       <NoonToolPositioning />

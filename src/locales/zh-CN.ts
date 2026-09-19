@@ -4,7 +4,16 @@ export default {
       title: 'Nomu：一款易用的 Chrome 扩展',
       description:
         'Nomu 是一款 Chrome 浏览器扩展，帮你从 1688、淘宝/天猫、京东采集商品，自动整理标题、价格和图片，翻译成英文和阿拉伯语，再逐件发布到 Noon 阿联酋和沙特站。多店铺集中管理、任务面板、店铺间复制与 AI 类目推荐内置其中；店铺设置默认保存在本地。',
-      keywords: ['Nomu', '1688', '淘宝上架', '京东上架', 'Noon 上架', 'Noon UAE', 'Noon Saudi', '浏览器扩展'],
+      keywords: [
+        'Nomu',
+        '1688',
+        '淘宝上架',
+        '京东上架',
+        'Noon 上架',
+        'Noon UAE',
+        'Noon Saudi',
+        '浏览器扩展',
+      ],
     },
     hero: {
       eyebrow: 'Nomu · Chrome 浏览器扩展',
@@ -148,7 +157,8 @@ export default {
       },
     },
     audience: {
-      motto: '为在 1688 / 淘宝 / 京东采购、在 Noon 阿联酋和沙特站上架的中文卖家而做',
+      motto:
+        '为在 1688 / 淘宝 / 京东采购、在 Noon 阿联酋和沙特站上架的中文卖家而做',
     },
     privacy: {
       eyebrow: '隐私',
@@ -163,7 +173,11 @@ export default {
         '店铺记录与当前使用的店铺',
         '商品批次草稿与任务记录',
       ],
-      egress: ['商品信息（标题、描述、属性、价格、库存）', '商品图片（已处理为合规尺寸）', '质保、激活与复制请求'],
+      egress: [
+        '商品信息（标题、描述、属性、价格、库存）',
+        '商品图片（已处理为合规尺寸）',
+        '质保、激活与复制请求',
+      ],
       never: [
         '你的 Noon 账号密码',
         '任何追踪、统计、埋点数据',
@@ -177,7 +191,8 @@ export default {
       top: {
         activeTab: {
           name: '当前标签页',
-          reason: '只在你点击扩展时读取当前页面，用来识别你正打开的商品页或店铺页。',
+          reason:
+            '只在你点击扩展时读取当前页面，用来识别你正打开的商品页或店铺页。',
         },
         scripting: {
           name: '脚本注入',
@@ -281,7 +296,8 @@ export default {
     support: {
       eyebrow: '支持',
       sectionTitle: '遇到问题？',
-      sectionSubtitle: '安装、采集、发布任何一步遇到问题，或者想提功能建议，都可以联系。',
+      sectionSubtitle:
+        '安装、采集、发布任何一步遇到问题，或者想提功能建议，都可以联系。',
       viewQr: '查看微信二维码',
       channels: {
         wechat: {

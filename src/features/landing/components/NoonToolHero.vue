@@ -37,7 +37,7 @@ const pipelineSteps = [
         class="space-y-6 md:col-span-7"
       >
         <div class="flex items-center gap-2">
-          <img src="/icon/512.png" alt="Nomu" class="h-6 w-6 rounded-md" />
+          <img src="/icon/48.png" alt="Nomu" class="h-6 w-6 rounded-md" />
           <span class="text-ink text-base font-semibold tracking-tight"
             >Nomu</span
           >

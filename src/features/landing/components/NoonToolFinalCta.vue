@@ -14,7 +14,7 @@ const installHref =
   <section aria-labelledby="final-cta-heading" class="text-center">
     <div class="mx-auto max-w-2xl space-y-4 py-10">
       <div class="flex items-center justify-center gap-2">
-        <img src="/icon/512.png" alt="Nomu" class="h-6 w-6 rounded-md" />
+        <img src="/icon/48.png" alt="Nomu" class="h-6 w-6 rounded-md" />
         <span class="text-ink text-base font-semibold tracking-tight"
           >Nomu</span
         >

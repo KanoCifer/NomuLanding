@@ -46,7 +46,11 @@ function lines(key: string): string[] {
           class="text-accent flex items-center gap-2 text-sm font-semibold tracking-widest uppercase"
         >
           <span class="inline-flex size-4 shrink-0 items-center justify-center">
-            <component :is="(LucideIcons as any)[icons[col.icon]]" :size="14" :stroke-width="1.75" />
+            <component
+              :is="(LucideIcons as any)[icons[col.icon]]"
+              :size="14"
+              :stroke-width="1.75"
+            />
           </span>
           {{ t(`noonTool.privacy.${col.labelKey}`) }}
         </h3>

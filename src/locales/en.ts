@@ -22,7 +22,8 @@ export default {
       subheadline:
         'Same sourcing pages you already browse, same Noon stores you already run. Capture, translation, image prep and per-item publishing run as one pipeline, from source page to listed product.',
       ctaPrimary: 'Add to Chrome',
-      ctaPrimaryHint: 'Opens the Chrome Web Store listing for a one-click install of Nomu',
+      ctaPrimaryHint:
+        'Opens the Chrome Web Store listing for a one-click install of Nomu',
       ctaSecondary: 'See what it does',
       ctaDocs: 'Read the docs',
       localeZh: '中文',
@@ -35,7 +36,8 @@ export default {
         publish: 'Publish',
       },
       screenshotAlt: 'Nomu main interface screenshot',
-      screenshotCaption: 'The drawer on the right, one confirmed product at a time',
+      screenshotCaption:
+        'The drawer on the right, one confirmed product at a time',
     },
     splash: {
       eyebrow: 'Nomu',
@@ -59,7 +61,8 @@ export default {
         },
         multiAccount: {
           title: 'Store management in one place',
-          imageAlt: 'Screenshot of the multi-store list and switching in the side panel',
+          imageAlt:
+            'Screenshot of the multi-store list and switching in the side panel',
           body: 'Keep all your Noon stores in one panel and switch stores to auto-fill the listing settings.',
         },
         translate: {
@@ -89,7 +92,8 @@ export default {
         },
         tasks: {
           title: 'A task panel for the whole run',
-          imageAlt: 'Screenshot of the task panel listing publish and duplicate tasks',
+          imageAlt:
+            'Screenshot of the task panel listing publish and duplicate tasks',
           body: 'Publish and duplicate tasks live in one panel: progress, per-step timing and the failure reason expand inline, and failed items can be retried on their own.',
         },
         duplicate: {
@@ -129,7 +133,8 @@ export default {
         },
         assistant: {
           title: 'AI assistant and right-click parsing',
-          imageAlt: 'Screenshot of asking the AI assistant a question on the page',
+          imageAlt:
+            'Screenshot of asking the AI assistant a question on the page',
           body: 'Ask the built-in AI assistant about listing rules directly, and on a page the tool has no adapter for, right-click to parse the product into a draft.',
         },
       },
@@ -157,7 +162,8 @@ export default {
       },
     },
     audience: {
-      motto: 'Built for Chinese-speaking sellers sourcing on 1688, Taobao or JD, listing on Noon UAE and Saudi',
+      motto:
+        'Built for Chinese-speaking sellers sourcing on 1688, Taobao or JD, listing on Noon UAE and Saudi',
     },
     privacy: {
       eyebrow: 'Privacy',
@@ -186,7 +192,8 @@ export default {
     },
     permissions: {
       sectionTitle: 'Permissions, explained',
-      sectionSubtitle: 'A few core permissions; the sites the tool uses are listed below',
+      sectionSubtitle:
+        'A few core permissions; the sites the tool uses are listed below',
       top: {
         activeTab: {
           name: 'Current tab',
@@ -195,11 +202,13 @@ export default {
         },
         scripting: {
           name: 'Script injection',
-          reason: 'Place the capture and confirmation interface into the page; it runs only on matched sites.',
+          reason:
+            'Place the capture and confirmation interface into the page; it runs only on matched sites.',
         },
         storage: {
           name: 'Storage',
-          reason: 'Save your store records, settings and batches in your browser.',
+          reason:
+            'Save your store records, settings and batches in your browser.',
         },
       },
       fullTitle: 'Show the full permission list',
@@ -212,11 +221,13 @@ export default {
           },
           alarms: {
             name: 'Alarms',
-            reason: 'Scan pending publish and duplicate tasks on a timer so they resume after a browser restart.',
+            reason:
+              'Scan pending publish and duplicate tasks on a timer so they resume after a browser restart.',
           },
           notifications: {
             name: 'Notifications',
-            reason: 'Tell you when a batch finishes or a task fails, so you do not have to watch the page.',
+            reason:
+              'Tell you when a batch finishes or a task fails, so you do not have to watch the page.',
           },
           activeTab: {
             name: 'Current tab',
@@ -224,7 +235,8 @@ export default {
           },
           scripting: {
             name: 'Script injection',
-            reason: 'Place the capture and confirmation interface into the page.',
+            reason:
+              'Place the capture and confirmation interface into the page.',
           },
           contextMenus: {
             name: 'Context menus',
@@ -234,7 +246,8 @@ export default {
         hosts: {
           noonPartners: {
             name: 'Noon partner area',
-            reason: "Noon's partner management pages (product catalog); publishing requests go here",
+            reason:
+              "Noon's partner management pages (product catalog); publishing requests go here",
           },
           noonCdn: {
             name: 'Noon image server',
@@ -250,7 +263,8 @@ export default {
           },
           backend: {
             name: "Tool's own service",
-            reason: 'Handles translation, image processing and AI; stores no account data',
+            reason:
+              'Handles translation, image processing and AI; stores no account data',
           },
         },
       },
