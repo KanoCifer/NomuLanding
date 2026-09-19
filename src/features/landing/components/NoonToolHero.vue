@@ -122,7 +122,7 @@ const heroItem = {
       <NoonToolScreenshot
         video-src="/screens/01-hero.mp4"
         :alt="t('noonTool.hero.screenshotAlt')"
-        aspect="16/10"
+        aspect="5/2"
         :caption="t('noonTool.hero.screenshotCaption')"
       />
     </motion.div>

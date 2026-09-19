@@ -34,8 +34,8 @@ export default {
         category: '类目',
         publish: '发布',
       },
-      screenshotAlt: 'Nomu 主界面截图',
-      screenshotCaption: '功能示意',
+      screenshotAlt: 'Nomu 宣传海报 —— 面向 Noon 卖家的工具。在 Noon 上管理、上架、跟踪、增长。',
+      screenshotCaption: 'Nomu · 面向 Noon 卖家的工具 · 2026',
     },
     splash: {
       eyebrow: 'Nomu',
@@ -52,6 +52,33 @@ export default {
       eyebrow: '功能',
       sectionTitle: '采集商品，剩下的交给插件。',
       sectionSubtitle: '翻译、图片生成、AI 类目推荐',
+      poster: {
+        alt: 'Nomu 宣传海报 —— 面向 Noon 卖家的工具。在 Noon 上管理、上架、跟踪、增长。',
+        caption: 'Nomu · 面向 Noon 卖家的工具 · 2026',
+      },
+      chapter: '章节',
+      pillars: {
+        manage: {
+          title: '商品管理',
+          tagline:
+            '把所有店铺、所有采集源、所有账号集中在一处 —— 让每一次上架都从已知状态开始。',
+        },
+        list: {
+          title: '批量上架',
+          tagline:
+            '翻译、重做图片、重算价格、重选类目，一次批量搞定 —— 一百份草稿不必耗一百天。',
+        },
+        track: {
+          title: '任务跟踪',
+          tagline:
+            '每一次发布、每一次复制都在同一面板里，耗时、失败、重试都看得见 —— 没有在暗处跑的事。',
+        },
+        insights: {
+          title: '业绩洞察',
+          tagline:
+            '上架规则随便问，已经发出去的随时能导出 —— 让数据该离开浏览器时离开。',
+        },
+      },
       items: {
         pipeline: {
           title: '把源页商品发到 Noon',

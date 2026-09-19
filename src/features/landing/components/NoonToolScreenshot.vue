@@ -15,7 +15,7 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 import Modal from '@/components/Modal.vue';
 
-type Aspect = '16/10' | '3/2' | '2/1';
+type Aspect = '16/10' | '3/2' | '2/1' | '5/2';
 
 const props = withDefaults(
   defineProps<{
@@ -39,6 +39,7 @@ const aspectClass = {
   '16/10': 'aspect-[16/10]',
   '3/2': 'aspect-[3/2]',
   '2/1': 'aspect-[2/1]',
+  '5/2': 'aspect-[5/2]',
 }[props.aspect];
 
 const previewOpen = ref(false);

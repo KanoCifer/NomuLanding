@@ -35,9 +35,8 @@ export default {
         category: 'Category',
         publish: 'Publish',
       },
-      screenshotAlt: 'Nomu main interface screenshot',
-      screenshotCaption:
-        'The drawer on the right, one confirmed product at a time',
+      screenshotAlt: 'Nomu promotional poster — Tool for Noon Sellers. Manage, List, Track, Grow on Noon.',
+      screenshotCaption: 'Nomu · Tool for Noon Sellers · 2026',
     },
     splash: {
       eyebrow: 'Nomu',
@@ -55,6 +54,33 @@ export default {
       sectionTitle: 'Capture products. The extension handles the rest.',
       sectionSubtitle:
         'Every step runs with a sensible default: automatic translation, compliant images and AI category suggestions. You check the highlighted fields before anything goes out. The rest is watched for you.',
+      poster: {
+        alt: 'Nomu promotional poster — Tool for Noon Sellers. Manage, List, Track, Grow on Noon.',
+        caption: 'Nomu · Tool for Noon Sellers · 2026',
+      },
+      chapter: 'Chapter',
+      pillars: {
+        manage: {
+          title: 'Product Management',
+          tagline:
+            'Keep every store, every source, every account in one place — so the next listing starts from a known state.',
+        },
+        list: {
+          title: 'Bulk Listing',
+          tagline:
+            'Translate, re-image, re-price and re-categorize in one batch — so a hundred drafts do not mean a hundred days.',
+        },
+        track: {
+          title: 'Task Tracking',
+          tagline:
+            'Every publish and every duplication lives in one panel, with timing, failures and retries — so nothing runs in the dark.',
+        },
+        insights: {
+          title: 'Performance Insights',
+          tagline:
+            'Ask anything about the listing rules, export anything you have shipped — so the numbers leave the browser when you need them to.',
+        },
+      },
       items: {
         pipeline: {
           title: 'Send source products to Noon',
