@@ -9,6 +9,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { motion, useReducedMotion } from 'motion-v';
+import { EASE_OUT } from '@/constants/motionPresets';
 import * as LucideIcons from '@lucide/vue';
 import Card from '@/components/Card.vue';
 import { icons, type IconKey } from '../icons';
@@ -55,7 +56,7 @@ function sectionFadeUp() {
         initial: { opacity: 0, y: 12, filter: 'blur(6px)' },
         whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
         viewport: { once: true, margin: '0px 0px -15% 0px' },
-        transition: { duration: 0.45, ease: 'var(--ease-out)' as string },
+        transition: { duration: 0.45, ease: EASE_OUT },
       };
 }
 </script>

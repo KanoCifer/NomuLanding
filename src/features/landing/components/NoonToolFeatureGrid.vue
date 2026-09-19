@@ -8,6 +8,7 @@
 import { useI18n } from 'vue-i18n';
 import * as LucideIcons from '@lucide/vue';
 import { motion, useReducedMotion } from 'motion-v';
+import { EASE_OUT } from '@/constants/motionPresets';
 import { icons, type IconKey } from '../icons';
 import NoonToolScreenshot from './NoonToolScreenshot.vue';
 import NoonToolPlaceholder from './NoonToolPlaceholder.vue';
@@ -88,7 +89,7 @@ const cardItem = () =>
         initial: { opacity: 0, y: 8, filter: 'blur(4px)' },
         whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
         viewport: { once: true },
-        transition: { duration: 0.4, ease: 'var(--ease-out)' as string },
+        transition: { duration: 0.4, ease: EASE_OUT },
       };
 </script>
 

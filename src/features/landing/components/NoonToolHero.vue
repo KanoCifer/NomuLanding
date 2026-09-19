@@ -5,6 +5,7 @@
  */
 import { useI18n } from 'vue-i18n';
 import { motion } from 'motion-v';
+import { EASE_OUT } from '@/constants/motionPresets';
 import * as LucideIcons from '@lucide/vue';
 import { icons } from '../icons';
 import NoonToolScreenshot from './NoonToolScreenshot.vue';
@@ -20,7 +21,7 @@ const fade = (delay = 0) => ({
   animate: { opacity: 1, y: 0 },
   transition: {
     duration: 0.55,
-    ease: 'var(--ease-out)' as string,
+    ease: EASE_OUT,
     delay,
   },
 });
