@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+@import 'shadow-plugin/unprefixed';
+
+@theme {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-secondary: var(--secondary);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted-text);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-slate: var(--accent-slate);
+  --color-contrast: var(--contrast);
+  --color-scrim: var(--scrim);
+  --color-on-scrim: var(--on-scrim);
+  --color-destructive: var(--destructive);
+  --color-on-destructive: var(--on-destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  /* 落地页 focus-visible:ring-ring 依赖，博客与扩展的 @theme 都没有 */
+  --color-ring: var(--accent-slate);
+}
+
+/* 裸 border（不带颜色 token）走柔和阴影当描边，保留博客行为 */
+@layer base {
+  :where([class~='border']) {
+    border-color: transparent;
+    box-shadow: var(--smooth-shadow-sm);
+  }
+}
