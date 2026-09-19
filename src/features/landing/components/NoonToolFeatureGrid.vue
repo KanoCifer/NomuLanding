@@ -85,8 +85,8 @@ const cardItem = () =>
         viewport: { once: true },
       }
     : {
-        initial: { opacity: 0, y: 8 },
-        whileInView: { opacity: 1, y: 0 },
+        initial: { opacity: 0, y: 8, filter: 'blur(4px)' },
+        whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
         viewport: { once: true },
         transition: { duration: 0.4, ease: 'var(--ease-out)' as string },
       };
