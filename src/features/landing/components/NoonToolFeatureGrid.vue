@@ -75,7 +75,7 @@ const gridContainer = () =>
         viewport: { once: true, margin: '0px 0px -10% 0px' },
         variants: {
           hidden: {},
-          visible: { transition: { staggerChildren: 0.04, delayChildren: 0 } },
+          visible: { transition: { staggerChildren: 0.05, delayChildren: 0 } },
         },
       };
 const cardItem = () =>
@@ -86,10 +86,10 @@ const cardItem = () =>
         viewport: { once: true },
       }
     : {
-        initial: { opacity: 0, y: 8, filter: 'blur(4px)' },
+        initial: { opacity: 0, y: 14, filter: 'blur(8px)' },
         whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
         viewport: { once: true },
-        transition: { duration: 0.4, ease: EASE_OUT },
+        transition: { duration: 0.55, ease: EASE_OUT },
       };
 </script>
 

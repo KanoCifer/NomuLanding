@@ -38,10 +38,10 @@ function sectionFadeUp() {
   return reduceMotion.value
     ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true } }
     : {
-        initial: { opacity: 0, y: 12, filter: 'blur(6px)' },
+        initial: { opacity: 0, y: 20, filter: 'blur(10px)' },
         whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
         viewport: { once: true, margin: '0px 0px -15% 0px' },
-        transition: { duration: 0.45, ease: EASE_OUT },
+        transition: { duration: 0.7, ease: EASE_OUT },
       };
 }
 </script>
