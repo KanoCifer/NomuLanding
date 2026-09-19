@@ -60,9 +60,13 @@ const fade = (delay = 0) => ({
         :href="installHref"
         target="_blank"
         rel="noopener"
-        class="bg-accent text-contrast inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[14px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 active:scale-[0.98]"
+        class="group/cta bg-accent text-contrast inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[14px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 active:scale-[0.98]"
       >
-        <component :is="(LucideIcons as any)[icons.cta]" :size="16" />
+        <component
+          :is="(LucideIcons as any)[icons.cta]"
+          :size="16"
+          class="transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:translate-x-[3px]"
+        />
         {{ t('noonTool.hero.ctaPrimary') }}
       </a>
       <a

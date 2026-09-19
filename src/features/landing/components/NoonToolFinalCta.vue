@@ -60,10 +60,14 @@ function sectionFadeUp() {
         :href="installHref"
         target="_blank"
         rel="noopener"
-        class="focus-visible:ring-ring bg-accent text-contrast inline-flex shrink-0 items-center justify-center gap-2 rounded-full px-7 py-4 text-[15px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
+        class="group/cta focus-visible:ring-ring bg-accent text-contrast inline-flex shrink-0 items-center justify-center gap-2 rounded-full px-7 py-4 text-[15px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
         :title="t('noonTool.finalCta.hint')"
       >
-        <component :is="(LucideIcons as any)[icons.cta]" :size="16" />
+        <component
+          :is="(LucideIcons as any)[icons.cta]"
+          :size="16"
+          class="transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:translate-x-[3px]"
+        />
         {{ t('noonTool.finalCta.button') }}
       </a>
     </div>
