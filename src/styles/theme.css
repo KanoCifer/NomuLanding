@@ -30,9 +30,12 @@
   --accent-slate: oklch(0.7 0.13 95);
 
   /* 主色: Noon 黄
-     主按钮用更深更饱和的暖金 (L 0.84)，品牌黄 (L 0.928) 作高亮保留。
-     contrast 是黄底文字色，比 ink 略浅。 */
+     --accent 是品牌原色 (L 0.93) —— 留给 CTA bg 和 Hero 大字,作高亮保留;
+     --accent-text 是文字/图标专用的暖金 (L 0.82),在白底上 APCA 对比度足够;
+     --accent-slate 是更深的版本,给焦点环和低饱和小字用。
+     contrast 是黄底文字色。 */
   --accent: oklch(0.9321 0.1974 104.65);
+  --accent-text: oklch(0.82 0.18 95);
   --contrast: oklch(0.18 0.02 95);
   --scrim: oklch(0.18 0.02 95);
   --on-scrim: oklch(0.98 0 0);
@@ -86,7 +89,7 @@
     0 3px 6px 0 rgba(0, 0, 0, 0.03);
 
   /* 品牌色别名（保留旧名以兼容仍引用这些 token 的代码） */
-  --color-noon-yellow: oklch(0.928 0.197 105); /* 品牌原色 Noon 黄 #feee00 */
+  --color-noon-yellow: oklch(0.9321 0.1974 104.65); /* 品牌原色 Noon 黄 */
   --color-noon-black: oklch(0.18 0.02 95); /* → 新 ink */
 
   font-family:

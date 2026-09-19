@@ -1,129 +1,44 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+/**
+ * Locale toggle — a single text button that flips between zh-CN and en.
+ * The label always shows the *current* locale so the user sees what they have;
+ * the title hint reveals what clicking will switch to (current → next).
+ *
+ * Kept as a separate component so other entry points (docs site footer,
+ * extension settings panel) can reuse it. The active code is sourced from
+ * vue-i18n's `locale` ref and labels come from existing noonTool.hero.* keys.
+ */
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { motion } from 'motion-v';
 
-const { t, locale, availableLocales } = useI18n();
+type LocaleCode = 'zh-CN' | 'en';
 
-const options = computed(() =>
-  availableLocales.map((l) => ({
-    code: l,
-    label:
-      l === 'zh-CN' ? t('noonTool.hero.localeZh') : t('noonTool.hero.localeEn'),
-  })),
+const { t, locale } = useI18n();
+
+function labelFor(code: LocaleCode): string {
+  return code === 'zh-CN'
+    ? t('noonTool.hero.localeZh')
+    : t('noonTool.hero.localeEn');
+}
+
+const currentLabel = computed(() => labelFor(locale.value as LocaleCode));
+const nextCode = computed<LocaleCode>(() =>
+  locale.value === 'zh-CN' ? 'en' : 'zh-CN',
 );
+const nextLabel = computed(() => labelFor(nextCode.value));
 
-// observer-driven indicator: measure each option's actual rendered position
-// and width, so the indicator follows perfectly even when labels reflow.
-const trackRef = ref<HTMLElement | null>(null);
-const optionRefs = ref<Record<string, HTMLElement | null>>({});
-const indicator = ref({ x: 0, width: 0 });
-
-function setOptionRef(code: string) {
-  return (el: unknown) => {
-    if (el instanceof HTMLElement) optionRefs.value[code] = el;
-    else delete optionRefs.value[code];
-  };
-}
-
-function measure() {
-  const track = trackRef.value;
-  const active = optionRefs.value[locale.value];
-  if (!track || !active) return;
-  const trackRect = track.getBoundingClientRect();
-  const activeRect = active.getBoundingClientRect();
-  indicator.value = {
-    x: activeRect.left - trackRect.left,
-    width: activeRect.width,
-  };
-}
-
-let resizeObserver: ResizeObserver | null = null;
-let mutationObserver: MutationObserver | null = null;
-
-function startObservers() {
-  const track = trackRef.value;
-  if (!track) return;
-
-  resizeObserver?.disconnect();
-  resizeObserver = new ResizeObserver(() => measure());
-  resizeObserver.observe(track);
-  for (const el of Object.values(optionRefs.value)) {
-    if (el) resizeObserver.observe(el);
-  }
-
-  // locale label switch is just a re-render — listen for that too
-  mutationObserver?.disconnect();
-  mutationObserver = new MutationObserver(() => measure());
-  mutationObserver.observe(track, {
-    childList: true,
-    subtree: true,
-    characterData: true,
-  });
-
-  measure();
-}
-
-watch(
-  () => [locale.value, options.value] as const,
-  () => {
-    // wait one tick for v-for to mount the new refs
-    requestAnimationFrame(() => measure());
-  },
-  { immediate: false },
-);
-
-onMounted(() => {
-  startObservers();
-});
-
-onBeforeUnmount(() => {
-  resizeObserver?.disconnect();
-  mutationObserver?.disconnect();
-});
-
-function pick(code: string) {
-  locale.value = code as typeof locale.value;
+function toggle() {
+  locale.value = nextCode.value as typeof locale.value;
 }
 </script>
 
 <template>
-  <div
-    role="group"
-    :aria-label="
-      t('noonTool.hero.localeZh') + ' / ' + t('noonTool.hero.localeEn')
-    "
-    class="border-border/60 bg-card/70 relative inline-flex items-center gap-1 rounded-full border p-1"
+  <button
+    type="button"
+    :title="`${currentLabel} → ${nextLabel}`"
+    class="text-muted hover:text-ink focus-visible:ring-ring cursor-pointer rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors hover:bg-white/40 focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:outline-none active:scale-[0.97]"
+    @click="toggle"
   >
-    <div ref="trackRef" class="relative inline-flex items-center gap-1">
-      <button
-        v-for="opt in options"
-        :key="opt.code"
-        :ref="setOptionRef(opt.code)"
-        type="button"
-        :aria-pressed="locale === opt.code"
-        class="focus-visible:ring-ring relative z-10 rounded-full px-3 py-1 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:outline-none"
-        :class="
-          locale === opt.code ? 'text-contrast' : 'text-muted hover:text-ink'
-        "
-        @click="pick(opt.code)"
-      >
-        {{ opt.label }}
-      </button>
-
-      <motion.span
-        aria-hidden="true"
-        class="bg-accent absolute top-0 left-0 z-0 h-full rounded-full"
-        :animate="{
-          x: indicator.x,
-          width: indicator.width,
-        }"
-        :transition="{
-          type: 'spring',
-          duration: 0.3,
-          bounce: 0,
-        }"
-      />
-    </div>
-  </div>
+    {{ currentLabel }}
+  </button>
 </template>

@@ -42,11 +42,13 @@ export default {
     splash: {
       eyebrow: 'Nomu',
     },
-    positioning: {
-      claim1: 'Local by default',
-      claim2: 'No keys · No tracking',
-      claim3: 'Many sources, many stores',
-      claim4: 'Publishes one by one · Stops on the first failure',
+    nav: {
+      sections: {
+        features: 'Features',
+        support: 'Support',
+        faq: 'FAQ',
+      },
+      docs: 'Docs',
     },
     features: {
       eyebrow: 'Features',
@@ -140,25 +142,6 @@ export default {
       },
       placeholder: {
         caption: 'screenshot to come',
-      },
-    },
-    how: {
-      eyebrow: 'Workflow',
-      sectionTitle: 'Three steps to ship a batch',
-      imageAlt: 'Screenshot of the three-step flow: capture, confirm, publish',
-      steps: {
-        capture: {
-          title: 'Capture a product page',
-          body: 'Open a product page on 1688, Taobao/Tmall, JD or noon.com; the extension pulls the details into your batch.',
-        },
-        confirm: {
-          title: 'Confirm one highlighted row at a time',
-          body: 'The drawer shows each product for review. Price, currency, translations and category can all be adjusted before anything is submitted.',
-        },
-        publish: {
-          title: 'Publish each product to Noon',
-          body: 'Submit the product, activate it and register the warranty. If something fails, the batch stops and you can retry safely.',
-        },
       },
     },
     audience: {

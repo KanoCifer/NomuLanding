@@ -1,4 +1,11 @@
 <script setup lang="ts">
+/**
+ * Permissions — Spatial language:
+ * Top: 3 frosted-glass cards summarizing core permissions with their icons.
+ * Below: a single glass container housing the collapsible full list (permissions
+ * and host permissions in two columns when expanded). Spatial preference: heavy
+ * blur + deep shadow on the big container; subtle inset border for material.
+ */
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as LucideIcons from '@lucide/vue';
@@ -9,7 +16,6 @@ const { t } = useI18n();
 
 type PermKey = Extract<IconKey, `perm${string}`>;
 
-// 与 wxt.config.ts manifest.permissions 一一对应
 const topKeys = ['activeTab', 'scripting', 'storage'] as const;
 const allPerms = [
   'storage',
@@ -29,7 +35,6 @@ const permIcon: Record<(typeof allPerms)[number], PermKey> = {
   contextMenus: 'permContextMenus',
 };
 
-// 与 wxt.config.ts host_permissions 一一对应
 const hostKeys = [
   'noonPartners',
   'noonCdn',
@@ -42,45 +47,49 @@ const showFull = ref(false);
 </script>
 
 <template>
-  <section aria-labelledby="permissions-heading" class="space-y-6">
-    <header class="space-y-2 text-center">
+  <section aria-labelledby="permissions-heading" class="space-y-8">
+    <header class="space-y-3 text-center">
       <h2
         id="permissions-heading"
-        class="text-ink text-3xl leading-tight font-semibold md:text-4xl"
+        class="text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] text-ink md:text-[52px] md:tracking-[-0.035em]"
       >
         {{ t('noonTool.permissions.sectionTitle') }}
       </h2>
-      <p class="text-muted text-sm md:text-base">
+      <p class="text-muted mx-auto max-w-xl text-[15px] leading-[1.55] md:text-[17px]">
         {{ t('noonTool.permissions.sectionSubtitle') }}
       </p>
     </header>
 
-    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-4 md:grid-cols-3">
       <Card
         v-for="key in topKeys"
         :key="key"
-        class="border-border/60 bg-card/70 gap-1 p-4"
+        class="gap-2 overflow-hidden rounded-2xl border border-white/50 bg-white/55 p-6 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"
       >
-        <span class="text-accent flex items-center gap-2 text-sm font-semibold">
+        <span
+          class="inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-white/60 bg-white/70 text-accent-text shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
+        >
           <component
             :is="(LucideIcons as any)[icons[permIcon[key]]]"
             :size="14"
             :stroke-width="1.75"
           />
+        </span>
+        <span class="text-ink text-[15px] font-semibold tracking-[-0.01em]">
           {{ t(`noonTool.permissions.top.${key}.name`) }}
         </span>
-        <p class="text-muted text-xs leading-relaxed">
+        <p class="text-muted text-[13px] leading-[1.5]">
           {{ t(`noonTool.permissions.top.${key}.reason`) }}
         </p>
       </Card>
     </div>
 
     <div
-      class="bg-card/40 border-border/60 text-ink overflow-hidden rounded-xl border text-sm"
+      class="overflow-hidden rounded-2xl border border-white/50 bg-white/55 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"
     >
       <button
         type="button"
-        class="text-muted hover:text-ink hover:bg-surface/30 flex w-full items-center gap-2 px-4 py-4 text-left font-medium transition-colors"
+        class="text-ink flex w-full items-center gap-2 px-6 py-4 text-left text-sm font-medium transition-colors hover:bg-white/40"
         :aria-expanded="showFull"
         aria-controls="full-permissions-panel"
         @click="showFull = !showFull"
@@ -107,19 +116,19 @@ const showFull = ref(false);
         :class="[showFull ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]']"
       >
         <div class="min-h-0 overflow-hidden">
-          <div class="grid gap-6 p-4 md:grid-cols-2">
+          <div class="grid gap-6 border-t border-white/40 p-6 md:grid-cols-2">
             <div>
               <h4
-                class="text-accent mb-2 text-xs font-semibold tracking-widest uppercase"
+                class="text-accent-text mb-3 text-[11px] font-semibold tracking-[0.18em] uppercase"
               >
                 {{ t('noonTool.permissions.sectionTitle') }}
               </h4>
-              <dl class="space-y-2">
-                <div v-for="p in allPerms" :key="p" class="flex gap-2">
-                  <dt class="text-ink shrink-0 text-xs font-semibold">
+              <dl class="space-y-3">
+                <div v-for="p in allPerms" :key="p" class="flex gap-3">
+                  <dt class="text-ink shrink-0 text-[13px] font-semibold">
                     {{ t(`noonTool.permissions.full.permissions.${p}.name`) }}
                   </dt>
-                  <dd class="text-muted text-xs leading-relaxed">
+                  <dd class="text-muted text-[13px] leading-[1.5]">
                     {{ t(`noonTool.permissions.full.permissions.${p}.reason`) }}
                   </dd>
                 </div>
@@ -127,16 +136,16 @@ const showFull = ref(false);
             </div>
             <div>
               <h4
-                class="text-accent mb-2 text-xs font-semibold tracking-widest uppercase"
+                class="text-accent-text mb-3 text-[11px] font-semibold tracking-[0.18em] uppercase"
               >
                 {{ t('noonTool.permissions.full.hostsTitle') }}
               </h4>
-              <dl class="space-y-2">
-                <div v-for="h in hostKeys" :key="h" class="flex gap-2">
-                  <dt class="text-ink shrink-0 text-xs font-semibold">
+              <dl class="space-y-3">
+                <div v-for="h in hostKeys" :key="h" class="flex gap-3">
+                  <dt class="text-ink shrink-0 text-[13px] font-semibold">
                     {{ t(`noonTool.permissions.full.hosts.${h}.name`) }}
                   </dt>
-                  <dd class="text-muted text-xs leading-relaxed">
+                  <dd class="text-muted text-[13px] leading-[1.5]">
                     {{ t(`noonTool.permissions.full.hosts.${h}.reason`) }}
                   </dd>
                 </div>

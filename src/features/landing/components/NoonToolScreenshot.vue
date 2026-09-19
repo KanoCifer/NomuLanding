@@ -92,7 +92,7 @@ function onFigureKeydown(e: KeyboardEvent) {
       role="button"
       tabindex="0"
       :aria-label="alt"
-      class="group/zoom border-border bg-card/40 focus-visible:ring-ring relative block h-full w-full cursor-zoom-in overflow-hidden rounded-2xl border shadow-md transition-shadow focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none motion-safe:hover:shadow-lg"
+      class="group/zoom focus-visible:ring-ring relative block h-full w-full cursor-zoom-in overflow-hidden rounded-2xl border border-white/40 bg-white/30 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.18),0_8px_24px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-md backdrop-saturate-150 transition-shadow focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none motion-safe:hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.25),0_8px_24px_rgba(0,0,0,0.10)]"
       @click="openPreview"
       @keydown="onFigureKeydown"
     >

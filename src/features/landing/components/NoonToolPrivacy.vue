@@ -1,4 +1,8 @@
 <script setup lang="ts">
+/**
+ * Privacy — three frosted-glass cards in a row (Local / Egress / Never).
+ * Same content, glass material. Apple-style heavy blur for navigation-grade surfaces.
+ */
 import { useI18n } from 'vue-i18n';
 import * as LucideIcons from '@lucide/vue';
 import { icons } from '../icons';
@@ -17,35 +21,32 @@ function lines(key: string): string[] {
 </script>
 
 <template>
-  <section aria-labelledby="privacy-heading" class="space-y-6">
+  <section aria-labelledby="privacy-heading" class="space-y-8">
     <header class="max-w-3xl space-y-3">
-      <p class="text-muted text-xs font-medium tracking-widest uppercase">
+      <p class="text-[11px] font-medium tracking-[0.22em] text-muted uppercase">
         {{ t('noonTool.privacy.eyebrow') }}
       </p>
       <h2
         id="privacy-heading"
-        class="text-ink text-3xl leading-tight font-semibold md:text-5xl"
+        class="text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] text-ink md:text-[52px] md:tracking-[-0.035em]"
       >
         {{ t('noonTool.privacy.sectionTitle') }}
       </h2>
-      <p class="text-muted max-w-xl text-sm leading-relaxed md:text-base">
+      <p class="text-muted max-w-xl text-[15px] leading-[1.55] md:text-[17px]">
         {{ t('noonTool.privacy.sectionSubtitle') }}
       </p>
     </header>
 
-    <div class="border-border/60 grid grid-cols-1 border-y md:grid-cols-3">
-      <div
-        v-for="(col, idx) in columns"
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <article
+        v-for="col in columns"
         :key="col.key"
-        :class="[
-          'flex flex-col gap-3 py-5 md:px-6',
-          idx > 0 ? 'border-border/60 border-t md:border-t-0 md:border-l' : '',
-        ]"
+        class="flex flex-col gap-4 overflow-hidden rounded-2xl border border-white/50 bg-white/55 p-6 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"
       >
         <h3
-          class="text-accent flex items-center gap-2 text-sm font-semibold tracking-widest uppercase"
+          class="text-accent-text flex items-center gap-2 text-xs font-semibold tracking-[0.18em] uppercase"
         >
-          <span class="inline-flex size-4 shrink-0 items-center justify-center">
+          <span class="inline-flex size-7 shrink-0 items-center justify-center rounded-lg border border-white/60 bg-white/70 text-accent-text shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
             <component
               :is="(LucideIcons as any)[icons[col.icon]]"
               :size="14"
@@ -54,7 +55,7 @@ function lines(key: string): string[] {
           </span>
           {{ t(`noonTool.privacy.${col.labelKey}`) }}
         </h3>
-        <ul class="space-y-2 text-sm leading-relaxed">
+        <ul class="space-y-3 text-[14px] leading-[1.5]">
           <li
             v-for="(line, i) in lines(col.key)"
             :key="i"
@@ -67,7 +68,7 @@ function lines(key: string): string[] {
             <span>{{ line }}</span>
           </li>
         </ul>
-      </div>
+      </article>
     </div>
   </section>
 </template>

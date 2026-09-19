@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/**
+ * FeatureGrid — Spatial language.
+ * Each feature is a frosted glass card. Same 3-col grid, denser typography,
+ * icon gets its own glass chip. Material hierarchy: cards sit on the warm page,
+ * float via translucency + shadow + inset light edge.
+ */
 import { useI18n } from 'vue-i18n';
 import * as LucideIcons from '@lucide/vue';
 import { icons, type IconKey } from '../icons';
@@ -46,7 +52,6 @@ const featureKeys: FeatureKey[] = [
   'assistant',
 ];
 
-// 只有旧六项有截图资产（/screens/）；其余走占位卡，出图后补上即可。
 const featureImages: Partial<Record<FeatureKey, string>> = {
   pipeline: '/screens/02-feature-pipeline.png',
   multiAccount: '/screens/03-feature-multiAccount.png',
@@ -66,46 +71,44 @@ const featureImages: Partial<Record<FeatureKey, string>> = {
     class="space-y-10"
   >
     <header class="max-w-3xl space-y-3">
-      <p class="text-muted text-xs font-medium tracking-widest uppercase">
+      <p class="text-[11px] font-medium tracking-[0.22em] text-muted uppercase">
         {{ t('noonTool.features.eyebrow') }}
       </p>
       <h2
         id="features-heading"
-        class="text-ink text-3xl leading-tight font-semibold md:text-5xl"
+        class="text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] text-ink md:text-[56px] md:tracking-[-0.035em]"
       >
         {{ t('noonTool.features.sectionTitle') }}
       </h2>
-      <p class="text-muted max-w-xl text-sm leading-relaxed md:text-base">
+      <p class="text-muted max-w-xl text-[15px] leading-[1.5] md:text-[17px]">
         {{ t('noonTool.features.sectionSubtitle') }}
       </p>
     </header>
 
-    <ul
-      class="divide-border/60 border-border/60 grid grid-cols-1 divide-y border-y sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-3"
-    >
+    <ul class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <li
         v-for="(key, idx) in featureKeys"
         :key="key"
-        class="border-border/60 flex flex-col gap-3 py-6 sm:border-b sm:last:border-b-0 md:px-6 lg:[&:not(:nth-child(3n+1))]:border-l lg:[&:nth-child(-n+3)]:border-b-0"
+        class="group relative flex flex-col gap-3 overflow-hidden rounded-2xl border border-white/50 bg-white/55 p-6 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 transition-shadow hover:shadow-[0_20px_50px_-16px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.8)]"
       >
         <div class="flex items-center gap-2.5">
           <span
-            class="text-accent bg-accent/10 inline-flex size-7 shrink-0 items-center justify-center rounded-md"
+            class="inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-white/60 bg-white/70 text-accent-text shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
           >
             <component
               :is="(LucideIcons as any)[icons[key]]"
-              :size="14"
+              :size="16"
               :stroke-width="1.75"
             />
           </span>
-          <h3 class="text-ink text-base font-semibold">
+          <h3 class="text-ink text-base font-semibold tracking-[-0.005em]">
             {{ t(`noonTool.features.items.${key}.title`) }}
           </h3>
-          <span class="text-muted ml-auto text-xs tabular-nums">
+          <span class="text-muted ml-auto font-mono text-[11px] tabular-nums">
             {{ String(idx + 1).padStart(2, '0') }}
           </span>
         </div>
-        <p class="text-muted text-sm leading-relaxed">
+        <p class="text-muted text-[14px] leading-[1.5]">
           {{ t(`noonTool.features.items.${key}.body`) }}
         </p>
         <NoonToolScreenshot

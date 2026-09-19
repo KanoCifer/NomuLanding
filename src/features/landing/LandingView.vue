@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, nextTick, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useHead } from '@vueuse/head';
+import NoonToolNav from './components/NoonToolNav.vue';
 import NoonToolHero from './components/NoonToolHero.vue';
-import NoonToolSplash from './components/NoonToolSplash.vue';
-import NoonToolPositioning from './components/NoonToolPositioning.vue';
 import NoonToolFeatureGrid from './components/NoonToolFeatureGrid.vue';
 import NoonToolPrivacy from './components/NoonToolPrivacy.vue';
-import NoonToolHowItWorks from './components/NoonToolHowItWorks.vue';
 import NoonToolSupport from './components/NoonToolSupport.vue';
 import NoonToolPermissions from './components/NoonToolPermissions.vue';
 import NoonToolFaq from './components/NoonToolFaq.vue';
@@ -32,22 +30,64 @@ useHead({
     { property: 'og:type', content: 'website' },
   ],
 });
+
+// Chrome's initial fragment scroll ignores scroll-padding-top on <html> when a
+// sticky element is in the way, so the section lands flush with the viewport
+// top and ends up under the glass nav. Re-run the jump once the page has
+// rendered, then listen for further hash changes.
+function honorFragmentScroll() {
+  const id = window.location.hash.slice(1);
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ block: 'start' });
+}
+
+onMounted(async () => {
+  await nextTick();
+  honorFragmentScroll();
+  window.addEventListener('hashchange', honorFragmentScroll);
+});
 </script>
 
 <template>
-  <div class="bg-page">
-    <div class="mx-auto max-w-6xl space-y-20 px-4 py-12 md:px-8">
+  <div class="bg-page min-h-screen">
+    <!-- Floating translucent chrome (Spatial design) — sticks to the top of viewport,
+         stays above content as the user scrolls. Apple "vibrancy" feel. -->
+    <NoonToolNav />
+
+    <!-- Sections stack with generous spacing; max-width keeps reading measure tight. -->
+    <main class="mx-auto max-w-[1180px] space-y-24 px-4 pt-32 pb-16 md:px-8 md:pt-40 md:space-y-32">
       <NoonToolHero />
-      <NoonToolSplash />
-      <NoonToolPositioning />
       <NoonToolFeatureGrid id="features" />
       <NoonToolPrivacy />
-      <NoonToolHowItWorks id="how-it-works" />
       <NoonToolSupport id="support" />
       <NoonToolPermissions />
-      <NoonToolFaq />
+      <NoonToolFaq id="faq" />
       <NoonToolFinalCta />
       <NoonToolFooter />
-    </div>
+    </main>
   </div>
 </template>
+
+<style>
+/* Apple Design §14 — frost up translucent chrome when user opts out of transparency.
+   Applied globally so every glass surface stays legible. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  [class*='bg-white/'][class*='backdrop-blur'] {
+    background-color: rgb(255 255 255 / 0.96) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Anchor links in the floating nav would otherwise land the section flush with
+   the viewport top, sliding the heading under the 56px-tall glass bar.
+   scroll-padding-top on the html element clears that bar for *every* kind of
+   fragment scroll — initial URL hash, anchor clicks and scrollIntoView —
+   unlike scroll-margin-top which only affects programmatic jumps. */
+html {
+  scroll-padding-top: 80px;
+}
+</style>
+

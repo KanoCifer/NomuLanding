@@ -40,17 +40,18 @@ export default {
     splash: {
       eyebrow: 'Nomu',
     },
-    positioning: {
-      claim1: '默认数据留在本地',
-      claim2: '不收密钥 · 不埋点',
-      claim3: '多店铺来源一站搞定',
-      claim4: '逐件发布 · 出错即停',
+    nav: {
+      sections: {
+        features: '功能',
+        support: '支持',
+        faq: '常见疑问',
+      },
+      docs: '文档',
     },
     features: {
       eyebrow: '功能',
       sectionTitle: '采集商品，剩下的交给插件。',
-      sectionSubtitle:
-        '每一步都有默认值：翻译自动出、图片自动合规、AI 类目推荐。你只需要在黄色高亮处点一下确认——之后的进度、失败和重试都有人盯着。',
+      sectionSubtitle: '翻译、图片生成、AI 类目推荐',
       items: {
         pipeline: {
           title: '把源页商品发到 Noon',
@@ -135,25 +136,6 @@ export default {
       },
       placeholder: {
         caption: '截图待补',
-      },
-    },
-    how: {
-      eyebrow: '工作流程',
-      sectionTitle: '快速上架',
-      imageAlt: '采集、确认、发布三步流程的截图',
-      steps: {
-        capture: {
-          title: '在商品页一键采集',
-          body: '打开 1688、淘宝/天猫、京东或 noon.com 的商品页，扩展会自动把商品信息加入待发布列表。',
-        },
-        confirm: {
-          title: '逐条确认，黄色高亮',
-          body: '右侧抽屉里逐条核对商品，价格、币种、翻译和类目都能在发布前调整。',
-        },
-        publish: {
-          title: '逐件发布到 Noon',
-          body: '提交商品、激活并登记质保；失败即停，可安全重试。',
-        },
       },
     },
     audience: {

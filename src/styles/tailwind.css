@@ -11,6 +11,7 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-slate: var(--accent-slate);
+  --color-accent-text: var(--accent-text);
   --color-contrast: var(--contrast);
   --color-scrim: var(--scrim);
   --color-on-scrim: var(--on-scrim);
