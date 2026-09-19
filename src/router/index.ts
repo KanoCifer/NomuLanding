@@ -12,6 +12,14 @@ const router = createRouter({
       name: 'landing',
       component: () => import('@/features/landing/LandingView.vue'),
     },
+    {
+      // Nomu 无密码登录回调页：邮件里点的回调地址落到这里，
+      // 读取 query.token 转发给后端，扩展侧轮询取最终登录结果。
+      // 路径与后端 magicLoginLinkPathFor("nomu") 拼出的链接对齐。
+      path: '/nomu/login',
+      name: 'nomu-login',
+      component: () => import('@/features/login/NomuLoginView.vue'),
+    },
   ],
   scrollBehavior(to) {
     if (to.hash) return { el: to.hash, behavior: 'smooth' };

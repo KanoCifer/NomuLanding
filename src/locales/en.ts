@@ -329,6 +329,19 @@ export default {
       button: 'Add to Chrome',
       hint: 'One-click install from the Chrome Web Store',
     },
+    login: {
+      /* 与 ReadingList 的 noonTool.nomuLogin 文案保持一致 */
+      headlinePending: 'Welcome back',
+      headlineSuccess: 'Sign-in synced',
+      headlineError: 'Unable to continue',
+      sublinePending: 'Confirming this sign-in with Nomu…',
+      sublineSuccess: 'You can return to the Nomu extension to keep working.',
+      sublineFallbackError:
+        "Nomu didn't confirm this link in time — it may have expired.",
+      missingTokenError: 'Missing token — this link is invalid.',
+      closePage: 'Close this page',
+      retry: 'Try again',
+    },
     footer: {
       tagline: 'Nomu: an easy-to-use Chrome extension for Noon',
       links: {
