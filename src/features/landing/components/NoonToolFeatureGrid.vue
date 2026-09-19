@@ -105,7 +105,11 @@ const featureItem = reduceMotion.value
 </script>
 
 <template>
-  <section class="space-y-16 md:space-y-24">
+  <section
+    :id="$attrs.id as string"
+    aria-labelledby="features-heading"
+    class="space-y-16 md:space-y-24"
+  >
     <!-- Section header -->
     <motion.header v-bind="headerIn" class="max-w-3xl space-y-4">
       <p class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
