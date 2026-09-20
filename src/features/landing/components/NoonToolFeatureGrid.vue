@@ -13,10 +13,9 @@
  *     hierarchy through size + weight.
  */
 import { useI18n } from 'vue-i18n';
-import * as LucideIcons from '@lucide/vue';
 import { motion, useReducedMotion } from 'motion-v';
 import { EASE_OUT } from '@/constants/motionPresets';
-import { icons, type IconKey } from '../icons';
+import { ICONS, type IconKey } from '../icons';
 
 const { t } = useI18n();
 
@@ -52,20 +51,36 @@ interface Pillar {
 }
 
 const pillars: Pillar[] = [
-  { key: 'manage', number: '01', featureKeys: ['pipeline', 'multiAccount', 'sources', 'account'] },
-  { key: 'list', number: '02', featureKeys: ['translate', 'image', 'category', 'price', 'serial'] },
-  { key: 'track', number: '03', featureKeys: ['tasks', 'engine', 'duplicate', 'cloudPool', 'sync'] },
+  {
+    key: 'manage',
+    number: '01',
+    featureKeys: ['pipeline', 'multiAccount', 'sources', 'account'],
+  },
+  {
+    key: 'list',
+    number: '02',
+    featureKeys: ['translate', 'image', 'category', 'price', 'serial'],
+  },
+  {
+    key: 'track',
+    number: '03',
+    featureKeys: ['tasks', 'engine', 'duplicate', 'cloudPool', 'sync'],
+  },
   { key: 'insights', number: '04', featureKeys: ['assistant', 'export'] },
 ];
 
 function LucideIcon(name: FeatureKey) {
-  return (LucideIcons as any)[icons[name]];
+  return ICONS[name];
 }
 
 const reduceMotion = useReducedMotion();
 
 const headerIn = reduceMotion.value
-  ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.25 } }
+  ? {
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      transition: { duration: 0.25 },
+    }
   : {
       initial: { opacity: 0, y: 10, filter: 'blur(8px)' },
       animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
@@ -73,7 +88,11 @@ const headerIn = reduceMotion.value
     };
 
 const bannerIn = reduceMotion.value
-  ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.3, delay: 0.1 } }
+  ? {
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      transition: { duration: 0.3, delay: 0.1 },
+    }
   : {
       initial: { opacity: 0, y: 16, filter: 'blur(10px)' },
       animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
@@ -98,18 +117,18 @@ const featureItem = reduceMotion.value
   : {
       variants: {
         hidden: { opacity: 0, y: 6 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE_OUT } },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.4, ease: EASE_OUT },
+        },
       },
       viewport: { once: true },
     };
 </script>
 
 <template>
-  <section
-    :id="$attrs.id as string"
-    aria-labelledby="features-heading"
-    class="space-y-16 md:space-y-24"
-  >
+  <section :id="$attrs.id as string" aria-labelledby="features-heading" class="space-y-16 md:space-y-24">
     <!-- Section header -->
     <motion.header v-bind="headerIn" class="max-w-3xl space-y-4">
       <p class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
@@ -143,9 +162,7 @@ const featureItem = reduceMotion.value
           decoding="async"
         />
       </div>
-      <figcaption
-        class="text-muted mt-3 px-1 text-[12px] tracking-[0.04em] uppercase"
-      >
+      <figcaption class="text-muted mt-3 px-1 text-[12px] tracking-[0.04em] uppercase">
         {{ t('noonTool.features.poster.caption') }}
       </figcaption>
     </motion.figure>
@@ -159,28 +176,16 @@ const featureItem = reduceMotion.value
         class="grid grid-cols-1 items-start gap-8 md:grid-cols-12 md:gap-10 lg:gap-14"
       >
         <!-- Text column — alternates side -->
-        <div
-          :class="[
-            'md:col-span-5',
-            idx % 2 === 1 ? 'md:order-2 md:col-start-8' : 'md:order-1 md:col-start-1',
-          ]"
-        >
+        <div :class="['md:col-span-5', idx % 2 === 1 ? 'md:order-2 md:col-start-8' : 'md:order-1 md:col-start-1']">
           <div class="space-y-5 md:sticky md:top-24">
-            <div
-              :class="[
-                'flex items-baseline gap-3 md:gap-4',
-                idx % 2 === 1 ? 'md:justify-end' : 'md:justify-start',
-              ]"
-            >
+            <div :class="['flex items-baseline gap-3 md:gap-4', idx % 2 === 1 ? 'md:justify-end' : 'md:justify-start']">
               <span
                 class="text-accent-text font-mono text-[44px] leading-none tracking-[-0.04em] md:text-[64px]"
                 aria-hidden="true"
               >
                 {{ pillar.number }}
               </span>
-              <span
-                class="text-muted pb-1 text-[11px] font-medium tracking-[0.22em] uppercase md:pb-2"
-              >
+              <span class="text-muted pb-1 text-[11px] font-medium tracking-[0.22em] uppercase md:pb-2">
                 {{ t('noonTool.features.chapter') }}
               </span>
             </div>
@@ -204,16 +209,8 @@ const featureItem = reduceMotion.value
         </div>
 
         <!-- Visual column — feature cards -->
-        <div
-          :class="[
-            'md:col-span-7',
-            idx % 2 === 1 ? 'md:order-1 md:col-start-1' : 'md:order-2 md:col-start-6',
-          ]"
-        >
-          <motion.ul
-            v-bind="featureItem"
-            class="grid grid-cols-1 gap-3 sm:grid-cols-2"
-          >
+        <div :class="['md:col-span-7', idx % 2 === 1 ? 'md:order-1 md:col-start-1' : 'md:order-2 md:col-start-6']">
+          <motion.ul v-bind="featureItem" class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <motion.li
               v-for="(featKey, i) in pillar.featureKeys"
               :key="featKey"
@@ -223,17 +220,11 @@ const featureItem = reduceMotion.value
               class="group flex flex-col gap-2 rounded-xl border border-white/55 bg-white/55 p-4 shadow-[0_4px_18px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md backdrop-saturate-150 transition-shadow hover:shadow-[0_10px_28px_-12px_rgba(0,0,0,0.16)]"
             >
               <span
-                class="inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/60 bg-white/70 text-accent-text shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
+                class="text-accent-text inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/60 bg-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
               >
-                <component
-                  :is="LucideIcon(featKey)"
-                  :size="14"
-                  :stroke-width="1.75"
-                />
+                <component :is="LucideIcon(featKey)" :size="14" :stroke-width="1.75" />
               </span>
-              <h4
-                class="text-ink text-[13.5px] leading-[1.35] font-semibold tracking-[-0.005em]"
-              >
+              <h4 class="text-ink text-[13.5px] leading-[1.35] font-semibold tracking-[-0.005em]">
                 {{ t(`noonTool.features.items.${featKey}.title`) }}
               </h4>
               <p class="text-muted text-[12px] leading-[1.5]">

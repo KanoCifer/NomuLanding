@@ -6,20 +6,23 @@
 import { useI18n } from 'vue-i18n';
 import { motion, useReducedMotion } from 'motion-v';
 import { EASE_OUT } from '@/constants/motionPresets';
-import * as LucideIcons from '@lucide/vue';
-import { icons } from '../icons';
+import { ICONS, type IconKey } from '../icons';
 
 const { t } = useI18n();
 
 const DOCS_URL = 'https://nomu.kanocifer.chat/docs/';
 
-const channelKeys = ['wechat', 'docs'] as const;
+const channelKeys = ['wechat', 'docs'] as const satisfies readonly IconKey[];
 
 const reduceMotion = useReducedMotion();
 
 function sectionFadeUp() {
   return reduceMotion.value
-    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true } }
+    ? {
+        initial: { opacity: 0 },
+        whileInView: { opacity: 1 },
+        viewport: { once: true },
+      }
     : {
         initial: { opacity: 0, y: 20, filter: 'blur(10px)' },
         whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
@@ -37,12 +40,12 @@ function sectionFadeUp() {
     class="space-y-8"
   >
     <header class="max-w-3xl space-y-3">
-      <p class="text-[11px] font-medium tracking-[0.22em] text-muted uppercase">
+      <p class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
         {{ t('noonTool.support.eyebrow') }}
       </p>
       <h2
         id="support-heading"
-        class="text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] text-ink md:text-[52px] md:tracking-[-0.035em]"
+        class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[52px] md:tracking-[-0.035em]"
       >
         {{ t('noonTool.support.sectionTitle') }}
       </h2>
@@ -58,13 +61,9 @@ function sectionFadeUp() {
         class="flex flex-col gap-3 overflow-hidden rounded-2xl border border-white/50 bg-white/55 p-6 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"
       >
         <span
-          class="inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/60 bg-white/70 text-accent-text shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
+          class="text-accent-text inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/60 bg-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
         >
-          <component
-            :is="(LucideIcons as any)[icons[key]]"
-            :size="16"
-            :stroke-width="1.75"
-          />
+          <component :is="ICONS[key]" :size="16" :stroke-width="1.75" />
         </span>
         <h3 class="text-ink text-lg font-semibold tracking-[-0.01em]">
           {{ t(`noonTool.support.channels.${key}.title`) }}
@@ -78,7 +77,7 @@ function sectionFadeUp() {
           class="text-accent-text inline-flex items-center gap-1 text-sm font-medium hover:underline"
         >
           {{ t('noonTool.support.viewQr') }}
-          <component :is="(LucideIcons as any)[icons.footerLink]" :size="14" />
+          <component :is="ICONS.footerLink" :size="14" />
         </a>
       </li>
     </ul>

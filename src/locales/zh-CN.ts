@@ -4,16 +4,7 @@ export default {
       title: 'Nomu：一款易用的 Noon 插件',
       description:
         'Nomu 是一款 Chrome 浏览器扩展，帮你从 1688、淘宝/天猫、京东采集商品，自动整理标题、价格和图片，翻译成英文和阿拉伯语，再逐件发布到 Noon 阿联酋和沙特站。多店铺集中管理、任务面板、店铺间复制、AI 类目推荐均已内置；店铺设置默认保存在本地。',
-      keywords: [
-        'Nomu',
-        '1688',
-        '淘宝上架',
-        '京东上架',
-        'Noon 上架',
-        'Noon UAE',
-        'Noon Saudi',
-        '浏览器扩展',
-      ],
+      keywords: ['Nomu', '1688', '淘宝上架', '京东上架', 'Noon 上架', 'Noon UAE', 'Noon Saudi', '浏览器扩展'],
     },
     hero: {
       eyebrow: 'Nomu · Chrome 浏览器扩展',
@@ -34,8 +25,7 @@ export default {
         category: '类目',
         publish: '发布',
       },
-      screenshotAlt:
-        'Nomu 宣传海报 —— 面向 Noon 卖家的工具。在 Noon 上管理、上架、跟踪、增长。',
+      screenshotAlt: 'Nomu 宣传海报 —— 面向 Noon 卖家的工具。在 Noon 上管理、上架、跟踪、增长。',
       screenshotCaption: 'Nomu · 面向 Noon 卖家的工具 · 2026',
     },
     splash: {
@@ -48,6 +38,9 @@ export default {
         faq: '常见疑问',
       },
       docs: '文档',
+      menu: '菜单',
+      menuOpen: '打开菜单',
+      menuClose: '关闭菜单',
     },
     features: {
       eyebrow: '功能',
@@ -61,23 +54,19 @@ export default {
       pillars: {
         manage: {
           title: '商品管理',
-          tagline:
-            '把所有店铺、所有采集源、所有账号集中在一处 —— 让每一次上架都从已知状态开始。',
+          tagline: '把所有店铺、所有采集源、所有账号集中在一处 —— 让每一次上架都从已知状态开始。',
         },
         list: {
           title: '批量上架',
-          tagline:
-            '翻译、重做图片、重算价格、重选类目，一次批量搞定 —— 一百份草稿不必耗一百天。',
+          tagline: '翻译、重做图片、重算价格、重选类目，一次批量搞定 —— 一百份草稿不必耗一百天。',
         },
         track: {
           title: '任务跟踪',
-          tagline:
-            '每一次发布、每一次复制都在同一面板里，耗时、失败、重试都看得见 —— 没有在暗处跑的事。',
+          tagline: '每一次发布、每一次复制都在同一面板里，耗时、失败、重试都看得见 —— 没有在暗处跑的事。',
         },
         insights: {
           title: '业绩洞察',
-          tagline:
-            '上架规则随便问，已经发出去的随时能导出 —— 让数据该离开浏览器时离开。',
+          tagline: '上架规则随便问，已经发出去的随时能导出 —— 让数据该离开浏览器时离开。',
         },
       },
       items: {
@@ -167,8 +156,7 @@ export default {
       },
     },
     audience: {
-      motto:
-        '为在 1688 / 淘宝 / 京东采购、在 Noon 阿联酋和沙特站上架的卖家而做',
+      motto: '为在 1688 / 淘宝 / 京东采购、在 Noon 阿联酋和沙特站上架的卖家而做',
     },
     privacyPermissions: {
       eyebrow: '隐私 & 权限',
@@ -332,8 +320,7 @@ export default {
     support: {
       eyebrow: '支持',
       sectionTitle: '遇到问题？',
-      sectionSubtitle:
-        '安装、采集、发布任何一步遇到问题，或者想提功能建议，都可以联系。',
+      sectionSubtitle: '安装、采集、发布任何一步遇到问题，或者想提功能建议，都可以联系。',
       viewQr: '查看微信二维码',
       channels: {
         wechat: {

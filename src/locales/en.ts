@@ -22,8 +22,7 @@ export default {
       subheadline:
         "It's still the familiar purchasing page, still your Noon store. Nomu accelerates collection, translation, image processing and individual release, facilitating your operational work.",
       ctaPrimary: 'Add to Chrome',
-      ctaPrimaryHint:
-        'Opens the Chrome Web Store listing for a one-click install of Nomu',
+      ctaPrimaryHint: 'Opens the Chrome Web Store listing for a one-click install of Nomu',
       ctaSecondary: 'See what it does',
       ctaDocs: 'Read the docs',
       localeZh: '中文',
@@ -35,8 +34,7 @@ export default {
         category: 'Category',
         publish: 'Publish',
       },
-      screenshotAlt:
-        'Nomu promotional poster — Tool for Noon Sellers. Manage, List, Track, Grow on Noon.',
+      screenshotAlt: 'Nomu promotional poster — Tool for Noon Sellers. Manage, List, Track, Grow on Noon.',
       screenshotCaption: 'Nomu · Tool for Noon Sellers · 2026',
     },
     splash: {
@@ -49,6 +47,9 @@ export default {
         faq: 'FAQ',
       },
       docs: 'Docs',
+      menu: 'Menu',
+      menuOpen: 'Open menu',
+      menuClose: 'Close menu',
     },
     features: {
       eyebrow: 'Features',
@@ -90,8 +91,7 @@ export default {
         },
         multiAccount: {
           title: 'Store management in one place',
-          imageAlt:
-            'Screenshot of the multi-store list and switching in the side panel',
+          imageAlt: 'Screenshot of the multi-store list and switching in the side panel',
           body: 'Keep all your Noon stores in one panel and switch stores to auto-fill the listing settings.',
         },
         translate: {
@@ -121,14 +121,12 @@ export default {
         },
         tasks: {
           title: 'A task panel for the whole run',
-          imageAlt:
-            'Screenshot of the task panel listing publish and duplicate tasks',
+          imageAlt: 'Screenshot of the task panel listing publish and duplicate tasks',
           body: 'Publish and duplicate tasks live in one panel: progress, per-step timing and the failure reason expand inline, and failed items can be retried on their own.',
         },
         duplicate: {
           title: 'Duplicate products across devices',
-          imageAlt:
-            'Screenshot of duplicating an existing product onto another device',
+          imageAlt: 'Screenshot of duplicating an existing product onto another device',
           body: 'Copy an already-listed product to another device signed in to the same account, with batch rewrite for Partner SKU, barcode and brand. Duplication runs on its own queue, so it never competes with publishing. Same-device copy lands straight in the target store; cross-device copy rides a sync bus the remote end claims when it comes online.',
         },
         engine: {
@@ -163,8 +161,7 @@ export default {
         },
         assistant: {
           title: 'AI assistant and right-click parsing',
-          imageAlt:
-            'Screenshot of asking the AI assistant a question on the page',
+          imageAlt: 'Screenshot of asking the AI assistant a question on the page',
           body: 'Ask the built-in AI assistant about listing rules directly, and on a page the tool has no adapter for, right-click to parse the product into a draft.',
         },
       },
@@ -173,14 +170,12 @@ export default {
       },
     },
     audience: {
-      motto:
-        'Built for sellers sourcing on 1688, Taobao or JD, listing on Noon UAE and Saudi',
+      motto: 'Built for sellers sourcing on 1688, Taobao or JD, listing on Noon UAE and Saudi',
     },
     privacyPermissions: {
       eyebrow: 'Privacy & Permissions',
       sectionTitle: 'Where everything the extension touches ends up.',
-      sectionSubtitle:
-        'Your data is stored locally, while product data comes from Noon.',
+      sectionSubtitle: 'Your data is stored locally, while product data comes from Noon.',
       cols: {
         yours: {
           name: 'Yours',
@@ -201,8 +196,7 @@ export default {
       items: {
         storeSettings: {
           name: 'Store settings',
-          detail:
-            'Country, partner code, warehouse, quantity, warranty, brand.',
+          detail: 'Country, partner code, warehouse, quantity, warranty, brand.',
         },
         storeRecords: {
           name: 'Store records & active store',
@@ -218,13 +212,11 @@ export default {
         },
         alarms: {
           name: 'Alarms',
-          detail:
-            'Scan pending publish / duplicate tasks on a timer so they resume.',
+          detail: 'Scan pending publish / duplicate tasks on a timer so they resume.',
         },
         productDetails: {
           name: 'Product details',
-          detail:
-            'Title, description, attributes, price, stock. Sent only when you publish.',
+          detail: 'Title, description, attributes, price, stock. Sent only when you publish.',
         },
         productImages: {
           name: 'Product images',
@@ -369,8 +361,7 @@ export default {
       headlineError: 'Unable to continue',
       sublinePending: 'Confirming this sign-in with Nomu…',
       sublineSuccess: 'You can return to the Nomu extension to keep working.',
-      sublineFallbackError:
-        "Nomu didn't confirm this link in time. It may have expired.",
+      sublineFallbackError: "Nomu didn't confirm this link in time. It may have expired.",
       missingTokenError: 'Missing token. This link is invalid.',
       closePage: 'Close this page',
       retry: 'Try again',

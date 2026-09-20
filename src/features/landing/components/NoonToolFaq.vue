@@ -13,30 +13,23 @@ const { t } = useI18n();
 
 defineProps<{ id?: string }>();
 
-const items = [
-  'free',
-  'apiKey',
-  'regions',
-  'sources',
-  'data',
-  'ai',
-  'translation',
-  'failure',
-] as const;
+const items = ['free', 'apiKey', 'regions', 'sources', 'data', 'ai', 'translation', 'failure'] as const;
 
 const openKeys = ref<string[]>([]);
 
 function toggle(key: string) {
-  openKeys.value = openKeys.value.includes(key)
-    ? openKeys.value.filter((k) => k !== key)
-    : [...openKeys.value, key];
+  openKeys.value = openKeys.value.includes(key) ? openKeys.value.filter((k) => k !== key) : [...openKeys.value, key];
 }
 
 const reduceMotion = useReducedMotion();
 
 function sectionFadeUp() {
   return reduceMotion.value
-    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true } }
+    ? {
+        initial: { opacity: 0 },
+        whileInView: { opacity: 1 },
+        viewport: { once: true },
+      }
     : {
         initial: { opacity: 0, y: 20, filter: 'blur(10px)' },
         whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
@@ -47,16 +40,11 @@ function sectionFadeUp() {
 </script>
 
 <template>
-  <motion.section
-    v-bind="sectionFadeUp()"
-    :id="id"
-    aria-labelledby="faq-heading"
-    class="space-y-8"
-  >
+  <motion.section v-bind="sectionFadeUp()" :id="id" aria-labelledby="faq-heading" class="space-y-8">
     <header class="text-center">
       <h2
         id="faq-heading"
-        class="text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] text-ink md:text-[44px] md:tracking-[-0.03em]"
+        class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[44px] md:tracking-[-0.03em]"
       >
         {{ t('noonTool.faq.sectionTitle') }}
       </h2>
@@ -67,7 +55,9 @@ function sectionFadeUp() {
         v-for="key in items"
         :key="key"
         class="overflow-hidden rounded-2xl border border-white/50 bg-white/55 shadow-[0_4px_24px_-12px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 transition-shadow hover:shadow-[0_8px_32px_-12px_rgba(0,0,0,0.12)]"
-        :class="{ 'shadow-[0_8px_32px_-12px_rgba(0,0,0,0.14)]': openKeys.includes(key) }"
+        :class="{
+          'shadow-[0_8px_32px_-12px_rgba(0,0,0,0.14)]': openKeys.includes(key),
+        }"
       >
         <button
           type="button"
@@ -83,21 +73,14 @@ function sectionFadeUp() {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 9l-7 7-7-7"
-            />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
           <span>{{ t(`noonTool.faq.items.${key}.q`) }}</span>
         </button>
         <div
           :id="`faq-${key}-panel`"
           class="grid transition-[grid-template-rows] duration-200 ease-out"
-          :class="[
-            openKeys.includes(key) ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
-          ]"
+          :class="[openKeys.includes(key) ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]']"
         >
           <div class="min-h-0 overflow-hidden">
             <p class="text-muted px-5 pb-5 text-[14px] leading-[1.55]">

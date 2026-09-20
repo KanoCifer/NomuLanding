@@ -10,9 +10,5 @@ const API_BASE = import.meta.env.VITE_API_BASE || 'https://api.kanocifer.chat';
  * 扩展侧轮询取走 —— 本页只负责转发，不落会话态，因此不需要 withCredentials。
  */
 export function consumeNomuMagicLink(token: string): Promise<unknown> {
-  return axios.post(
-    `${API_BASE}/v3/nomu/magic-login`,
-    { token, mode: 'nomu' },
-    { timeout: 10_000 },
-  );
+  return axios.post(`${API_BASE}/v3/nomu/magic-login`, { token, mode: 'nomu' }, { timeout: 10_000 });
 }

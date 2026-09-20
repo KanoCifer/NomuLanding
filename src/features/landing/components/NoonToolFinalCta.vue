@@ -8,19 +8,21 @@
 import { useI18n } from 'vue-i18n';
 import { motion, useReducedMotion } from 'motion-v';
 import { EASE_OUT } from '@/constants/motionPresets';
-import * as LucideIcons from '@lucide/vue';
-import { icons } from '../icons';
+import { ICONS } from '../icons';
 
 const { t } = useI18n();
 
-const installHref =
-  'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
+const installHref = 'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
 
 const reduceMotion = useReducedMotion();
 
 function sectionFadeUp() {
   return reduceMotion.value
-    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true } }
+    ? {
+        initial: { opacity: 0 },
+        whileInView: { opacity: 1 },
+        viewport: { once: true },
+      }
     : {
         initial: { opacity: 0, y: 20, filter: 'blur(10px)' },
         whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
@@ -31,21 +33,14 @@ function sectionFadeUp() {
 </script>
 
 <template>
-  <motion.section
-    v-bind="sectionFadeUp()"
-    aria-labelledby="final-cta-heading"
-  >
+  <motion.section v-bind="sectionFadeUp()" aria-labelledby="final-cta-heading">
     <div
       class="flex flex-col items-center justify-between gap-8 rounded-[28px] border border-white/50 bg-white/55 px-8 py-12 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 md:flex-row md:items-center md:px-12 md:py-16"
     >
-      <div
-        class="flex flex-col items-center gap-4 text-center md:items-start md:text-left"
-      >
+      <div class="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
         <div class="flex items-center gap-2">
           <img src="/icon/48.png" alt="Nomu" class="h-6 w-6 rounded-md" />
-          <span class="text-ink text-base font-semibold tracking-tight"
-            >Nomu</span
-          >
+          <span class="text-ink text-base font-semibold tracking-tight">Nomu</span>
         </div>
         <h2
           id="final-cta-heading"
@@ -61,14 +56,19 @@ function sectionFadeUp() {
         :href="installHref"
         target="_blank"
         rel="noopener"
-        class="group/cta focus-visible:ring-ring bg-accent text-contrast inline-flex shrink-0 items-center justify-center gap-2 rounded-full px-7 py-4 text-[15px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
+        class="group/cta focus-visible:ring-ring bg-accent text-contrast inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-4 text-[15px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
         :title="t('noonTool.finalCta.hint')"
       >
-        <component
-          :is="(LucideIcons as any)[icons.cta]"
-          :size="16"
-          class="transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:translate-x-[3px]"
-        />
+        <span class="grid size-4 shrink-0 place-items-center overflow-hidden [grid-template-areas:'stack']">
+          <component
+            :is="ICONS.cta"
+            class="[grid-area:stack] size-4 transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:-translate-y-[1.35em] motion-safe:group-hover/cta:translate-x-[1.35em] motion-reduce:transition-none"
+          />
+          <component
+            :is="ICONS.external"
+            class="[grid-area:stack] size-4 -translate-x-[1.35em] translate-y-[1.35em] transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:translate-x-0 motion-safe:group-hover/cta:translate-y-0 motion-reduce:transition-none"
+          />
+        </span>
         {{ t('noonTool.finalCta.button') }}
       </a>
     </div>

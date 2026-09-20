@@ -12,10 +12,7 @@
         @click.self="onMaskClick"
       >
         <!-- 背景遮罩 + blur -->
-        <div
-          class="absolute inset-0 bg-black/45 backdrop-blur-[10px]"
-          @click="emit('close')"
-        />
+        <div class="absolute inset-0 bg-black/45 backdrop-blur-[10px]" @click="emit('close')" />
 
         <!-- 主面板 -->
         <motion.div
@@ -23,10 +20,7 @@
           :animate="{ scale: 1, y: 0, opacity: 1 }"
           :exit="{ scale: 0.97, y: 6, opacity: 0 }"
           :transition="SPRING_SNUG"
-          :class="[
-            'bg-card /60 relative w-full overflow-hidden rounded-2xl border shadow-2xl',
-            sizeClass,
-          ]"
+          :class="['bg-card /60 relative w-full overflow-hidden rounded-2xl border shadow-2xl', sizeClass]"
           role="dialog"
           aria-modal="true"
         >

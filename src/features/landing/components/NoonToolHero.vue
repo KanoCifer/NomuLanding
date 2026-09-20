@@ -6,14 +6,12 @@
 import { useI18n } from 'vue-i18n';
 import { motion } from 'motion-v';
 import { EASE_OUT } from '@/constants/motionPresets';
-import * as LucideIcons from '@lucide/vue';
-import { icons } from '../icons';
+import { ICONS } from '../icons';
 import NoonToolScreenshot from './NoonToolScreenshot.vue';
 
 const { t } = useI18n();
 
-const installHref =
-  'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
+const installHref = 'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
 const DOCS_URL = 'https://nomu.kanocifer.chat/docs/';
 
 /**
@@ -55,15 +53,8 @@ const heroItem = {
 </script>
 
 <template>
-  <motion.section
-    aria-labelledby="hero-heading"
-    class="text-center"
-    v-bind="heroContainer"
-  >
-    <motion.p
-      v-bind="heroItem"
-      class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase"
-    >
+  <motion.section aria-labelledby="hero-heading" class="text-center" v-bind="heroContainer">
+    <motion.p v-bind="heroItem" class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
       {{ t('noonTool.hero.eyebrow') }}
     </motion.p>
 
@@ -77,28 +68,29 @@ const heroItem = {
       <span class="text-accent">{{ t('noonTool.hero.headlineTail') }}</span>
     </motion.h1>
 
-    <motion.p
-      v-bind="heroItem"
-      class="text-muted mx-auto mt-7 max-w-[58ch] text-[17px] leading-[1.55] md:text-[19px]"
-    >
+    <motion.p v-bind="heroItem" class="text-muted mx-auto mt-7 max-w-[58ch] text-[17px] leading-[1.55] md:text-[19px]">
       {{ t('noonTool.hero.subheadline') }}
     </motion.p>
 
-    <motion.div
-      v-bind="heroItem"
-      class="mt-9 flex flex-wrap items-center justify-center gap-3"
-    >
+    <motion.div v-bind="heroItem" class="mt-9 flex flex-wrap items-center justify-center gap-3">
       <a
         :href="installHref"
         target="_blank"
         rel="noopener"
-        class="group/cta bg-accent text-contrast inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[14px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 active:scale-[0.98]"
+        class="group/cta bg-accent text-contrast inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-[14px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 active:scale-[0.98]"
       >
-        <component
-          :is="(LucideIcons as any)[icons.cta]"
-          :size="16"
-          class="transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:translate-x-[3px]"
-        />
+        <!-- Morph: the download arrow slides out and the external-link arrow slides
+             in, stacked in a one-line grid. See NoonToolNav for the same treatment. -->
+        <span class="grid size-4 shrink-0 place-items-center overflow-hidden [grid-template-areas:'stack']">
+          <component
+            :is="ICONS.cta"
+            class="[grid-area:stack] size-4 transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:-translate-y-[1.35em] motion-safe:group-hover/cta:translate-x-[1.35em] motion-reduce:transition-none"
+          />
+          <component
+            :is="ICONS.external"
+            class="[grid-area:stack] size-4 -translate-x-[1.35em] translate-y-[1.35em] transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:translate-x-0 motion-safe:group-hover/cta:translate-y-0 motion-reduce:transition-none"
+          />
+        </span>
         {{ t('noonTool.hero.ctaPrimary') }}
       </a>
       <a
@@ -113,7 +105,7 @@ const heroItem = {
         rel="noopener"
         class="text-muted hover:text-ink inline-flex items-center gap-1.5 rounded-full px-3 py-3.5 text-[14px] font-medium transition-colors"
       >
-        <component :is="(LucideIcons as any)[icons.docs]" :size="14" />
+        <component :is="ICONS.docs" :size="14" />
         {{ t('noonTool.hero.ctaDocs') }}
       </a>
     </motion.div>

@@ -14,26 +14,27 @@
 import { useI18n } from 'vue-i18n';
 import { motion, useReducedMotion } from 'motion-v';
 import { EASE_OUT } from '@/constants/motionPresets';
-import * as LucideIcons from '@lucide/vue';
+import { ICONS } from '../icons';
 
 const { t } = useI18n();
 
-const ICONS = {
-  settings: 'Settings',
-  database: 'Database',
-  package: 'Package',
-  history: 'History',
-  zap: 'Zap',
-  shoppingBag: 'ShoppingBag',
-  image: 'Image',
-  link: 'Link',
-  mousePointer: 'MousePointerClick',
-  code: 'Code',
-  keyRound: 'KeyRound',
-  search: 'Search',
-  cookie: 'Cookie',
-  bell: 'Bell',
-  menu: 'MenuSquare',
+/** Row/pill key → icon component. Keys double as the i18n leaf names. */
+const ROW_ICONS = {
+  settings: ICONS.settings,
+  database: ICONS.dataStore,
+  package: ICONS.batches,
+  history: ICONS.list,
+  zap: ICONS.zap,
+  shoppingBag: ICONS.productDetails,
+  image: ICONS.image,
+  link: ICONS.link,
+  mousePointer: ICONS.activeTab,
+  code: ICONS.scripting,
+  keyRound: ICONS.keyRound,
+  search: ICONS.analytics,
+  cookie: ICONS.browsingHistory,
+  bell: ICONS.notifications,
+  menu: ICONS.contextMenus,
 } as const;
 
 type Dest = 'yours' | 'noon' | 'nowhere';
@@ -41,7 +42,7 @@ type Dest = 'yours' | 'noon' | 'nowhere';
 type ItemRow = {
   key: string;
   dest: Dest;
-  icon: keyof typeof ICONS;
+  icon: keyof typeof ROW_ICONS;
 };
 
 const ROWS: ItemRow[] = [
@@ -73,31 +74,23 @@ const PERM_ICONS = {
   activeTab: 'mousePointer',
   scripting: 'code',
   contextMenus: 'menu',
-} as const satisfies Record<string, keyof typeof ICONS>;
+} as const satisfies Record<string, keyof typeof ROW_ICONS>;
 
-const PERM_KEYS: PermKey[] = [
-  'storage',
-  'alarms',
-  'notifications',
-  'activeTab',
-  'scripting',
-  'contextMenus',
-];
+const PERM_KEYS: PermKey[] = ['storage', 'alarms', 'notifications', 'activeTab', 'scripting', 'contextMenus'];
 
 // Host codes are URLs / domain names — not localizable.
-const HOST_CODES = [
-  'noon-partners.com',
-  'noon-cdn.com',
-  'alicdn.com',
-  'jdimg.com',
-  'api.nomu.kanocifer.chat',
-];
+const HOST_CODES = ['noon-partners.com', 'noon-cdn.com', 'alicdn.com', 'jdimg.com', 'api.nomu.kanocifer.chat'];
 
 const reduceMotion = useReducedMotion();
 
 function fade(delay = 0) {
   return reduceMotion.value
-    ? { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true }, transition: { duration: 0.2, delay } }
+    ? {
+        initial: { opacity: 0 },
+        whileInView: { opacity: 1 },
+        viewport: { once: true },
+        transition: { duration: 0.2, delay },
+      }
     : {
         initial: { opacity: 0, y: 12, filter: 'blur(8px)' },
         whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
@@ -114,11 +107,7 @@ const COL_META: Record<Dest, { chipClass: string }> = {
 </script>
 
 <template>
-  <motion.section
-    v-bind="fade(0.05)"
-    aria-labelledby="privacy-permissions-heading"
-    class="space-y-12"
-  >
+  <motion.section v-bind="fade(0.05)" aria-labelledby="privacy-permissions-heading" class="space-y-12">
     <header class="max-w-3xl space-y-3">
       <p class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
         {{ t('noonTool.privacyPermissions.eyebrow') }}
@@ -136,7 +125,7 @@ const COL_META: Record<Dest, { chipClass: string }> = {
 
     <div class="grid gap-4 md:grid-cols-3">
       <div
-        v-for="(dest, i) in (['yours', 'noon', 'nowhere'] as const)"
+        v-for="(dest, i) in ['yours', 'noon', 'nowhere'] as const"
         :key="dest"
         v-bind="fade(0.1 + i * 0.08)"
         class="flex flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/55 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"
@@ -156,23 +145,15 @@ const COL_META: Record<Dest, { chipClass: string }> = {
           {{ t(`noonTool.privacyPermissions.cols.${dest}.tagline`) }}
         </p>
         <ul class="space-y-3 px-5 py-4">
-          <li
-            v-for="row in ROWS.filter((r) => r.dest === dest)"
-            :key="row.key"
-            class="flex gap-3"
-          >
+          <li v-for="row in ROWS.filter((r) => r.dest === dest)" :key="row.key" class="flex gap-3">
             <span
-              class="inline-flex size-7 shrink-0 items-center justify-center rounded-lg border border-white/60 bg-white/70 text-accent-text shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
+              class="text-accent-text inline-flex size-7 shrink-0 items-center justify-center rounded-lg border border-white/60 bg-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
               aria-hidden="true"
             >
-              <component
-                :is="(LucideIcons as any)[ICONS[row.icon]]"
-                :size="13"
-                :stroke-width="1.75"
-              />
+              <component :is="ROW_ICONS[row.icon]" :size="13" :stroke-width="1.75" />
             </span>
             <div class="min-w-0 flex-1">
-              <div class="text-ink text-[13px] font-semibold leading-[1.4]">
+              <div class="text-ink text-[13px] leading-[1.4] font-semibold">
                 {{ t(`noonTool.privacyPermissions.items.${row.key}.name`) }}
               </div>
               <div class="text-muted mt-0.5 text-[12px] leading-[1.5]">
@@ -198,10 +179,10 @@ const COL_META: Record<Dest, { chipClass: string }> = {
           v-for="(pk, i) in PERM_KEYS"
           :key="pk"
           v-bind="fade(0.32 + i * 0.04)"
-          class="group/pill inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/55 px-3 py-2 text-[12px] font-medium text-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md backdrop-saturate-150 transition-all hover:bg-white/75"
+          class="group/pill text-ink inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/55 px-3 py-2 text-[12px] font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md backdrop-saturate-150 transition-all hover:bg-white/75"
         >
           <component
-            :is="(LucideIcons as any)[ICONS[PERM_ICONS[pk]]]"
+            :is="ROW_ICONS[PERM_ICONS[pk]]"
             :size="13"
             :stroke-width="1.75"
             class="text-accent-text"
@@ -209,10 +190,11 @@ const COL_META: Record<Dest, { chipClass: string }> = {
           />
           <span>{{ t(`noonTool.privacyPermissions.permissionsStrip.perms.${pk}.label`) }}</span>
           <span
-            class="text-muted max-w-0 overflow-hidden whitespace-nowrap text-[11px] opacity-0 transition-all duration-200 ease-out group-hover/pill:max-w-[280px] group-hover/pill:opacity-100"
+            class="text-muted max-w-0 overflow-hidden text-[11px] whitespace-nowrap opacity-0 transition-all duration-200 ease-out group-hover/pill:max-w-[280px] group-hover/pill:opacity-100"
             aria-hidden="true"
           >
-            &nbsp;— {{ t(`noonTool.privacyPermissions.permissionsStrip.perms.${pk}.detail`) }}
+            &nbsp;—
+            {{ t(`noonTool.privacyPermissions.permissionsStrip.perms.${pk}.detail`) }}
           </span>
         </div>
       </div>
@@ -222,8 +204,9 @@ const COL_META: Record<Dest, { chipClass: string }> = {
         <code
           v-for="h in HOST_CODES"
           :key="h"
-          class="rounded-md border border-white/40 bg-white/40 px-2 py-0.5 font-mono text-[11px] text-ink/80"
-        >{{ h }}</code>
+          class="text-ink/80 rounded-md border border-white/40 bg-white/40 px-2 py-0.5 font-mono text-[11px]"
+          >{{ h }}</code
+        >
       </div>
     </motion.div>
   </motion.section>

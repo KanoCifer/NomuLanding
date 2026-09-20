@@ -55,7 +55,7 @@ onMounted(async () => {
     <NoonToolNav />
 
     <!-- Sections stack with generous spacing; max-width keeps reading measure tight. -->
-    <main class="mx-auto max-w-[1180px] space-y-24 px-4 pt-32 pb-16 md:px-8 md:pt-40 md:space-y-32">
+    <main class="mx-auto max-w-[1180px] space-y-24 px-4 pt-32 pb-16 md:space-y-32 md:px-8 md:pt-40">
       <NoonToolHero />
       <NoonToolFeatureGrid id="features" />
       <NoonToolPrivacyPermissions />
@@ -86,6 +86,16 @@ onMounted(async () => {
    unlike scroll-margin-top which only affects programmatic jumps. */
 html {
   scroll-padding-top: 80px;
+  /* Every in-page jump glides — anchor clicks, the mobile sheet's scrollIntoView,
+     and the initial URL hash. Timing/easing match the design system. */
+  scroll-behavior: smooth;
+}
+
+/* Users who opt out of motion get instant jumps. This also covers the explicit
+   scrollIntoView calls, which would otherwise need `behavior: 'smooth'` each. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 </style>
-

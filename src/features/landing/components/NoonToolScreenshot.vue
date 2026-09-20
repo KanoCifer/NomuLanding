@@ -148,9 +148,7 @@ function onFigureKeydown(e: KeyboardEvent) {
 
   <Modal :open="previewOpen" size="lg" @close="closePreview">
     <div class="bg-card/0 flex max-h-[85vh] w-full flex-col">
-      <div
-        class="bg-card/0 relative flex min-h-0 flex-1 items-center justify-center p-3 sm:p-4"
-      >
+      <div class="bg-card/0 relative flex min-h-0 flex-1 items-center justify-center p-3 sm:p-4">
         <video
           v-if="isVideo()"
           :src="props.videoSrc"
@@ -161,17 +159,9 @@ function onFigureKeydown(e: KeyboardEvent) {
           playsinline
           controls
         />
-        <img
-          v-else
-          :src="props.src"
-          :alt="props.alt"
-          class="max-h-[80vh] w-full rounded-lg object-contain"
-        />
+        <img v-else :src="props.src" :alt="props.alt" class="max-h-[80vh] w-full rounded-lg object-contain" />
       </div>
-      <div
-        v-if="caption"
-        class="border-border/60 text-muted shrink-0 border-t px-5 py-3 text-sm"
-      >
+      <div v-if="caption" class="border-border/60 text-muted shrink-0 border-t px-5 py-3 text-sm">
         {{ caption }}
       </div>
     </div>

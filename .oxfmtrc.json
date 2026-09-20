@@ -7,7 +7,7 @@
   "bracketSpacing": true,
   "bracketSameLine": false,
   "arrowParens": "always",
-  "printWidth": 80,
+  "printWidth": 120,
   "trailingComma": "all",
   "jsxSingleQuote": false,
   "sortTailwindcss": true,

@@ -16,15 +16,11 @@ type LocaleCode = 'zh-CN' | 'en';
 const { t, locale } = useI18n();
 
 function labelFor(code: LocaleCode): string {
-  return code === 'zh-CN'
-    ? t('noonTool.hero.localeZh')
-    : t('noonTool.hero.localeEn');
+  return code === 'zh-CN' ? t('noonTool.hero.localeZh') : t('noonTool.hero.localeEn');
 }
 
 const currentLabel = computed(() => labelFor(locale.value as LocaleCode));
-const nextCode = computed<LocaleCode>(() =>
-  locale.value === 'zh-CN' ? 'en' : 'zh-CN',
-);
+const nextCode = computed<LocaleCode>(() => (locale.value === 'zh-CN' ? 'en' : 'zh-CN'));
 const nextLabel = computed(() => labelFor(nextCode.value));
 
 function toggle() {

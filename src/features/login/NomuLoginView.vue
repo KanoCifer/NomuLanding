@@ -80,10 +80,7 @@ function retry(): void {
       <!-- 巨幅 glyph，带柔和径向光晕 -->
       <div class="bloom-glyph-wrap" :data-phase="status">
         <div class="bloom-glyph">
-          <LoaderCircle
-            v-if="status === 'pending'"
-            class="bloom-icon bloom-icon-spin"
-          />
+          <LoaderCircle v-if="status === 'pending'" class="bloom-icon bloom-icon-spin" />
           <Check v-else-if="status === 'success'" class="bloom-icon" />
           <TriangleAlert v-else class="bloom-icon" />
         </div>
@@ -94,22 +91,12 @@ function retry(): void {
       <p class="bloom-subline">{{ subline }}</p>
 
       <!-- success：用户回扩展继续 -->
-      <button
-        v-if="status === 'success'"
-        class="bloom-btn bloom-btn-secondary"
-        type="button"
-        @click="closePage"
-      >
+      <button v-if="status === 'success'" class="bloom-btn bloom-btn-secondary" type="button" @click="closePage">
         {{ t('noonTool.login.closePage') }}
       </button>
 
       <!-- error：重试 -->
-      <button
-        v-else-if="status === 'error'"
-        class="bloom-btn bloom-btn-primary"
-        type="button"
-        @click="retry"
-      >
+      <button v-else-if="status === 'error'" class="bloom-btn bloom-btn-primary" type="button" @click="retry">
         {{ t('noonTool.login.retry') }}
       </button>
     </div>
