@@ -35,7 +35,8 @@ export default {
         category: 'Category',
         publish: 'Publish',
       },
-      screenshotAlt: 'Nomu promotional poster — Tool for Noon Sellers. Manage, List, Track, Grow on Noon.',
+      screenshotAlt:
+        'Nomu promotional poster — Tool for Noon Sellers. Manage, List, Track, Grow on Noon.',
       screenshotCaption: 'Nomu · Tool for Noon Sellers · 2026',
     },
     splash: {
@@ -53,7 +54,7 @@ export default {
       eyebrow: 'Features',
       sectionTitle: 'Capture products. The extension handles the rest.',
       sectionSubtitle:
-        'Every step runs with a sensible default: automatic translation, compliant images and AI category suggestions. You check the highlighted fields before anything goes out. The rest is watched for you.',
+        'Every step runs with a sensible default: automatic translation, compliant images and AI category prediction. You check the highlighted fields before anything goes out. The rest is watched for you.',
       poster: {
         alt: 'Nomu promotional poster — Tool for Noon Sellers. Manage, List, Track, Grow on Noon.',
         caption: 'Nomu · Tool for Noon Sellers · 2026',
@@ -125,9 +126,10 @@ export default {
           body: 'Publish and duplicate tasks live in one panel: progress, per-step timing and the failure reason expand inline, and failed items can be retried on their own.',
         },
         duplicate: {
-          title: 'Copy products between stores',
-          imageAlt: 'Screenshot of batch-copying products into another store',
-          body: 'Copy existing products into another store you own, rewriting partner SKU, barcode and brand in batch. Duplication runs on its own queue, so it never competes with publishing.',
+          title: 'Duplicate products across devices',
+          imageAlt:
+            'Screenshot of duplicating an existing product onto another device',
+          body: 'Copy an already-listed product to another device signed in to the same account, with batch rewrite for Partner SKU, barcode and brand. Duplication runs on its own queue, so it never competes with publishing. Same-device copy lands straight in the target store; cross-device copy rides a sync bus the remote end claims when it comes online.',
         },
         engine: {
           title: 'Concurrency and retries, your call',

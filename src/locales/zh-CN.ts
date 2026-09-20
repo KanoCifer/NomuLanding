@@ -34,7 +34,8 @@ export default {
         category: '类目',
         publish: '发布',
       },
-      screenshotAlt: 'Nomu 宣传海报 —— 面向 Noon 卖家的工具。在 Noon 上管理、上架、跟踪、增长。',
+      screenshotAlt:
+        'Nomu 宣传海报 —— 面向 Noon 卖家的工具。在 Noon 上管理、上架、跟踪、增长。',
       screenshotCaption: 'Nomu · 面向 Noon 卖家的工具 · 2026',
     },
     splash: {
@@ -51,7 +52,7 @@ export default {
     features: {
       eyebrow: '功能',
       sectionTitle: '采集商品，剩下的交给插件。',
-      sectionSubtitle: '翻译、图片生成、AI 类目推荐',
+      sectionSubtitle: '翻译、图片生成、类目 AI 预测',
       poster: {
         alt: 'Nomu 宣传海报 —— 面向 Noon 卖家的工具。在 Noon 上管理、上架、跟踪、增长。',
         caption: 'Nomu · 面向 Noon 卖家的工具 · 2026',
@@ -121,9 +122,9 @@ export default {
           body: '上架与复制任务集中在一个面板：进度、每一步耗时、失败原因都在行内展开，失败的可以单独重试。',
         },
         duplicate: {
-          title: '店铺之间复制商品',
-          imageAlt: '批量复制商品到另一店铺的截图',
-          body: '把已有商品复制到自己名下另一家店铺，PartnerSKU、条码和品牌可批量改写，复制走独立队列，不占上架通道。',
+          title: '跨设备复制商品',
+          imageAlt: '把已有商品复制到另一台设备的截图',
+          body: '把已上架商品复制到同账号的另一台设备上继续上架，Partner SKU、条码和品牌可批量改写；复制走独立队列，不占上架通道。本机复制直接落目标店铺，跨设备复制走云同步总线，对端上线即可领取。',
         },
         engine: {
           title: '并发与重试自己定',
