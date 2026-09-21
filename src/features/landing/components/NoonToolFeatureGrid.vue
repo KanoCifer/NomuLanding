@@ -69,6 +69,19 @@ const pillars: Pillar[] = [
   { key: 'insights', number: '04', featureKeys: ['assistant', 'export'] },
 ];
 
+/** Pillar → pose JPG, sourced from `NoonToolv1/logo/ip-mascot/intro/`.
+ *  Each pose matches the chapter's skill per PROFILE.md §4:
+ *  - manage  → 浏览挑选店铺 (browsing with magnifier)
+ *  - list    → 抓货上架 (carrying noon box)
+ *  - track   → 跟踪订单 (peeking curiously)
+ *  - insights → 复盘导出 (holding checklist, done) */
+const POSE_MAP: Record<PillarKey, string> = {
+  manage: '/screens/pose-browsing.png',
+  list: '/screens/pose-collecting.jpg',
+  track: '/screens/pose-curious.jpg',
+  insights: '/screens/pose-done.jpg',
+};
+
 function LucideIcon(name: FeatureKey) {
   return ICONS[name];
 }
@@ -178,7 +191,22 @@ const featureItem = reduceMotion.value
         <!-- Text column — alternates side -->
         <div :class="['md:col-span-5', idx % 2 === 1 ? 'md:order-2 md:col-start-8' : 'md:order-1 md:col-start-1']">
           <div class="space-y-5 md:sticky md:top-24">
-            <div :class="['flex items-baseline gap-3 md:gap-4', idx % 2 === 1 ? 'md:justify-end' : 'md:justify-start']">
+            <div
+              :class="[
+                'flex items-baseline gap-3 md:gap-4',
+                idx % 2 === 1 ? 'md:flex-row-reverse md:justify-end' : 'md:justify-start',
+              ]"
+            >
+              <!-- Nomu pose sigil — small accent next to the chapter number.
+                   Sits on the outer edge of the column (left for left-aligned
+                   chapters, right for right-aligned) so it reads as a chapter
+                   mascot rather than a centered decoration. -->
+              <img
+                :src="POSE_MAP[pillar.key]"
+                alt=""
+                aria-hidden="true"
+                class="size-14 shrink-0 self-end rounded-xl md:size-16"
+              />
               <span
                 class="text-accent-text font-mono text-[44px] leading-none tracking-[-0.04em] md:text-[64px]"
                 aria-hidden="true"

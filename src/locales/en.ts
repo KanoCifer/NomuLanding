@@ -51,6 +51,10 @@ export default {
       menuOpen: 'Open menu',
       menuClose: 'Close menu',
     },
+    share: {
+      label: 'Share',
+      copied: 'Link copied',
+    },
     features: {
       eyebrow: 'Features',
       sectionTitle: 'Capture products. The extension handles the rest.',
@@ -353,6 +357,7 @@ export default {
       body: 'Capture, translate, prep images, publish, duplicate, watch the tasks. One extension covers it.',
       button: 'Add to Chrome',
       hint: 'One-click install from the Chrome Web Store',
+      shareHint: 'Or share with a colleague',
     },
     login: {
       /* 与 ReadingList 的 noonTool.nomuLogin 文案保持一致 */

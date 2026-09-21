@@ -19,6 +19,9 @@ const meta = computed(() => ({
   keywords: (tm('noonTool.meta.keywords') as string[]).join(', '),
 }));
 
+const SITE_URL = 'https://nomu.kanocifer.chat';
+const OG_IMAGE = `${SITE_URL}/screens/poster.png`;
+
 useHead({
   title: () => meta.value.title,
   meta: () => [
@@ -27,6 +30,15 @@ useHead({
     { property: 'og:title', content: meta.value.title },
     { property: 'og:description', content: meta.value.description },
     { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: SITE_URL },
+    { property: 'og:image', content: OG_IMAGE },
+    { property: 'og:image:width', content: '1400' },
+    { property: 'og:image:height', content: '560' },
+    { property: 'og:image:alt', content: meta.value.title },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: meta.value.title },
+    { name: 'twitter:description', content: meta.value.description },
+    { name: 'twitter:image', content: OG_IMAGE },
   ],
 });
 

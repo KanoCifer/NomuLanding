@@ -8,11 +8,19 @@
 import { useI18n } from 'vue-i18n';
 import { motion, useReducedMotion } from 'motion-v';
 import { EASE_OUT } from '@/constants/motionPresets';
+import { Share2, Check } from '@lucide/vue';
+import { useShare } from '@/composables/useShare';
 import { ICONS } from '../icons';
 
 const { t } = useI18n();
 
 const installHref = 'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
+const shareUrl = 'https://nomu.kanocifer.chat/';
+const shareTitle = 'Nomu — Tool for Noon Sellers';
+const { copied, share } = useShare();
+function onShare() {
+  return share(shareUrl, shareTitle);
+}
 
 const reduceMotion = useReducedMotion();
 
@@ -52,25 +60,37 @@ function sectionFadeUp() {
           {{ t('noonTool.finalCta.body') }}
         </p>
       </div>
-      <a
-        :href="installHref"
-        target="_blank"
-        rel="noopener"
-        class="group/cta focus-visible:ring-ring bg-accent text-contrast inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-4 text-[15px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
-        :title="t('noonTool.finalCta.hint')"
-      >
-        <span class="grid size-4 shrink-0 place-items-center overflow-hidden [grid-template-areas:'stack']">
-          <component
-            :is="ICONS.cta"
-            class="[grid-area:stack] size-4 transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:-translate-y-[1.35em] motion-safe:group-hover/cta:translate-x-[1.35em] motion-reduce:transition-none"
-          />
-          <component
-            :is="ICONS.external"
-            class="[grid-area:stack] size-4 -translate-x-[1.35em] translate-y-[1.35em] transition-transform duration-200 ease-[var(--ease-out)] motion-safe:group-hover/cta:translate-x-0 motion-safe:group-hover/cta:translate-y-0 motion-reduce:transition-none"
-          />
-        </span>
-        {{ t('noonTool.finalCta.button') }}
-      </a>
+      <div class="flex shrink-0 flex-col items-center gap-3 md:mt-5 md:items-end">
+        <a
+          :href="installHref"
+          target="_blank"
+          rel="noopener"
+          class="group/cta focus-visible:ring-ring bg-accent text-contrast inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-4 text-[15px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
+          :title="t('noonTool.finalCta.hint')"
+        >
+          <span class="grid size-4 shrink-0 place-items-center overflow-hidden [grid-template-areas:'stack']">
+            <component
+              :is="ICONS.cta"
+              class="size-4 transition-transform duration-200 ease-[var(--ease-out)] [grid-area:stack] motion-safe:group-hover/cta:translate-x-[1.35em] motion-safe:group-hover/cta:-translate-y-[1.35em] motion-reduce:transition-none"
+            />
+            <component
+              :is="ICONS.external"
+              class="size-4 -translate-x-[1.35em] translate-y-[1.35em] transition-transform duration-200 ease-[var(--ease-out)] [grid-area:stack] motion-safe:group-hover/cta:translate-x-0 motion-safe:group-hover/cta:translate-y-0 motion-reduce:transition-none"
+            />
+          </span>
+          {{ t('noonTool.finalCta.button') }}
+        </a>
+        <button
+          type="button"
+          class="text-muted hover:text-ink inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45 focus-visible:ring-2 focus-visible:ring-[var(--accent-slate)] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.97]"
+          :aria-label="copied ? t('noonTool.share.copied') : t('noonTool.share.label')"
+          @click="onShare"
+        >
+          <Share2 v-if="!copied" :size="14" :stroke-width="1.75" aria-hidden="true" />
+          <Check v-else :size="14" :stroke-width="2" class="text-[var(--accent-slate)]" aria-hidden="true" />
+          <span>{{ copied ? t('noonTool.share.copied') : t('noonTool.finalCta.shareHint') }}</span>
+        </button>
+      </div>
     </div>
   </motion.section>
 </template>

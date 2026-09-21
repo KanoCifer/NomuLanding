@@ -42,6 +42,10 @@ export default {
       menuOpen: '打开菜单',
       menuClose: '关闭菜单',
     },
+    share: {
+      label: '分享',
+      copied: '链接已复制',
+    },
     features: {
       eyebrow: '功能',
       sectionTitle: '采集商品，剩下的交给插件。',
@@ -338,6 +342,7 @@ export default {
       body: '采集、翻译、建图、发布、复制、盯任务。',
       button: '添加到 Chrome',
       hint: '在 Chrome 网上应用商店一键安装 Nomu',
+      shareHint: '或分享给同事',
     },
     login: {
       /* 与 ReadingList 的 noonTool.nomuLogin 文案保持一致 */
