@@ -20,6 +20,14 @@ const router = createRouter({
       name: 'nomu-login',
       component: () => import('@/features/login/NomuLoginView.vue'),
     },
+    {
+      // 注册页 — 把 vue-app packages/api 的 register / sendRegisterEmailCode
+      // 端点（POST /v3/register、POST /v3/email/code）直接搬到落地页，mode 强制 'nomu'。
+      // 落地页只承担 UI，会话态走 /nomu/login 的魔法链接，与本路由正交。
+      path: '/register',
+      name: 'register',
+      component: () => import('@/features/register/RegisterView.vue'),
+    },
   ],
   scrollBehavior(to) {
     if (to.hash) return { el: to.hash, behavior: 'smooth' };

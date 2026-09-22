@@ -11,6 +11,7 @@
  * the docs link opens the docs site in a new tab (mirrors the footer DOCS_URL).
  */
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { RouterLink } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { AnimatePresence, motion, useReducedMotion } from 'motion-v';
 import { EASE_OUT, EASE_IN_OUT } from '@/constants/motionPresets';
@@ -119,6 +120,14 @@ function onSheetKeydown(e: KeyboardEvent) {
         {{ t('noonTool.nav.docs') }}
         <span aria-hidden="true" class="text-[10px] leading-none">↗</span>
       </a>
+      <!-- 注册：站内 SPA 路由，跟 docs 平级但不开新 tab（站内跳转同窗口即可） -->
+      <RouterLink
+        to="/register"
+        class="text-muted/80 hover:text-ink inline-flex h-9 items-center rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
+        active-class="text-ink bg-white/45"
+      >
+        {{ t('noonTool.nav.register') }}
+      </RouterLink>
     </nav>
 
     <!-- Right cluster -->
@@ -224,6 +233,13 @@ function onSheetKeydown(e: KeyboardEvent) {
             <span>{{ t('noonTool.nav.docs') }}</span>
             <ArrowUpRight :size="16" :stroke-width="1.75" class="text-muted" aria-hidden="true" />
           </a>
+          <RouterLink
+            to="/register"
+            class="text-ink mt-0.5 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55 active:bg-white/70"
+            @click="closeSheet"
+          >
+            <span>{{ t('noonTool.nav.register') }}</span>
+          </RouterLink>
         </nav>
 
         <div class="flex items-center justify-between gap-2 border-t border-white/40 px-3 py-3">

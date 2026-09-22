@@ -47,6 +47,7 @@ export default {
         faq: 'FAQ',
       },
       docs: 'Docs',
+      register: 'Create account',
       menu: 'Menu',
       menuOpen: 'Open menu',
       menuClose: 'Close menu',
@@ -358,6 +359,48 @@ export default {
       button: 'Add to Chrome',
       hint: 'One-click install from the Chrome Web Store',
       shareHint: 'Or share with a colleague',
+    },
+    register: {
+      meta: {
+        title: 'Create your Nomu account',
+        description:
+          'Create a Nomu account to unlock the AI assistant, AI Generation, and right-click parsing — billed in credits.',
+      },
+      headline: 'Create your Nomu account',
+      subheadline:
+        'An account unlocks the AI assistant and AI Generation. Capture and publishing still work without signing in.',
+      form: {
+        username: 'Username',
+        email: 'Email',
+        password: 'Password',
+        confirmPassword: 'Confirm password',
+        emailCode: 'Email code',
+        sendCode: 'Send code',
+        sending: 'Sending…',
+        sent: 'Sent',
+        resendIn: 'Resend in {n}s',
+        submit: 'Create account',
+        submitting: 'Creating…',
+      },
+      errors: {
+        usernameRequired: 'Please enter a username',
+        emailRequired: 'Please enter your email',
+        emailInvalid: 'That email looks invalid',
+        passwordRequired: 'Please enter a password',
+        confirmPasswordRequired: 'Please confirm your password',
+        passwordMismatch: "Passwords don't match",
+        emailCodeRequired: 'Please enter the email code',
+        sendCodeFailed: "Couldn't send the code. Try again in a moment.",
+        submitFailed: "Couldn't create the account. Try again in a moment.",
+      },
+      success: {
+        title: "You're in",
+        body: 'Your account is ready. Install the Nomu extension to use the AI assistant, category suggestions, and more.',
+        cta: 'Install Nomu',
+        back: 'Back to home',
+      },
+      bottomHint: "By creating an account you agree to Nomu's terms and {privacy}.",
+      privacy: 'privacy policy',
     },
     login: {
       /* 与 ReadingList 的 noonTool.nomuLogin 文案保持一致 */
