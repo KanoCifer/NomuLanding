@@ -39,6 +39,7 @@ export default {
       },
       docs: '文档',
       register: '注册',
+      forgotPassword: '忘记密码',
       menu: '菜单',
       menuOpen: '打开菜单',
       menuClose: '关闭菜单',
@@ -397,6 +398,54 @@ export default {
       closePage: '关闭此页',
       retry: '再试一次',
     },
+    forgotPassword: {
+      meta: {
+        title: '重置 Nomu 账号密码',
+        description: '通过邮箱验证码重置 Nomu 账号密码。',
+      },
+      headline: '重置密码',
+      subheadline: '输入注册邮箱，我们会发送一封含 6 位验证码的重置邮件。',
+      /* 步骤 1（申请邮件） */
+      stepRequest: {
+        email: '注册邮箱',
+        submit: '发送重置邮件',
+        submitting: '发送中…',
+      },
+      /* 步骤 1 成功：固定话术，避免泄露邮箱是否注册 */
+      requestedHint: '若该邮箱已注册，重置邮件已发送。',
+      requestedHintDetail: '请到邮箱抄 6 位验证码，回到这里继续。',
+      /* 步骤 2（验证码 + 新密码） */
+      stepConfirm: {
+        emailLabel: '已发送到',
+        changeEmail: '换个邮箱',
+        emailCode: '邮箱验证码',
+        newPassword: '新密码',
+        confirmPassword: '确认新密码',
+        submit: '重置密码',
+        submitting: '重置中…',
+      },
+      errors: {
+        emailRequired: '请输入邮箱',
+        emailInvalid: '邮箱格式不正确',
+        emailCodeRequired: '请输入 6 位验证码',
+        newPasswordRequired: '请输入新密码',
+        newPasswordTooShort: '密码至少 6 位',
+        confirmPasswordRequired: '请再次输入新密码',
+        passwordMismatch: '两次密码不一致',
+        /* 步骤 2 错误：404 故意统一文案，防枚举 */
+        invalidCodeOrEmail: '验证码错误或邮箱未注册',
+        sessionExpired: '会话已过期，请重新申请验证码',
+        passwordSameAsOld: '请换一个未使用过的密码',
+        submitFailed: '重置失败，请稍后再试',
+        networkError: '网络异常，请稍后再试',
+      },
+      success: {
+        title: '密码已重置',
+        body: '现在去安装 Nomu 扩展，下次用新密码登录扩展内的 AI 助手等功能。',
+        cta: '去安装 Nomu',
+        back: '返回首页',
+      },
+    },
     footer: {
       tagline: 'Nomu：一款易用的 Noon 插件',
       links: {
@@ -406,6 +455,39 @@ export default {
         docs: '文档',
       },
       license: '保留所有权利',
+    },
+    notFound: {
+      meta: {
+        title: '没找到这页 · Nomu',
+        description: 'Nomu 落地页 · 你访问的页面不在这里。',
+      },
+      quiet: {
+        eyebrow: '404',
+        title: '没找到这页',
+        body: '也许是链接拼错了，或者页面已经搬走。',
+        cta: '回到首页',
+        ctaHint: '返回 Nomu 落地页',
+        docsLabel: '查看文档',
+        supportLabel: '获取支持',
+      },
+      spatial: {
+        eyebrow: '404 · 标签飘走了',
+        title: '这页不在这儿',
+        body: '点击本来要打开的标签页已经离开这片屏幕，回到首页或去文档站都行。',
+        cta: '回到首页',
+        ctaHint: '返回 Nomu 落地页',
+        docsLabel: '查看文档',
+        supportLabel: '获取支持',
+      },
+      editorial: {
+        eyebrow: '404',
+        title: '没找到的，也可能是商品图没贴上。',
+        body: '链接失效的可能性大于 0。回到首页、装上 Nomu 或翻翻文档都行。',
+        cta: '回到首页',
+        ctaHint: '返回 Nomu 落地页',
+        docsLabel: '查看文档',
+        supportLabel: '获取支持',
+      },
     },
   },
 } as const;

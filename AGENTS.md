@@ -21,6 +21,8 @@ Nomu Chrome 扩展的对外落地页 SPA,Vue 3 + Vite + Tailwind v4,线上 `http
 
 - `/` → `src/features/landing/LandingView.vue`(主落地页)
 - `/nomu/login` → `src/features/login/NomuLoginView.vue`(无密码登录回调):读 `query.token`,调 `consumeNomuMagicLink` 转发到 `POST /v3/nomu/magic-login`,登录结果由 Nomu 扩展侧轮询拿走,**本页不写会话态**。完整契约写在 `~/Code/ReadingList/frontend/apps/vue-app/src/features/noontool/README.md`,改这一页必须同步更新那份 README
+- `/register` → `src/features/register/RegisterView.vue`(Nomu 注册页):mode 强制 'nomu',调 `POST /v3/register` + `POST /v3/email/code`,落 `src/lib/nomuRegister.ts`,**不写会话态**
+- `/forgot-password` → `src/features/forgot-password/ForgotPasswordView.vue`(Nomu 密码重置):单路由内步骤 1(邮箱)→ 步骤 2(验证码 + 新密码)切换,调 `POST /password/reset` + `POST /password/reset/confirm`(公开路由),mode 强制 'nomu',落 `src/lib/nomuPasswordReset.ts`,**不写会话态**。404「用户不存在」必须统一文案化成「验证码错误或邮箱未注册」防枚举
 
 ## 完成态
 

@@ -48,6 +48,7 @@ export default {
       },
       docs: 'Docs',
       register: 'Create account',
+      forgotPassword: 'Forgot password',
       menu: 'Menu',
       menuOpen: 'Open menu',
       menuClose: 'Close menu',
@@ -414,6 +415,54 @@ export default {
       closePage: 'Close this page',
       retry: 'Try again',
     },
+    forgotPassword: {
+      meta: {
+        title: 'Reset your Nomu password',
+        description: 'Reset your Nomu account password with an email verification code.',
+      },
+      headline: 'Reset password',
+      subheadline: 'Enter the email on your account — we will send a 6-digit code to reset your password.',
+      /* Step 1: request the reset email */
+      stepRequest: {
+        email: 'Account email',
+        submit: 'Send reset email',
+        submitting: 'Sending…',
+      },
+      /* Step 1 success: fixed wording to avoid leaking whether the email is registered */
+      requestedHint: 'If that email is registered, a reset link is on its way.',
+      requestedHintDetail: 'Grab the 6-digit code from your inbox, then come back here.',
+      /* Step 2: code + new password */
+      stepConfirm: {
+        emailLabel: 'Sent to',
+        changeEmail: 'Use a different email',
+        emailCode: 'Email code',
+        newPassword: 'New password',
+        confirmPassword: 'Confirm new password',
+        submit: 'Reset password',
+        submitting: 'Resetting…',
+      },
+      errors: {
+        emailRequired: 'Please enter your email',
+        emailInvalid: 'That email looks invalid',
+        emailCodeRequired: 'Please enter the 6-digit code',
+        newPasswordRequired: 'Please enter a new password',
+        newPasswordTooShort: 'Use at least 6 characters',
+        confirmPasswordRequired: 'Please confirm your new password',
+        passwordMismatch: "Passwords don't match",
+        /* Step 2 errors: 404 is intentionally rewritten to block account enumeration */
+        invalidCodeOrEmail: 'Code is invalid or the email is not registered',
+        sessionExpired: 'Session expired. Please request a new code.',
+        passwordSameAsOld: 'Pick a password you have not used before',
+        submitFailed: "Couldn't reset the password. Try again in a moment.",
+        networkError: 'Network error. Try again in a moment.',
+      },
+      success: {
+        title: 'Password updated',
+        body: 'Install the Nomu extension and sign in with your new password to use the AI assistant and other features.',
+        cta: 'Install Nomu',
+        back: 'Back to home',
+      },
+    },
     footer: {
       tagline: 'Nomu: an easy-to-use Chrome extension for Noon',
       links: {
@@ -423,6 +472,39 @@ export default {
         docs: 'Docs',
       },
       license: 'All rights reserved',
+    },
+    notFound: {
+      meta: {
+        title: 'Page not found · Nomu',
+        description: 'Nomu landing · The page you asked for is not here.',
+      },
+      quiet: {
+        eyebrow: '404',
+        title: 'Page not found',
+        body: 'The link may be off, or the page has moved.',
+        cta: 'Back to home',
+        ctaHint: 'Return to the Nomu landing',
+        docsLabel: 'Read the docs',
+        supportLabel: 'Get support',
+      },
+      spatial: {
+        eyebrow: '404 · Tab has drifted away',
+        title: "This page isn't here",
+        body: 'The tab you meant to open has left the screen. Head back home or open the docs.',
+        cta: 'Back to home',
+        ctaHint: 'Return to the Nomu landing',
+        docsLabel: 'Read the docs',
+        supportLabel: 'Get support',
+      },
+      editorial: {
+        eyebrow: '404',
+        title: 'Not found — or the product image never uploaded.',
+        body: 'A broken link is more likely than a missing feature. Head home, install Nomu, or read the docs.',
+        cta: 'Back to home',
+        ctaHint: 'Return to the Nomu landing',
+        docsLabel: 'Read the docs',
+        supportLabel: 'Get support',
+      },
     },
   },
 } as const;

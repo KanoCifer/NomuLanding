@@ -128,6 +128,14 @@ function onSheetKeydown(e: KeyboardEvent) {
       >
         {{ t('noonTool.nav.register') }}
       </RouterLink>
+      <!-- 忘记密码：跟 register 平级，recovery 操作；active 时跟 register 视觉一致 -->
+      <RouterLink
+        to="/forgot-password"
+        class="text-muted/80 hover:text-ink inline-flex h-9 items-center rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
+        active-class="text-ink bg-white/45"
+      >
+        {{ t('noonTool.nav.forgotPassword') }}
+      </RouterLink>
     </nav>
 
     <!-- Right cluster -->
@@ -239,6 +247,13 @@ function onSheetKeydown(e: KeyboardEvent) {
             @click="closeSheet"
           >
             <span>{{ t('noonTool.nav.register') }}</span>
+          </RouterLink>
+          <RouterLink
+            to="/forgot-password"
+            class="text-ink/85 mt-0.5 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55 active:bg-white/70"
+            @click="closeSheet"
+          >
+            <span>{{ t('noonTool.nav.forgotPassword') }}</span>
           </RouterLink>
         </nav>
 

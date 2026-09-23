@@ -28,6 +28,20 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/features/register/RegisterView.vue'),
     },
+    {
+      // Nomu 密码重置页 — 公开路由 POST /password/reset / POST /password/reset/confirm，
+      // mode 强制 'nomu'，落地页只承担 UI 不写会话态。
+      // 步骤 1（邮箱）+ 步骤 2（验证码 + 新密码）在同一路由内部切换，详见 ForgotPasswordView 顶部注释。
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: () => import('@/features/forgot-password/ForgotPasswordView.vue'),
+    },
+    {
+      // 404 catch-all — 兜底未匹配的 URL，详见 features/not-found/NotFoundView.vue 顶部注释。
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('@/features/not-found/NotFoundView.vue'),
+    },
   ],
   scrollBehavior(to) {
     if (to.hash) return { el: to.hash, behavior: 'smooth' };
