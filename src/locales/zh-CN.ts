@@ -51,7 +51,7 @@ export default {
     features: {
       eyebrow: '功能',
       sectionTitle: '采集商品，剩下的交给插件。',
-      sectionSubtitle: '翻译、图片生成、类目 AI 预测',
+      sectionSubtitle: '翻译、AI 生图、类目预测、条码标签',
       poster: {
         alt: 'Nomu 宣传海报 —— 面向 Noon 卖家的工具。在 Noon 上管理、上架、跟踪、增长。',
         caption: 'Nomu · 面向 Noon 卖家的工具 · 2026',
@@ -72,7 +72,7 @@ export default {
         },
         insights: {
           title: '业绩洞察',
-          tagline: '上架规则随便问，已经发出去的随时能导出 —— 让数据该离开浏览器时离开。',
+          tagline: '问题随时问，条码随手打，发出去的随时能导出 —— 该离开浏览器的数据，工具都给你备好了。',
         },
       },
       items: {
@@ -110,6 +110,26 @@ export default {
           title: '采集源不止 1688',
           imageAlt: '从不同源站采集商品的截图',
           body: '1688、淘宝/天猫、京东商品页可直接采集，noon.com 商品页也能作为源；其它站点可按需临时采集，不用等新版本。',
+        },
+        browse: {
+          title: '目录浏览与快捷搜索',
+          imageAlt: '侧栏浏览店铺商品目录与搜索浮层的截图',
+          body: '侧栏直接浏览当前店铺的在售与隐藏商品，任意页面按 Ctrl/⌘ + Shift + S 唤起搜索浮层，跳详情、改在售状态都在浮层里完成。',
+        },
+        design: {
+          title: 'AI 重做商品图',
+          imageAlt: 'NomuDesign 画布生成商品图的截图',
+          body: '独立画布 NomuDesign 跑商品图：提示词模板、AI 提示词优化、模型档位与历史回看都有，生成结果一键应用回商品图集。',
+        },
+        variants: {
+          title: '归组发布，尺码一次提交',
+          imageAlt: '归组与尺码变体设置界面的截图',
+          body: '同品牌的多件商品可按尺码 / 型号 / 颜色归成一组发布；标准尺码直接在单商品表单里加变体，父品和子品一次提交，不用先建父品再回头补子品。',
+        },
+        barcode: {
+          title: '条码标签随手打印',
+          imageAlt: '条码标签生成与打印界面的截图',
+          body: '给自己的 SKU 打标签，Code 128 / EAN-13 / UPC-A 都能选，单张或批量都行，直接打印或导出 SVG / PNG / ZPL 喂给标签打印机。',
         },
         tasks: {
           title: '任务面板盯全程',
@@ -152,9 +172,9 @@ export default {
           body: '店铺配置可以上传到云端、在另一台电脑上拉回来，换设备不用把设置再填一遍。',
         },
         assistant: {
-          title: 'AI 助手与右键解析',
-          imageAlt: '在页面上向 AI 助手提问的截图',
-          body: '上架规则可以直接问内置的 AI 助手；遇到没适配的页面，右键「用 AI 解析」就能把商品信息转成草稿。',
+          title: 'Nomu 助手随时问',
+          imageAlt: 'Nomu 助手流式回答的截图',
+          body: '内置助手不只是查规则：问答和商品解析都逐字流式给回，扩展弹窗和操作菜单都能进；遇到没适配的页面，右键「用 AI 解析」也能把商品转成草稿。',
         },
       },
       placeholder: {

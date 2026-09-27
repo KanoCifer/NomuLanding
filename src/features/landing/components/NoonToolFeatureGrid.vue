@@ -27,9 +27,12 @@ type FeatureKey = Extract<
   | 'pipeline'
   | 'sources'
   | 'multiAccount'
+  | 'browse'
   | 'translate'
   | 'image'
+  | 'design'
   | 'category'
+  | 'variants'
   | 'serial'
   | 'tasks'
   | 'duplicate'
@@ -40,6 +43,7 @@ type FeatureKey = Extract<
   | 'cloudPool'
   | 'sync'
   | 'assistant'
+  | 'barcode'
 >;
 
 type PillarKey = 'manage' | 'list' | 'track' | 'insights';
@@ -54,19 +58,23 @@ const pillars: Pillar[] = [
   {
     key: 'manage',
     number: '01',
-    featureKeys: ['pipeline', 'multiAccount', 'sources', 'account'],
+    featureKeys: ['pipeline', 'multiAccount', 'sources', 'browse', 'account'],
   },
   {
     key: 'list',
     number: '02',
-    featureKeys: ['translate', 'image', 'category', 'price', 'serial'],
+    featureKeys: ['translate', 'design', 'image', 'category', 'variants', 'price', 'serial'],
   },
   {
     key: 'track',
     number: '03',
     featureKeys: ['tasks', 'engine', 'duplicate', 'cloudPool', 'sync'],
   },
-  { key: 'insights', number: '04', featureKeys: ['assistant', 'export'] },
+  {
+    key: 'insights',
+    number: '04',
+    featureKeys: ['assistant', 'barcode', 'export'],
+  },
 ];
 
 /** Pillar → pose JPG, sourced from `NoonToolv1/logo/ip-mascot/intro/`.

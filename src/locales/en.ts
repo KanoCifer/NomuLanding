@@ -61,7 +61,7 @@ export default {
       eyebrow: 'Features',
       sectionTitle: 'Capture products. The extension handles the rest.',
       sectionSubtitle:
-        'Every step runs with a sensible default: automatic translation, compliant images and AI category prediction. You check the highlighted fields before anything goes out. The rest is watched for you.',
+        'Automatic translation, AI product imagery, category prediction and barcode labels. You check the highlighted fields before anything goes out. The rest is watched for you.',
       poster: {
         alt: 'Nomu promotional poster — Tool for Noon Sellers. Manage, List, Track, Grow on Noon.',
         caption: 'Nomu · Tool for Noon Sellers · 2026',
@@ -86,7 +86,7 @@ export default {
         insights: {
           title: 'Performance Insights',
           tagline:
-            'Ask anything about the listing rules, export anything you have shipped — so the numbers leave the browser when you need them to.',
+            'Ask anything, print a label on the spot, export whatever you have shipped — the tools are there for whatever has to leave the browser.',
         },
       },
       items: {
@@ -124,6 +124,26 @@ export default {
           title: 'More than 1688',
           imageAlt: 'Screenshot of capturing products from different sources',
           body: 'Capture from 1688, Taobao/Tmall, JD, and noon.com product pages; any other site can be captured on demand without waiting for a release.',
+        },
+        browse: {
+          title: 'Catalog browse and quick search',
+          imageAlt: 'Screenshot of the side-panel catalog and the search overlay',
+          body: 'Browse the current store\'s active and hidden items from the side panel, or press Ctrl/⌘ + Shift + S on any page for the search overlay, where you can jump to an item or flip its live status.',
+        },
+        design: {
+          title: 'Regenerate product imagery with AI',
+          imageAlt: 'Screenshot of NomuDesign generating a product image',
+          body: 'The NomuDesign canvas runs product imagery: prompt templates, AI prompt optimisation, model and tier selection, and history to scrub back through — then apply the result straight back to the gallery.',
+        },
+        variants: {
+          title: 'Group publishing, sizes in one submission',
+          imageAlt: 'Screenshot of the group and sizes-variant settings',
+          body: 'Same-brand items can be merged into one group along a size / model / colour axis. Standard sizes go in as variants right in the single-product form, so parent and children go out together instead of building a parent and coming back for the children.',
+        },
+        barcode: {
+          title: 'Print barcode labels on the spot',
+          imageAlt: 'Screenshot of the barcode label generator and print view',
+          body: 'Print labels for your own SKUs in Code 128, EAN-13 or UPC-A, one at a time or in batch — print straight from the page or export SVG / PNG / ZPL for your label printer.',
         },
         tasks: {
           title: 'A task panel for the whole run',
@@ -166,9 +186,9 @@ export default {
           body: 'Upload store configs to the cloud and pull them back on another computer, so a new machine does not need every setting typed again.',
         },
         assistant: {
-          title: 'AI assistant and right-click parsing',
-          imageAlt: 'Screenshot of asking the AI assistant a question on the page',
-          body: 'Ask the built-in AI assistant about listing rules directly, and on a page the tool has no adapter for, right-click to parse the product into a draft.',
+          title: 'Ask the Nomu Assistant anything',
+          imageAlt: 'Screenshot of a streaming answer from the Nomu Assistant',
+          body: 'The built-in assistant is not just a rules lookup: questions and product parsing both stream back word by word, from the extension popup or the action menu. On a page with no adapter, right-click "Parse with AI" turns the product into a draft instead.',
         },
       },
       placeholder: {
