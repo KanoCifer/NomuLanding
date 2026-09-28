@@ -11,6 +11,10 @@ const { t } = useI18n();
 const year = new Date().getFullYear();
 
 const DOCS_URL = 'https://nomu.kanocifer.chat/docs/';
+
+// 备案号固定不变,不进 i18n;工信部要求备案号跳转查询站点
+const ICP_URL = 'https://beian.miit.gov.cn/';
+const ICP_NUMBER = '粤ICP备2026018113号';
 </script>
 
 <template>
@@ -39,6 +43,11 @@ const DOCS_URL = 'https://nomu.kanocifer.chat/docs/';
         {{ t('noonTool.footer.links.docs') }}
       </a>
     </nav>
-    <p>{{ t('noonTool.footer.license') }} · © {{ year }}</p>
+    <div class="flex flex-col items-center gap-1">
+      <p>{{ t('noonTool.footer.license') }} · © {{ year }}</p>
+      <a :href="ICP_URL" target="_blank" rel="noopener noreferrer" class="hover:text-ink transition-colors">
+        {{ ICP_NUMBER }}
+      </a>
+    </div>
   </footer>
 </template>
