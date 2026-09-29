@@ -15,6 +15,7 @@
  * challenge 由步骤 1 拿到、只活在本页 ref 里，步骤 2 提交时回带给后端做会话绑定。
  */
 import { useHead } from '@vueuse/head';
+import { installUrl } from '@/constants/install';
 import axios from 'axios';
 import { Check, LoaderCircle, Mail, ShieldUser, TriangleAlert, X } from '@lucide/vue';
 import { motion, useReducedMotion } from 'motion-v';
@@ -26,7 +27,7 @@ import { confirmPasswordReset, requestPasswordReset } from '@/lib/nomuPasswordRe
 const { t } = useI18n();
 
 const SITE_URL = 'https://nomu.kanocifer.chat';
-const INSTALL_HREF = 'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
+const INSTALL_HREF = installUrl('forgot_password');
 const PRIVACY_POLICY_HREF = 'https://nomu.kanocifer.chat/docs/privacy';
 
 useHead({

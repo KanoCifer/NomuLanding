@@ -6,12 +6,13 @@
 import { useI18n } from 'vue-i18n';
 import { motion } from 'motion-v';
 import { EASE_OUT } from '@/constants/motionPresets';
+import { installUrl } from '@/constants/install';
 import { ICONS } from '../icons';
 import NoonToolScreenshot from './NoonToolScreenshot.vue';
 
 const { t } = useI18n();
 
-const installHref = 'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
+const installHref = installUrl('hero');
 const DOCS_URL = 'https://nomu.kanocifer.chat/docs/';
 
 /**

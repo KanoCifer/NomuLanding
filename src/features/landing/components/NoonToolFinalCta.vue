@@ -8,13 +8,14 @@
 import { useI18n } from 'vue-i18n';
 import { motion, useReducedMotion } from 'motion-v';
 import { EASE_OUT } from '@/constants/motionPresets';
+import { installUrl } from '@/constants/install';
 import { Share2, Check } from '@lucide/vue';
 import { useShare } from '@/composables/useShare';
 import { ICONS } from '../icons';
 
 const { t } = useI18n();
 
-const installHref = 'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
+const installHref = installUrl('final_cta');
 const shareUrl = 'https://nomu.kanocifer.chat/';
 const shareTitle = 'Nomu — Tool for Noon Sellers';
 const { copied, share } = useShare();

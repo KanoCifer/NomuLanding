@@ -12,6 +12,7 @@
  */
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
+import { installUrl } from '@/constants/install';
 import { useI18n } from 'vue-i18n';
 import { AnimatePresence, motion, useReducedMotion } from 'motion-v';
 import { EASE_OUT, EASE_IN_OUT } from '@/constants/motionPresets';
@@ -26,7 +27,7 @@ const sheetPanelRef = ref<HTMLElement | null>(null);
 let observer: IntersectionObserver | null = null;
 const reduceMotion = useReducedMotion();
 
-const installHref = 'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
+const installHref = installUrl('nav');
 const docsHref = 'https://nomu.kanocifer.chat/docs/';
 
 const sections = [

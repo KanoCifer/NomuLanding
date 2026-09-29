@@ -17,12 +17,13 @@ import { motion, useReducedMotion } from 'motion-v';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { EASE_OUT, SPRING_SNUG } from '@/constants/motionPresets';
+import { installUrl } from '@/constants/install';
 import { sendRegisterEmailCode, submitRegistration } from '@/lib/nomuRegister';
 
 const { t } = useI18n();
 
 const SITE_URL = 'https://nomu.kanocifer.chat';
-const INSTALL_HREF = 'https://chromewebstore.google.com/detail/nomu/idfojgkppleknejhenmggcnnnmdglaik';
+const INSTALL_HREF = installUrl('register');
 const PRIVACY_POLICY_HREF = 'https://nomu.kanocifer.chat/docs/privacy';
 
 useHead({
