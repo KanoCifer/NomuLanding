@@ -112,6 +112,14 @@ function onSheetKeydown(e: KeyboardEvent) {
         {{ t(s.key) }}
       </a>
       <span aria-hidden="true" class="text-muted/40 mx-1 inline-block h-3 w-px bg-current"></span>
+      <!-- 积分说明：站内页面（内容），跟 docs 分隔符同侧，不进注册那条线 -->
+      <RouterLink
+        to="/credits"
+        class="text-muted/80 hover:text-ink inline-flex h-9 items-center rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
+        active-class="text-ink bg-white/45"
+      >
+        {{ t('noonTool.nav.credits') }}
+      </RouterLink>
       <a
         :href="docsHref"
         target="_blank"
@@ -156,10 +164,10 @@ function onSheetKeydown(e: KeyboardEvent) {
                reduced motion lands straight on the swapped icon. -->
           <span class="grid overflow-hidden [grid-template-areas:'stack']">
             <ArrowRight
-              class="text-surface [grid-area:stack] size-4 transition-transform duration-200 ease-[var(--ease-out)] group-hover/cta:-translate-y-[1.35em] group-hover/cta:translate-x-[1.35em] motion-reduce:transition-none"
+              class="text-surface size-4 transition-transform duration-200 ease-[var(--ease-out)] [grid-area:stack] group-hover/cta:translate-x-[1.35em] group-hover/cta:-translate-y-[1.35em] motion-reduce:transition-none"
             />
             <ExternalLink
-              class="text-surface [grid-area:stack] size-4 -translate-x-[1.35em] translate-y-[1.35em] transition-transform duration-200 ease-[var(--ease-out)] group-hover/cta:translate-x-0 group-hover/cta:translate-y-0 motion-reduce:transition-none"
+              class="text-surface size-4 -translate-x-[1.35em] translate-y-[1.35em] transition-transform duration-200 ease-[var(--ease-out)] [grid-area:stack] group-hover/cta:translate-x-0 group-hover/cta:translate-y-0 motion-reduce:transition-none"
             />
           </span>
         </a>
@@ -243,6 +251,13 @@ function onSheetKeydown(e: KeyboardEvent) {
             <ArrowUpRight :size="16" :stroke-width="1.75" class="text-muted" aria-hidden="true" />
           </a>
           <RouterLink
+            to="/credits"
+            class="text-ink mt-0.5 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55 active:bg-white/70"
+            @click="closeSheet"
+          >
+            <span>{{ t('noonTool.nav.credits') }}</span>
+          </RouterLink>
+          <RouterLink
             to="/register"
             class="text-ink mt-0.5 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55 active:bg-white/70"
             @click="closeSheet"
@@ -269,10 +284,10 @@ function onSheetKeydown(e: KeyboardEvent) {
             Add to Chrome
             <span class="grid overflow-hidden [grid-template-areas:'stack']">
               <ArrowRight
-                class="text-surface [grid-area:stack] size-4 transition-transform duration-200 ease-[var(--ease-out)] group-hover/cta:-translate-y-[1.35em] group-hover/cta:translate-x-[1.35em] motion-reduce:transition-none"
+                class="text-surface size-4 transition-transform duration-200 ease-[var(--ease-out)] [grid-area:stack] group-hover/cta:translate-x-[1.35em] group-hover/cta:-translate-y-[1.35em] motion-reduce:transition-none"
               />
               <ExternalLink
-                class="text-surface [grid-area:stack] size-4 -translate-x-[1.35em] translate-y-[1.35em] transition-transform duration-200 ease-[var(--ease-out)] group-hover/cta:translate-x-0 group-hover/cta:translate-y-0 motion-reduce:transition-none"
+                class="text-surface size-4 -translate-x-[1.35em] translate-y-[1.35em] transition-transform duration-200 ease-[var(--ease-out)] [grid-area:stack] group-hover/cta:translate-x-0 group-hover/cta:translate-y-0 motion-reduce:transition-none"
               />
             </span>
           </a>

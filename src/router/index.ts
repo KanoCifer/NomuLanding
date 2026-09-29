@@ -4,6 +4,9 @@ import { reportVisitorData } from '@/lib/reportVisitor';
 // 防抖计时器（模块级，不挂 window）
 let reportTimer: ReturnType<typeof setTimeout> | undefined;
 
+/** 积分说明有两个路径共用，懒加载只声明一次。 */
+const CreditsView = () => import('@/features/credits/CreditsView.vue');
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -35,6 +38,18 @@ const router = createRouter({
       path: '/forgot-password',
       name: 'forgot-password',
       component: () => import('@/features/forgot-password/ForgotPasswordView.vue'),
+    },
+    // 积分说明 — 各 AI 功能消耗多少积分、怎么扣（数字镜像后端 creditPriceSeeds）。
+    // /prototype 是最初的路径，/credits 是正式叫法，两个路径进同一个组件。
+    {
+      path: '/prototype',
+      name: 'credits-prototype',
+      component: CreditsView,
+    },
+    {
+      path: '/credits',
+      name: 'credits',
+      component: CreditsView,
     },
     {
       // 404 catch-all — 兜底未匹配的 URL，详见 features/not-found/NotFoundView.vue 顶部注释。

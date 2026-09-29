@@ -23,6 +23,7 @@ Nomu Chrome 扩展的对外落地页 SPA,Vue 3 + Vite + Tailwind v4,线上 `http
 - `/nomu/login` → `src/features/login/NomuLoginView.vue`(无密码登录回调):读 `query.token`,调 `consumeNomuMagicLink` 转发到 `POST /v3/nomu/magic-login`,登录结果由 Nomu 扩展侧轮询拿走,**本页不写会话态**。完整契约写在 `~/Code/ReadingList/frontend/apps/vue-app/src/features/noontool/README.md`,改这一页必须同步更新那份 README
 - `/register` → `src/features/register/RegisterView.vue`(Nomu 注册页):mode 强制 'nomu',调 `POST /v3/register` + `POST /v3/email/code`,落 `src/lib/nomuRegister.ts`,**不写会话态**
 - `/forgot-password` → `src/features/forgot-password/ForgotPasswordView.vue`(Nomu 密码重置):单路由内步骤 1(邮箱)→ 步骤 2(验证码 + 新密码)切换,调 `POST /password/reset` + `POST /password/reset/confirm`(公开路由),mode 强制 'nomu',落 `src/lib/nomuPasswordReset.ts`,**不写会话态**。404「用户不存在」必须统一文案化成「验证码错误或邮箱未注册」防枚举
+- `/prototype`(别名 `/credits`)→ `src/features/credits/CreditsView.vue`:各 AI 功能消耗多少积分、积分怎么扣。**数字不硬编码**,由 `src/lib/creditPrices.ts` 拉 Server-Go 公开接口 `GET /v3/credits/prices`(credit_price 表的镜像,无鉴权)——调价在后端改表,这页自动跟着变。`CreditsView.vue` 里的 `PRESET` 只决定**展示哪几行 + 每行叫什么**(文案),不含任何金额。刻意不谈钱:**不出现人民币、单价、计费、付费等字眼**,也不标注等值货币。该页不用 `NoonToolNav`(那条导航的锚点指向首页分栏,在本页会落空),自己拼 header
 
 ## 完成态
 
