@@ -143,7 +143,7 @@ export default {
         barcode: {
           title: 'Print barcode labels on the spot',
           imageAlt: 'Screenshot of the barcode label generator and print view',
-          body: 'Print labels for your own SKUs in Code 128, EAN-13 or UPC-A, one at a time or in batch — print straight from the page or export SVG / PNG / ZPL for your label printer.',
+          body: 'Print labels for your own SKUs in Code 128, EAN-13 or UPC-A, one at a time or in batch — print straight from the page or export SVG / PNG / ZPL for your label printer. Working from a list of SKUs? Say so in the assistant and the whole batch comes back as a zip.',
         },
         tasks: {
           title: 'A task panel for the whole run',
@@ -188,7 +188,7 @@ export default {
         assistant: {
           title: 'Ask the Nomu Assistant anything',
           imageAlt: 'Screenshot of a streaming answer from the Nomu Assistant',
-          body: 'The built-in assistant is not just a rules lookup: questions and product parsing both stream back word by word, from the extension popup or the action menu. On a page with no adapter, right-click "Parse with AI" turns the product into a draft instead.',
+          body: 'The built-in assistant is not just a rules lookup: questions and product parsing both stream back word by word, from the extension popup or the action menu. Hand it a list of SKUs and it generates barcode labels in bulk as a zip. On a page with no adapter, right-click "Parse with AI" turns the product into a draft instead.',
         },
       },
       placeholder: {
