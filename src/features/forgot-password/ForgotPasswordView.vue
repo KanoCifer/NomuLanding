@@ -29,6 +29,7 @@ const { t } = useI18n();
 const SITE_URL = 'https://nomu.kanocifer.chat';
 const INSTALL_HREF = installUrl('forgot_password');
 const PRIVACY_POLICY_HREF = 'https://nomu.kanocifer.chat/docs/privacy';
+const TERMS_HREF = 'https://nomu.kanocifer.chat/docs/terms';
 
 useHead({
   title: () => `${t('noonTool.forgotPassword.meta.title')} · Nomu`,
@@ -491,9 +492,18 @@ function fadeUp() {
         </form>
       </section>
 
-      <!-- 底部提示 — 隐私政策（忘记密码入口已上 nav，这里不放二级入口） -->
+      <!-- 底部提示 — 用户协议与隐私政策（忘记密码入口已上 nav，这里不放二级入口） -->
       <p class="text-muted/85 mt-6 text-center text-[12px] leading-[1.55]">
         <i18n-t keypath="noonTool.register.bottomHint">
+          <template #terms>
+            <a
+              :href="TERMS_HREF"
+              target="_blank"
+              rel="noopener"
+              class="text-muted hover:text-ink hover:decoration-ink/55 underline decoration-current/35 underline-offset-[3px] transition-colors"
+              >{{ t('noonTool.register.terms') }}</a
+            >
+          </template>
           <template #privacy>
             <a
               :href="PRIVACY_POLICY_HREF"

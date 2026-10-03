@@ -200,7 +200,7 @@ export default {
         nomu: {
           name: 'Nomu 服务',
           chip: '经我们',
-          tagline: '登录后必经：账号、积分与 AI 调用走这里。',
+          tagline: '登录后必经：账号、积分与 AI 调用走这里，AI 内容再转交模型服务商。',
         },
         noon: {
           name: 'Noon',
@@ -244,7 +244,7 @@ export default {
         },
         nomuAi: {
           name: 'AI 调用内容',
-          detail: '翻译文本、生图提示词与助手提问，按次经账户服务中转。',
+          detail: '翻译文本、生图提示词与助手提问，按次转交第三方模型服务商执行；账户令牌不外发。',
         },
         productDetails: {
           name: '商品信息',
@@ -522,7 +522,8 @@ export default {
         cta: '去安装 Nomu',
         back: '返回首页',
       },
-      bottomHint: '注册即代表你同意 Nomu 的使用条款与{privacy}。',
+      bottomHint: '注册即代表你同意 Nomu 的{terms}与{privacy}。',
+      terms: '用户协议',
       privacy: '隐私政策',
     },
     login: {
@@ -589,6 +590,7 @@ export default {
       tagline: 'Nomu：一款易用的 Noon 插件',
       links: {
         privacy: '隐私',
+        terms: '用户协议',
         changelog: '更新日志',
         support: '获取支持',
         docs: '文档',

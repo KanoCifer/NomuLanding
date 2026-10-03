@@ -216,7 +216,8 @@ export default {
         nomu: {
           name: 'Nomu service',
           chip: 'Via us',
-          tagline: 'Unavoidable once signed in: account, credits and AI calls go here.',
+          tagline:
+            'Unavoidable once signed in: account, credits and AI calls go here; AI content then goes to the model provider.',
         },
         noon: {
           name: 'Noon',
@@ -261,7 +262,7 @@ export default {
         nomuAi: {
           name: 'AI call content',
           detail:
-            'Translation text, image prompts and assistant questions, relayed per call through the account service.',
+            'Translation text, image prompts and assistant questions, passed per call to third-party model providers. Your account token is not forwarded.',
         },
         productDetails: {
           name: 'Product details',
@@ -545,7 +546,8 @@ export default {
         cta: 'Install Nomu',
         back: 'Back to home',
       },
-      bottomHint: "By creating an account you agree to Nomu's terms and {privacy}.",
+      bottomHint: "By creating an account you agree to Nomu's {terms} and {privacy}.",
+      terms: 'terms of service',
       privacy: 'privacy policy',
     },
     login: {
@@ -612,6 +614,7 @@ export default {
       tagline: 'Nomu: an easy-to-use Chrome extension for Noon',
       links: {
         privacy: 'Privacy',
+        terms: 'Terms',
         changelog: 'Changelog',
         support: 'Support',
         docs: 'Docs',

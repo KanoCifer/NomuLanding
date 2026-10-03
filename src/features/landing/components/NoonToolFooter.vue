@@ -30,6 +30,10 @@ const ICP_NUMBER = '粤ICP备2026018113号';
         <component :is="ICONS.privacy" :size="12" />
         {{ t('noonTool.footer.links.privacy') }}
       </a>
+      <a :href="DOCS_URL + 'terms/'" class="hover:text-ink inline-flex items-center gap-1 transition-colors">
+        <component :is="ICONS.terms" :size="12" />
+        {{ t('noonTool.footer.links.terms') }}
+      </a>
       <a :href="DOCS_URL + 'guide/changelog'" class="hover:text-ink inline-flex items-center gap-1 transition-colors">
         <component :is="ICONS.faq" :size="12" />
         {{ t('noonTool.footer.links.changelog') }}
