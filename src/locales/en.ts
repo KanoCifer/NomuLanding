@@ -483,6 +483,23 @@ export default {
         },
       },
     },
+    services: {
+      eyebrow: 'Agency services',
+      sectionTitle: 'We handle the store-opening paperwork',
+      sectionSubtitle:
+        'VAT registration and Noon store setup, handled end to end: we prepare the documents, run the process and keep you posted.',
+      cta: 'Get in touch',
+      items: {
+        vat: {
+          title: 'VAT registration, done for you',
+          body: 'From tax number application to the filings that follow, we prepare the paperwork and track every deadline.',
+        },
+        storeSetup: {
+          title: 'Noon store setup, done for you',
+          body: 'Store documents, category choice and going live, moved forward step by step instead of left to you to work out.',
+        },
+      },
+    },
     support: {
       eyebrow: 'Support',
       sectionTitle: 'Stuck? Get in touch directly.',

@@ -6,6 +6,7 @@ import NoonToolNav from './components/NoonToolNav.vue';
 import NoonToolHero from './components/NoonToolHero.vue';
 import NoonToolFeatureGrid from './components/NoonToolFeatureGrid.vue';
 import NoonToolPrivacyPermissions from './components/NoonToolPrivacyPermissions.vue';
+import NoonToolServices from './components/NoonToolServices.vue';
 import NoonToolSupport from './components/NoonToolSupport.vue';
 import NoonToolFaq from './components/NoonToolFaq.vue';
 import NoonToolFinalCta from './components/NoonToolFinalCta.vue';
@@ -71,6 +72,7 @@ onMounted(async () => {
       <NoonToolHero />
       <NoonToolFeatureGrid id="features" />
       <NoonToolPrivacyPermissions />
+      <NoonToolServices />
       <NoonToolSupport id="support" />
       <NoonToolFaq id="faq" />
       <NoonToolFinalCta />

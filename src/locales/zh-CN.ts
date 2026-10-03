@@ -462,6 +462,22 @@ export default {
         },
       },
     },
+    services: {
+      eyebrow: '代办服务',
+      sectionTitle: '开店这几件事，我们替你办',
+      sectionSubtitle: 'VAT 税务与 Noon 开店全程代办：材料我们准备，流程我们跑，进度随时同步。',
+      cta: '咨询',
+      items: {
+        vat: {
+          title: 'VAT 注册代办',
+          body: '从税号申请到后续申报，材料我们替你准备，节点我们替你盯。',
+        },
+        storeSetup: {
+          title: 'Noon 开店代办',
+          body: '开店资料、类目选择、店铺上线，按流程一段段推进，不用自己摸索。',
+        },
+      },
+    },
     support: {
       eyebrow: '支持',
       sectionTitle: '遇到问题？',
