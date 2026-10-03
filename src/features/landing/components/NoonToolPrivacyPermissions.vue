@@ -35,9 +35,12 @@ const ROW_ICONS = {
   cookie: ICONS.browsingHistory,
   bell: ICONS.notifications,
   menu: ICONS.contextMenus,
+  user: ICONS.account,
+  cloud: ICONS.cloudPool,
+  sparkles: ICONS.assistant,
 } as const;
 
-type Dest = 'yours' | 'noon' | 'nowhere';
+type Dest = 'yours' | 'nomu' | 'noon' | 'nowhere';
 
 type ItemRow = {
   key: string;
@@ -52,6 +55,10 @@ const ROWS: ItemRow[] = [
   { key: 'batches', dest: 'yours', icon: 'package' },
   { key: 'storage', dest: 'yours', icon: 'history' },
   { key: 'alarms', dest: 'yours', icon: 'zap' },
+  // Nomu 自有服务 — 登录后必然发生，不是可选项
+  { key: 'nomuAccount', dest: 'nomu', icon: 'user' },
+  { key: 'nomuCloud', dest: 'nomu', icon: 'cloud' },
+  { key: 'nomuAi', dest: 'nomu', icon: 'sparkles' },
   // Noon — sent on action
   { key: 'productDetails', dest: 'noon', icon: 'shoppingBag' },
   { key: 'productImages', dest: 'noon', icon: 'image' },
@@ -101,6 +108,7 @@ function fade(delay = 0) {
 
 const COL_META: Record<Dest, { chipClass: string }> = {
   yours: { chipClass: 'bg-success/15 text-success' },
+  nomu: { chipClass: 'bg-accent-slate/20 text-accent-slate' },
   noon: { chipClass: 'bg-accent/30 text-accent-text' },
   nowhere: { chipClass: 'bg-muted/15 text-muted' },
 };
@@ -123,9 +131,9 @@ const COL_META: Record<Dest, { chipClass: string }> = {
       </p>
     </header>
 
-    <div class="grid gap-4 md:grid-cols-3">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <div
-        v-for="(dest, i) in ['yours', 'noon', 'nowhere'] as const"
+        v-for="(dest, i) in ['yours', 'nomu', 'noon', 'nowhere'] as const"
         :key="dest"
         v-bind="fade(0.1 + i * 0.08)"
         class="flex flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/55 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"

@@ -3,7 +3,7 @@ export default {
     meta: {
       title: 'Nomu: an easy-to-use Chrome extension for Noon',
       description:
-        'Nomu is a Chrome extension that captures products from 1688, Taobao/Tmall and JD, translates the details (Chinese to English and Arabic), prepares images, and publishes each product to Noon UAE and Saudi. Multi-store management, a task panel, store-to-store duplication and AI category suggestions are built in; store settings stay on your machine by default.',
+        'Nomu is a Chrome extension that captures products from 1688, Taobao/Tmall and JD, translates the details (Chinese to English and Arabic), prepares images, and publishes each product to Noon UAE and Saudi. Multi-store management, a task panel, store-to-store duplication and AI category suggestions are built in; sign in with a free account, and store settings stay on your machine by default.',
       keywords: [
         'Nomu',
         '1688',
@@ -22,7 +22,8 @@ export default {
       subheadline:
         "It's still the familiar purchasing page, still your Noon store. Nomu accelerates collection, translation, image processing and individual release, facilitating your operational work.",
       ctaPrimary: 'Add to Chrome',
-      ctaPrimaryHint: 'Opens the Chrome Web Store listing for a one-click install of Nomu',
+      ctaPrimaryHint:
+        'Opens the Chrome Web Store listing for a one-click install. Free to install — sign in with your email to start.',
       ctaSecondary: 'See what it does',
       ctaDocs: 'Read the docs',
       localeZh: '中文',
@@ -49,6 +50,7 @@ export default {
       docs: 'Docs',
       install: 'Add to Chrome',
       credits: 'Credits',
+      announcements: 'Announcements',
       register: 'Create account',
       forgotPassword: 'Forgot password',
       menu: 'Menu',
@@ -175,7 +177,7 @@ export default {
         account: {
           title: 'Passwordless sign-in',
           imageAlt: 'Screenshot of the email magic-link sign-in screen',
-          body: 'Sign in with a link sent to your email. No password to remember. Your session follows the account, so a new computer does not mean re-configuring stores.',
+          body: 'One email, one link, no password. Every page in the extension opens once you are signed in. Up to 5 devices per account, so a new computer does not mean re-configuring stores.',
         },
         cloudPool: {
           title: 'Move captures across devices',
@@ -203,12 +205,18 @@ export default {
     privacyPermissions: {
       eyebrow: 'Privacy & Permissions',
       sectionTitle: 'Where everything the extension touches ends up.',
-      sectionSubtitle: 'Your data is stored locally, while product data comes from Noon.',
+      sectionSubtitle:
+        "Store configs and drafts stay local, accounts and credits go to Nomu's service, product data goes to Noon.",
       cols: {
         yours: {
           name: 'Yours',
           chip: 'Local',
           tagline: 'Stored in your browser. Never uploaded unless you act.',
+        },
+        nomu: {
+          name: 'Nomu service',
+          chip: 'Via us',
+          tagline: 'Unavoidable once signed in: account, credits and AI calls go here.',
         },
         noon: {
           name: 'Noon',
@@ -242,9 +250,23 @@ export default {
           name: 'Alarms',
           detail: 'Scan pending publish / duplicate tasks on a timer so they resume.',
         },
+        nomuAccount: {
+          name: 'Account and tokens',
+          detail: 'Email, username, plus the access tokens and credit balance used to authenticate you.',
+        },
+        nomuCloud: {
+          name: 'Cloud pool',
+          detail: 'Product drafts you push yourself, for your other devices on the same account to claim.',
+        },
+        nomuAi: {
+          name: 'AI call content',
+          detail:
+            'Translation text, image prompts and assistant questions, relayed per call through the account service.',
+        },
         productDetails: {
           name: 'Product details',
-          detail: 'Title, description, attributes, price, stock. Sent only when you publish.',
+          detail:
+            "Title, description, attributes, price, stock. Sent to Noon when you publish, and to Nomu's service when you use AI product parsing or prompt optimisation.",
         },
         productImages: {
           name: 'Product images',
@@ -268,7 +290,7 @@ export default {
         },
         analytics: {
           name: 'Analytics or telemetry',
-          detail: 'No tracking pixels, no event pings, no usage beacons.',
+          detail: 'No tracking pixels or third-party analytics inside the extension.',
         },
         browsingHistory: {
           name: 'Browsing history',
@@ -327,15 +349,19 @@ export default {
       items: {
         free: {
           q: 'Is Nomu free?',
-          a: 'Part of Nomu is free. Settings and cookies stay in your own browser',
+          a: 'The extension itself is free to use and is not billed per feature. AI translation, image generation and the assistant are billed in credits. Settings and cookies stay in your own browser',
         },
         apiKey: {
           q: 'Do I need to provide a key or sign in somewhere?',
-          a: 'No. Nomu works through your existing Noon login, so you never have to enter a password or key.',
+          a: 'You never need your Noon password or a key — Nomu works through your existing Noon login. But a free Nomu account is required: sign in with a link sent to your email, no password needed.',
+        },
+        whySignIn: {
+          q: 'Why do I need to sign in? Can I try it first?',
+          a: 'The extension needs you signed in: all ten feature pages, the toolbar popup and the capture drawer on product pages show a sign-in card first. Browsing products on Taobao, Tmall, JD, 1688 and noon.com is never blocked. An account is free — sign in with a link sent to your email, no password to remember.',
         },
         regions: {
           q: 'How to install Nomu on the Purple Bird Browser?',
-          a: 'The Purple Bird Browser is not yet available on the Chrome Web Store. Please sync manually or contact me for support.',
+          a: 'Nomu is supported on the Purple Bird Browser: search for Nomu in its plugin center and install it there.',
         },
         sources: {
           q: 'Can I use sources other than 1688?',
@@ -343,11 +369,11 @@ export default {
         },
         data: {
           q: 'Where is my data stored?',
-          a: "Store configs, batches and task history stay in your browser by default. Data only travels through the tool's own service when you actively use the cloud pool, config sync or export; none of those are required to publish normally.",
+          a: "Store configs, batches and task history stay in your browser by default. Data only travels through the tool's own service when you actively use the cloud pool, config sync or export.",
         },
         ai: {
           q: 'Do AI features cost extra?',
-          a: 'The AI assistant, category suggestions and right-click parsing need a Nomu account and are billed in credits. Capture, translation and publishing work without signing in.',
+          a: 'A free Nomu account is required to use the extension. AI translation, category suggestions, image generation and right-click parsing are additionally billed in credits.',
         },
         translation: {
           q: 'How good is the translation? Should I proofread?',
@@ -357,6 +383,29 @@ export default {
           q: 'What happens if a listing fails?',
           a: 'The batch stops on the first failed item. That item is flagged in the list and can be retried on its own or fixed manually.',
         },
+      },
+    },
+    announcements: {
+      meta: {
+        title: 'Announcements',
+        description:
+          'Feature releases, version changes, maintenance windows and security notices for Nomu, newest first.',
+      },
+      eyebrow: 'Announcements',
+      title: 'Nomu announcements',
+      subheadline:
+        'New features, version updates, maintenance windows and security notices are posted here, grouped by category with the newest first. The extension overview also surfaces the ones worth acting on.',
+      loading: 'Loading announcements…',
+      loadFailed: 'Announcements are unavailable right now. Please check back later.',
+      empty: 'No announcements yet.',
+      // Keys match the backend API `type` values; no separate enum is invented here.
+      types: {
+        general: 'Notice',
+        feature: 'New feature',
+        update: 'Update',
+        maintenance: 'Maintenance',
+        security: 'Security',
+        credit: 'Credits',
       },
     },
     credits: {
@@ -461,11 +510,11 @@ export default {
       meta: {
         title: 'Create your Nomu account',
         description:
-          'Create a Nomu account to unlock the AI assistant, AI Generation, and right-click parsing — billed in credits.',
+          'Create a Nomu account to use the whole extension. The AI assistant and AI Generation are billed in credits.',
       },
       headline: 'Create your Nomu account',
       subheadline:
-        'An account unlocks the AI assistant and AI Generation. Capture and publishing still work without signing in.',
+        'An account unlocks everything in the extension: capture, publishing, the AI assistant and AI Generation.',
       form: {
         username: 'Username',
         email: 'Email',
@@ -492,7 +541,7 @@ export default {
       },
       success: {
         title: "You're in",
-        body: 'Your account is ready. Install the Nomu extension to use the AI assistant, category suggestions, and more.',
+        body: 'Your account is ready. Install the Nomu extension — sign in and capture, listing, the AI assistant and cross-device duplication are all open.',
         cta: 'Install Nomu',
         back: 'Back to home',
       },
@@ -554,7 +603,7 @@ export default {
       },
       success: {
         title: 'Password updated',
-        body: 'Install the Nomu extension and sign in with your new password to use the AI assistant and other features.',
+        body: 'Install the Nomu extension and sign in with your new password to open the whole extension.',
         cta: 'Install Nomu',
         back: 'Back to home',
       },

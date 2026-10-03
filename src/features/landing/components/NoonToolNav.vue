@@ -120,6 +120,14 @@ function onSheetKeydown(e: KeyboardEvent) {
       >
         {{ t('noonTool.nav.credits') }}
       </RouterLink>
+      <!-- 公告：同样是站内内容页，排在积分之后 -->
+      <RouterLink
+        to="/announcements"
+        class="text-muted/80 hover:text-ink inline-flex h-9 items-center rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
+        active-class="text-ink bg-white/45"
+      >
+        {{ t('noonTool.nav.announcements') }}
+      </RouterLink>
       <a
         :href="docsHref"
         target="_blank"
@@ -256,6 +264,13 @@ function onSheetKeydown(e: KeyboardEvent) {
             @click="closeSheet"
           >
             <span>{{ t('noonTool.nav.credits') }}</span>
+          </RouterLink>
+          <RouterLink
+            to="/announcements"
+            class="text-ink mt-0.5 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55 active:bg-white/70"
+            @click="closeSheet"
+          >
+            <span>{{ t('noonTool.nav.announcements') }}</span>
           </RouterLink>
           <RouterLink
             to="/register"

@@ -46,6 +46,14 @@ const router = createRouter({
       name: 'credits-prototype',
       component: CreditsView,
     },
+    // 公告归档 — 站点级通知，按 type 分组。数据源 GET /v3/announcements（公开，
+    // 无鉴权：落地页没有会话态）。/prototype 是最初的路径，/credits 是正式叫法，
+    // 公告页是后来加的独立路由，两者互不影响。
+    {
+      path: '/announcements',
+      name: 'announcements',
+      component: () => import('@/features/announcements/AnnouncementsView.vue'),
+    },
     {
       path: '/credits',
       name: 'credits',

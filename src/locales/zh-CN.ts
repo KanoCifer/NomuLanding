@@ -3,7 +3,7 @@ export default {
     meta: {
       title: 'Nomu：一款易用的 Noon 插件',
       description:
-        'Nomu 是一款 Chrome 浏览器扩展，帮你从 1688、淘宝/天猫、京东采集商品，自动整理标题、价格和图片，翻译成英文和阿拉伯语，再逐件发布到 Noon 阿联酋和沙特站。多店铺集中管理、任务面板、店铺间复制、AI 类目推荐均已内置；店铺设置默认保存在本地。',
+        'Nomu 是一款 Chrome 浏览器扩展，帮你从 1688、淘宝/天猫、京东采集商品，自动整理标题、价格和图片，翻译成英文和阿拉伯语，再逐件发布到 Noon 阿联酋和沙特站。多店铺集中管理、任务面板、店铺间复制、AI 类目推荐均已内置；注册一个免费账号即可登录使用，店铺设置默认保存在本地。',
       keywords: ['Nomu', '1688', '淘宝上架', '京东上架', 'Noon 上架', 'Noon UAE', 'Noon Saudi', '浏览器扩展'],
     },
     hero: {
@@ -13,7 +13,7 @@ export default {
       subheadline:
         '还是熟悉的采购页面，还是你的 Noon 店铺。Nomu 加速采集、翻译、图片处理和逐件发布，方便你的运营工作。',
       ctaPrimary: '添加到 Chrome',
-      ctaPrimaryHint: '跳转到 Chrome 网上应用商店，一键安装 Nomu',
+      ctaPrimaryHint: '跳转到 Chrome 网上应用商店一键安装，安装免费，用邮箱登录即可开始',
       ctaSecondary: '看看Nomu能做什么',
       ctaDocs: '查看文档',
       localeZh: '中文',
@@ -40,6 +40,7 @@ export default {
       docs: '文档',
       install: 'Add to Chrome',
       credits: '积分',
+      announcements: '公告',
       register: '注册',
       forgotPassword: '忘记密码',
       menu: '菜单',
@@ -161,7 +162,7 @@ export default {
         account: {
           title: '免密码登录',
           imageAlt: '邮箱魔法链接登录界面截图',
-          body: '用邮箱收一封登录链接即可，不用记密码；登录态跟着账号走，换台电脑不用重新配置店铺。',
+          body: '用一个邮箱收一封登录链接即可，不用记密码。登录后才能打开扩展的各个功能页；同一账号最多 5 台设备，换台电脑登录不用重新配置店铺。',
         },
         cloudPool: {
           title: '采集结果多设备流转',
@@ -189,12 +190,17 @@ export default {
     privacyPermissions: {
       eyebrow: '隐私 & 权限',
       sectionTitle: '你的数据，有清楚的去向。',
-      sectionSubtitle: '你的数据保存在本地，商品数据来自Noon',
+      sectionSubtitle: '店铺与草稿留在本地，账号与积分走 Nomu 服务，商品数据发往 Noon',
       cols: {
         yours: {
           name: '你的设备',
           chip: '本地',
           tagline: '保存在浏览器里，你不动手就不会上传。',
+        },
+        nomu: {
+          name: 'Nomu 服务',
+          chip: '经我们',
+          tagline: '登录后必经：账号、积分与 AI 调用走这里。',
         },
         noon: {
           name: 'Noon',
@@ -228,9 +234,21 @@ export default {
           name: '定时任务权限',
           detail: '定时扫描待处理的上架与复制任务，可自动续跑。',
         },
+        nomuAccount: {
+          name: '账号与令牌',
+          detail: '邮箱、用户名，以及登录后用于鉴权的访问令牌与积分余额记录。',
+        },
+        nomuCloud: {
+          name: '云端共享池',
+          detail: '你主动推送的商品草稿，供你同账号下的其他设备领取。',
+        },
+        nomuAi: {
+          name: 'AI 调用内容',
+          detail: '翻译文本、生图提示词与助手提问，按次经账户服务中转。',
+        },
         productDetails: {
           name: '商品信息',
-          detail: '标题、描述、属性、价格、库存，仅在发布时发出。',
+          detail: '标题、描述、属性、价格、库存。发布时发给 Noon；用 AI 商品解析或提示词优化时，发给 Nomu 服务。',
         },
         productImages: {
           name: '商品图片',
@@ -254,7 +272,7 @@ export default {
         },
         analytics: {
           name: '埋点与统计',
-          detail: '没有追踪像素、事件上报或埋点。',
+          detail: '扩展内没有追踪像素或第三方分析脚本。',
         },
         browsingHistory: {
           name: '浏览历史',
@@ -313,15 +331,19 @@ export default {
       items: {
         free: {
           q: 'Nomu 是免费的吗？',
-          a: '工具部分功能免费使用。设置与登录信息都留在你自己的浏览器里。',
+          a: '扩展本体免费使用，不按功能收费。AI 翻译、生图与助手按积分计费；设置与登录信息都留在你自己的浏览器里。',
         },
         apiKey: {
           q: '我需要提供任何密钥或登录授权吗？',
-          a: '不需要。Nomu 通过你已登录的 Noon 会话直接操作，你完全不用输入密码或密钥。',
+          a: '不需要 Noon 的密码或密钥——Nomu 通过你已登录的 Noon 会话直接操作。但需要一个免费的 Nomu 账户：用邮箱收一封登录链接即可，不用记密码。',
+        },
+        whySignIn: {
+          q: '为什么要登录？不能先不登录试试吗？',
+          a: '扩展需要你登录：10 个功能页、工具弹窗和商品页上的采集抽屉都会先显示登录卡。你在淘宝、天猫、京东、1688 和 noon.com 上的商品页浏览不受影响，照常使用。注册免费，用邮箱收一封登录链接即可，不用记密码。',
         },
         regions: {
           q: '紫鸟浏览器怎么安装？',
-          a: '紫鸟浏览器暂未上架，请自行同步或联系我获取支持。',
+          a: '紫鸟浏览器已支持，在紫鸟的插件中心搜索 Nomu 并安装即可。',
         },
         sources: {
           q: '除了 1688 还支持其它源吗？',
@@ -329,11 +351,11 @@ export default {
         },
         data: {
           q: '我的数据存放在哪里？',
-          a: '店铺配置、批次草稿和任务记录默认都存在本地浏览器。只有你主动使用云端共享池、配置同步或导出功能时，相关数据才会经扩展自带服务中转；这些功能都不需要也能正常上架。',
+          a: '店铺配置、批次草稿和任务记录默认都存在本地浏览器。只有你主动使用云端共享池、配置同步或导出功能时，相关数据才会经扩展自带服务中转。',
         },
         ai: {
           q: 'AI 功能要另外付费吗？',
-          a: 'AI 助手、类目推荐和右键解析需要登录 Nomu 账户，按积分计费；采集、上架等主流程不需要登录。',
+          a: '需要登录免费的 Nomu 账户才能使用扩展，AI 翻译、类目推荐、生图与右键解析另外按积分计费。',
         },
         translation: {
           q: '翻译质量如何？是否需要二次校对？',
@@ -343,6 +365,28 @@ export default {
           q: '上架失败的商品会怎样？',
           a: '批量发布中第一件失败即停止；失败的商品会在列表中标出，可单独重试或手动修改后再发布。',
         },
+      },
+    },
+    announcements: {
+      meta: {
+        title: '公告',
+        description: 'Nomu 的功能更新、版本变化、维护停机与安全公告，按时间倒序集中查看。',
+      },
+      eyebrow: '公告',
+      title: 'Nomu 的公告',
+      subheadline:
+        '新功能上线、版本更新、维护停机和安全公告都发在这里。按类别分组，时间新的在前；扩展内的总览台也会同步显示需要留意的几条。',
+      loading: '正在读取公告…',
+      loadFailed: '暂时读不到公告，稍后再来看看。',
+      empty: '暂时没有公告。',
+      /** 键名与后端 API 的 type 取值一致，不另造枚举。 */
+      types: {
+        general: '通知',
+        feature: '新功能',
+        update: '更新',
+        maintenance: '维护',
+        security: '安全',
+        credit: '积分',
       },
     },
     credits: {
@@ -444,10 +488,10 @@ export default {
     register: {
       meta: {
         title: '注册 Nomu 账号',
-        description: '注册 Nomu 账号以解锁扩展内的 AI 助手、AI 生图与右键解析，按积分计费。',
+        description: '注册 Nomu 账号以使用扩展的全部功能，AI 助手与 AI 生图按积分计费。',
       },
       headline: '注册 Nomu 账号',
-      subheadline: '注册后可使用扩展内的 AI 助手、AI 生图等功能，采集与上架等主流程无需登录。',
+      subheadline: '注册后即可使用扩展内的采集、上架与 AI 助手等全部功能。',
       form: {
         username: '用户名',
         email: '邮箱',
@@ -474,7 +518,7 @@ export default {
       },
       success: {
         title: '注册成功',
-        body: '账号已就绪。现在装上 Nomu 扩展，使用扩展内的 AI 助手、类目推荐等功能。',
+        body: '账号已就绪。现在装上 Nomu 扩展，登录后采集、上架、AI 助手、跨设备复制全部可用。',
         cta: '去安装 Nomu',
         back: '返回首页',
       },
@@ -536,7 +580,7 @@ export default {
       },
       success: {
         title: '密码已重置',
-        body: '现在去安装 Nomu 扩展，下次用新密码登录扩展内的 AI 助手等功能。',
+        body: '现在去安装 Nomu 扩展，下次用新密码登录，即可使用扩展的全部功能。',
         cta: '去安装 Nomu',
         back: '返回首页',
       },
