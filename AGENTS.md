@@ -27,7 +27,8 @@ Nomu Chrome 扩展的对外落地页,Vue 3 + Vite + Tailwind v4 + **vite-ssg 预
 
 - 入口是 `src/main.ts` 的 `ViteSSG(App, { routes, base, scrollBehavior }, setup)`,**只导出 `createApp`,不能自己 mount**。`dev`(`vite`)和生产构建共用这个文件,浏览器里自动 mount,Node 里被构建步骤调。
 - 路由表在 `src/router/routes.ts`(只导出表 + 滚动行为,router 实例由 ViteSSG 造 —— 旧的 `src/router/index.ts` 已删)。**dev、预渲染、客户端三方共用这一张表**。
-- 增删预渲染页面只改 `vite.config.ts` 的 `PRERENDER_ROUTES`:sitemap 由同一个数组生成(`sitemapPlugin`),`scripts/check-ssg.mjs` 按产物反向校验,漏改会在 build 里直接失败。
+- 增删预渲染页面只改 `vite.config.ts` 的 `PRERENDER_ROUTES`:落地页 sitemap 由同一个数组生成(`sitemapPlugin`),`scripts/check-ssg.mjs` 按产物反向校验,漏改会在 build 里直接失败。
+- **站点地图是 index 结构**,因为一个站点两个构建:落地页在本仓库,文档站是 NomuDocs(VitePress)。`/sitemap.xml` 是 `sitemapindex`,下面挂 `/landing-sitemap.xml`(本仓库产出)和 `/docs/sitemap.xml`(NomuDocs 产出),`robots.txt` 只声明 index 这一个。**不要把两边的 URL 合并到一份表里** —— 合并就得复制对方的列表,必然漂移。`/docs/sitemap.xml` 里不要再塞落地页 URL,那两页归 `/landing-sitemap.xml`。
 - 页面级 head 用 **`@unhead/vue` v2**(不是 `@vueuse/head`,后者是 unhead v1,SSR 抓不到)。函数式 `useHead({ title: () => ..., meta: () => [...] })` 客户端和 SSR 都成立。
 - **canonical / hreflang 不能写在 `index.html` 里**:那份模板会被复制到每个预渲染页面,等于告诉搜索引擎「公告页的规范版本是首页」。它们随页面走,在各 view 的 `useHead.link` 里。
 - 内容来自接口的页面(`/announcements`、`/credits`)用 `onServerPrefetch` 在构建期取数,否则烤进 HTML 的只有「加载中」。客户端 `onMounted` 照常再拉一次保证新鲜 —— **构建机需要能连上 `api.kanocifer.chat`**,接口挂了会烤出空态(页面自身有兜底,不会崩)。
@@ -41,6 +42,15 @@ Nomu Chrome 扩展的对外落地页,Vue 3 + Vite + Tailwind v4 + **vite-ssg 预
 - `/register` → `src/features/register/RegisterView.vue`(Nomu 注册页):mode 强制 'nomu',调 `POST /v3/register` + `POST /v3/email/code`,落 `src/lib/nomuRegister.ts`,**不写会话态**
 - `/forgot-password` → `src/features/forgot-password/ForgotPasswordView.vue`(Nomu 密码重置):单路由内步骤 1(邮箱)→ 步骤 2(验证码 + 新密码)切换,调 `POST /password/reset` + `POST /password/reset/confirm`(公开路由),mode 强制 'nomu',落 `src/lib/nomuPasswordReset.ts`,**不写会话态**。404「用户不存在」必须统一文案化成「验证码错误或邮箱未注册」防枚举
 - `/prototype`(别名 `/credits`)→ `src/features/credits/CreditsView.vue`:各 AI 功能消耗多少积分、积分怎么扣。**数字不硬编码**,由 `src/lib/creditPrices.ts` 拉 Server-Go 公开接口 `GET /v3/credits/prices`(credit_price 表的镜像,无鉴权)——调价在后端改表,这页自动跟着变。`CreditsView.vue` 里的 `PRESET` 只决定**展示哪几行 + 每行叫什么**(文案),不含任何金额。刻意不谈钱:**不出现人民币、单价、计费、付费等字眼**,也不标注等值货币。该页不用 `NoonToolNav`(那条导航的锚点指向首页分栏,在本页会落空),自己拼 header
+
+## 提交给搜索引擎
+
+**Google 不吃 IndexNow。** 协议参与方是 Bing、Edge 及 Yandex / Naver / Seznam 等，Google 收录只能靠 Search Console（URL 检查 / 提交 sitemap）+ 上面那份真 HTML。
+
+- key 文件:`public/<key>.txt`，文件名即 key、内容也是 key。**这是公开密钥**，IndexNow 的设计就是让它公开，用来挡乱提交而不是保密。
+- 提交:`pnpm indexnow`。URL 直接读 `dist/sitemap.xml`，不另维护列表；key 从 `public/` 下唯一那个 `.txt` 反推，所以换 key 只要换文件。
+- **顺序不能反**:改内容 → `pnpm build` → 部署 → `pnpm indexnow`。key 文件没到站点根目录时 IndexNow 返回 `202`(已接收、key 校验中);根目录能访问到但内容不对，返回 `403`。
+- 202 只代表「收到了」，不代表已收录。
 
 ## 完成态
 

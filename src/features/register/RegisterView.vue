@@ -197,9 +197,7 @@ const {
                   autocomplete="new-password"
                   :error="errors.password"
                   revealable
-                  :reveal-label="
-                    showPassword ? t('register.form.hidePassword') : t('register.form.showPassword')
-                  "
+                  :reveal-label="showPassword ? t('register.form.hidePassword') : t('register.form.showPassword')"
                   @toggle-reveal="toggleReveal"
                 />
               </motion.div>
@@ -213,9 +211,7 @@ const {
                   autocomplete="new-password"
                   :error="errors.confirmPassword"
                   revealable
-                  :reveal-label="
-                    showPassword ? t('register.form.hidePassword') : t('register.form.showPassword')
-                  "
+                  :reveal-label="showPassword ? t('register.form.hidePassword') : t('register.form.showPassword')"
                   @toggle-reveal="toggleReveal"
                 />
 

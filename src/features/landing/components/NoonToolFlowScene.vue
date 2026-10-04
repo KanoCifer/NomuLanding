@@ -26,9 +26,8 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 
 gsap.registerPlugin(MotionPathPlugin);
 
-withDefaults(defineProps<{ mascot?: string; mascotAlt?: string }>(), {
+withDefaults(defineProps<{ mascot?: string }>(), {
   mascot: '/screens/pose-browsing.png',
-  mascotAlt: '',
 });
 
 /** 对勾路径长 ≈ 20.5 */
@@ -307,7 +306,11 @@ onBeforeUnmount(() => {
       v-if="mascot"
       class="pointer-events-none absolute -right-3 -bottom-7 size-[108px] overflow-hidden rounded-[26px] shadow-[var(--shadow-float)] select-none sm:-right-5 sm:size-[130px] sm:rounded-[30px]"
     >
-      <img :src="mascot" :alt="mascotAlt" />
+      <!-- 吉祥物是装饰：含义由同一张图里 aria-hidden 的航线 SVG 演出，旁边的
+           标题也已经点名 Nomu。alt="" 才是对的，补描述等于让读屏用户把同一句话
+           听两遍。alt 一律留空，别再给这个组件加 mascotAlt —— 之前那个 prop
+           默认空串、没人传，渲染出来就是个看着像忘了填的 alt=""。 -->
+      <img :src="mascot" alt="" aria-hidden="true" />
     </div>
   </div>
 </template>

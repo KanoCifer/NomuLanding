@@ -1,13 +1,7 @@
 User-agent: *
 Allow: /
 
-# 带 token 的魔法登录回调页：每次访问都是一个全新 URL，索引它们只会浪费抓取预算
 Disallow: /nomu/login
 Disallow: /forgot-password
 
-# 落地页自己的 sitemap，由 vite-ssg 构建时生成（见 vite.config.ts 的 sitemapPlugin），
-# 覆盖 / 、/announcements 、/credits
 Sitemap: https://nomu.kanocifer.chat/sitemap.xml
-
-# 文档站 sitemap 由 docs 站（VitePress SSG）构建时生成，覆盖 /docs/ 全部页面
-Sitemap: https://nomu.kanocifer.chat/docs/sitemap.xml

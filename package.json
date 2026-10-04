@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "typecheck": "vue-tsc -b --noEmit",
     "lint": "pnpm exec oxlint src",
-    "format": "pnpm exec oxfmt ."
+    "format": "pnpm exec oxfmt .",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@lucide/vue": "^1.48.0",

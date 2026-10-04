@@ -30,8 +30,17 @@ const SITE_URL = 'https://nomu.kanocifer.chat';
 const PRERENDER_ROUTES = ['/', '/announcements', '/credits'];
 
 /**
- * 把上面那张表写成 sitemap.xml，作为构建产物发出去（而不是放 public/ 手写一份
- * 手写的迟早和路由对不上）。
+ * 一个站点两个构建：落地页在本仓库，文档站是 NomuDocs（VitePress，自带
+ * /docs/sitemap.xml）。搜索引擎要一份能覆盖两边的站点地图，标准做法是
+ * **sitemap index**——把各子 sitemap 挂在一个 index 下面，而不是互相合并
+ * （两边各自构建，合并就得复制一份别人的 URL 列表，必然漂移）。
+ *
+ *   /sitemap.xml            sitemapindex，robots.txt 只认这一个
+ *     ├── /landing-sitemap.xml   本仓库产出，PRERENDER_ROUTES 逐条
+ *     └── /docs/sitemap.xml      NomuDocs 产出，由它自己的构建维护
+ *
+ * index 里只放 sitemap 自身的 URL（页面的 URL 在子 sitemap 里），所以
+ * scripts/indexnow.mjs 读的是 landing-sitemap.xml，不是 index。
  */
 function sitemapPlugin(routes: string[]): Plugin {
   return {
@@ -48,10 +57,21 @@ function sitemapPlugin(routes: string[]): Plugin {
         })
         .join('\n');
 
+      const children = [`${SITE_URL}/landing-sitemap.xml`, `${SITE_URL}/docs/sitemap.xml`];
+
+      this.emitFile({
+        type: 'asset',
+        fileName: 'landing-sitemap.xml',
+        source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+      });
+
       this.emitFile({
         type: 'asset',
         fileName: 'sitemap.xml',
-        source: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+        source:
+          `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+          children.map((loc) => `  <sitemap>\n    <loc>${loc}</loc>\n  </sitemap>`).join('\n') +
+          `\n</sitemapindex>\n`,
       });
     },
   };

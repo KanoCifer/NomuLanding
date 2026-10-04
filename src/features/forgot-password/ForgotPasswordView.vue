@@ -333,9 +333,7 @@ function fadeUp() {
           >
             <LoaderCircle v-if="isRequesting" :size="16" :stroke-width="2.2" class="animate-spin" />
             <span>{{
-              isRequesting
-                ? t('forgotPassword.stepRequest.submitting')
-                : t('forgotPassword.stepRequest.submit')
+              isRequesting ? t('forgotPassword.stepRequest.submitting') : t('forgotPassword.stepRequest.submit')
             }}</span>
           </button>
 
@@ -469,9 +467,7 @@ function fadeUp() {
           >
             <LoaderCircle v-if="isConfirming" :size="16" :stroke-width="2.2" class="animate-spin" />
             <span>{{
-              isConfirming
-                ? t('forgotPassword.stepConfirm.submitting')
-                : t('forgotPassword.stepConfirm.submit')
+              isConfirming ? t('forgotPassword.stepConfirm.submitting') : t('forgotPassword.stepConfirm.submit')
             }}</span>
           </button>
 
