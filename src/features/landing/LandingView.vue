@@ -11,6 +11,8 @@ import NoonToolSupport from './components/NoonToolSupport.vue';
 import NoonToolFaq from './components/NoonToolFaq.vue';
 import NoonToolFinalCta from './components/NoonToolFinalCta.vue';
 import NoonToolFooter from './components/NoonToolFooter.vue';
+import { FAQ_KEYS } from './docsLinks';
+import { APP_VERSION } from '@/constants/version';
 
 const { t, tm } = useI18n();
 
@@ -21,17 +23,71 @@ const meta = computed(() => ({
 }));
 
 const SITE_URL = 'https://nomu.kanocifer.chat';
-const OG_IMAGE = `${SITE_URL}/screens/poster.png`;
+/** 1200×630 的分享图，和 index.html 模板里的是同一张。 */
+const OG_IMAGE = `${SITE_URL}/screens/og-1200x630.jpg`;
+
+/**
+ * 结构化数据只描述 Nomu 这个软件本身，所以只在 / 输出。
+ *
+ * 原先这段 JSON-LD 写在 index.html 模板里，SSG 会把模板复制到每个预渲染页面，
+ * 于是 /announcements、/credits 的 JSON-LD `url` 也指向首页 —— 三个不同的页面
+ * 声明自己是同一个实体，正是「自相矛盾的信号」那一类。
+ */
+const appSchema = computed(() => ({
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Nomu',
+  description: meta.value.description,
+  url: `${SITE_URL}/`,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Chrome',
+  softwareVersion: APP_VERSION,
+  image: OG_IMAGE,
+  inLanguage: ['zh-CN', 'en'],
+  // 扩展本体免费，AI 翻译 / 生图 / 助手按积分计费（见 FAQ free 条）。Google 的
+  // SoftwareApplication 富媒体结果要 offers 才有星级卡。
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+  author: { '@type': 'Organization', name: 'Nomu', url: `${SITE_URL}/` },
+  publisher: { '@type': 'Organization', name: 'Nomu', url: `${SITE_URL}/` },
+}));
+
+/**
+ * FAQPage —— 8 条问答是这个站最像长尾资产的正文（免费吗 / 要不要密钥 / 紫鸟怎么装
+ * / 翻译准不准），每条都是能拿排名的问句。取 FAQ_KEYS 而不是自己再列一遍：schema 里
+ * 出现、页面上没渲染的问答属于声明与内容不符，比不加更糟。
+ */
+const faqSchema = computed(() => {
+  const items = tm('landing.faq.items') as Record<string, { q: string; a: string }>;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_KEYS.map((key) => ({
+      '@type': 'Question',
+      name: items[key].q,
+      acceptedAnswer: { '@type': 'Answer', text: items[key].a },
+    })),
+  };
+});
+
+/** JSON-LD 会被原样塞进 <script>，转义 < 防文案里的尖括号提前闭合标签。 */
+function ldJson(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, '\\u003c');
+}
 
 useHead({
   title: () => meta.value.title,
   link: () => [
     { rel: 'canonical', href: `${SITE_URL}/` },
-    // hreflang 告诉搜索引擎 / 与 /en/ 是同一页面的两种语言版本。
-    // 目前只落地了中文：/en/ 还没有真页面（线上是首页的软 404），搜索引擎会
-    // 自行忽略这条指向无效 URL 的标注。等 /en/ 真的做出来，这三条才算数。
+    // 只声明真实存在的语言版本。原来这里还挂着 hreflang="en" → /en/，但 /en/ 没有
+    // 真页面：它返回首页内容，canonical 又指回首页，等于让 Google 拿到一对互相否认的
+    // URL，整组标记直接作废。文档站确实有 /docs/en/ 英文版，但那是另一批 URL，
+    // 等落地页真做了 /en/ 再把这条加回来（记得两页互相引用 + 统一用 en-US）。
     { rel: 'alternate', hreflang: 'zh-CN', href: `${SITE_URL}/` },
-    { rel: 'alternate', hreflang: 'en', href: `${SITE_URL}/en/` },
     { rel: 'alternate', hreflang: 'x-default', href: `${SITE_URL}/` },
   ],
   meta: () => [
@@ -40,15 +96,24 @@ useHead({
     { property: 'og:title', content: meta.value.title },
     { property: 'og:description', content: meta.value.description },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: SITE_URL },
+    // 带尾斜杠，和 canonical 完全一致：社交平台把 og:url 当页面身份标识，
+    // 两种写法会被当成两个页面。
+    { property: 'og:url', content: `${SITE_URL}/` },
     { property: 'og:image', content: OG_IMAGE },
-    { property: 'og:image:width', content: '1400' },
-    { property: 'og:image:height', content: '560' },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
     { property: 'og:image:alt', content: meta.value.title },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: meta.value.title },
     { name: 'twitter:description', content: meta.value.description },
     { name: 'twitter:image', content: OG_IMAGE },
+  ],
+  script: () => [
+    // id 不能省：unhead 对 script 的去重键是 `src|type+id`，两块 JSON-LD 同为
+    // application/ld+json、都没有 src，不给 id 的话客户端水合时会被当成同一个标签
+    // 合并掉一块（SSR 那一步侥幸两个都输出了，水合后就未必）。
+    { id: 'ld-software-app', type: 'application/ld+json', innerHTML: ldJson(appSchema.value) },
+    { id: 'ld-faq', type: 'application/ld+json', innerHTML: ldJson(faqSchema.value) },
   ],
 });
 

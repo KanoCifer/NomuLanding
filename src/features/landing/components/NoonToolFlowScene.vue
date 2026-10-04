@@ -27,7 +27,8 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 gsap.registerPlugin(MotionPathPlugin);
 
 withDefaults(defineProps<{ mascot?: string }>(), {
-  mascot: '/screens/pose-browsing.png',
+  // WebP：同一张 1000×1000 的 PNG 760KB → 15KB。吉祥物在首屏，这一条省得最狠
+  mascot: '/screens/pose-browsing.webp',
 });
 
 /** 对勾路径长 ≈ 20.5 */
@@ -310,7 +311,7 @@ onBeforeUnmount(() => {
            标题也已经点名 Nomu。alt="" 才是对的，补描述等于让读屏用户把同一句话
            听两遍。alt 一律留空，别再给这个组件加 mascotAlt —— 之前那个 prop
            默认空串、没人传，渲染出来就是个看着像忘了填的 alt=""。 -->
-      <img :src="mascot" alt="" aria-hidden="true" />
+      <img :src="mascot" alt="" aria-hidden="true" width="1000" height="1000" decoding="async" />
     </div>
   </div>
 </template>

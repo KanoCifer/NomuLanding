@@ -15,6 +15,29 @@ export default {
         'browser extension',
       ],
     },
+    // 文档站内链的锚文本，取各文档页自己的标题（NomuDocs frontmatter 的 title），
+    // 这样锚文本本身带信息量。key 与 docsLinks.ts 的 DOC_HREF 一一对应，改一处要改两处。
+    docsLinks: {
+      quickStart: 'Quick start',
+      account: 'Account & AI credits',
+      stores: 'Store management',
+      catalogBrowse: 'Catalog browse',
+      quickSearch: 'Quick search',
+      nomuDesign: 'NomuDesign image generation',
+      nomuAssistant: 'Nomu Assistant',
+      groupAndSizes: 'Group & sizes variants',
+      tasks: 'Task panel',
+      duplicate: 'Duplicate product',
+      cloudPool: 'Cloud pool & transfer station',
+      configSync: 'Cloud config sync',
+      barcode: 'Barcode label printing',
+      install: 'Install Nomu',
+      features: 'Features overview',
+      privacy: 'Privacy policy',
+    },
+    // 挂在功能卡 / FAQ 答案下面的链接前缀，后面接锚文本。写成参数是为了能接
+    // 「在文档里看：快速上手」这种读得通的句子，而不是两个词硬拼。
+    docsCta: 'Read the docs: ',
     hero: {
       eyebrow: 'Nomu · Chrome extension',
       headline: 'An easy-to-use',

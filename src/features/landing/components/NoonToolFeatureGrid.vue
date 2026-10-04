@@ -16,6 +16,7 @@ import { useI18n } from 'vue-i18n';
 import { motion } from 'motion-v';
 import { useReveal } from '@/composables/useReveal';
 import { ICONS, type IconKey } from '../icons';
+import { DOCS_ORIGIN, DOC_HREF, type DocKey } from '../docsLinks';
 import NoonToolOrnament from './NoonToolOrnament.vue';
 
 const { t } = useI18n();
@@ -78,17 +79,46 @@ const pillars: Pillar[] = [
   },
 ];
 
-/** Pillar → pose JPG, sourced from `NoonToolv1/logo/ip-mascot/intro/`.
+/** Pillar → pose 图，源文件在 `NoonToolv1/logo/ip-mascot/intro/`。
  *  Each pose matches the chapter's skill per PROFILE.md §4:
  *  - manage  → 浏览挑选店铺 (browsing with magnifier)
  *  - list    → 抓货上架 (carrying noon box)
  *  - track   → 跟踪订单 (peeking curiously)
- *  - insights → 复盘导出 (holding checklist, done) */
-const POSE_MAP: Record<PillarKey, string> = {
-  manage: '/screens/pose-browsing.png',
-  list: '/screens/pose-collecting.jpg',
-  track: '/screens/pose-curious.jpg',
-  insights: '/screens/pose-done.jpg',
+ *  - insights → 复盘导出 (holding checklist, done)
+ *  宽高一起存：HTML 里不写 width/height 浏览器就没法预留位置，滚动时会跳。 */
+const POSE_MAP: Record<PillarKey, { src: string; w: number; h: number }> = {
+  manage: { src: '/screens/pose-browsing.webp', w: 1000, h: 1000 },
+  list: { src: '/screens/pose-collecting.jpg', w: 256, h: 256 },
+  track: { src: '/screens/pose-curious.jpg', w: 256, h: 256 },
+  insights: { src: '/screens/pose-done.jpg', w: 256, h: 256 },
+};
+
+/**
+ * 能力卡 → 文档页。取值跟着 NomuDocs 的 `features.md` 走 —— 那张表已经把
+ * 「采集 → 上架」主线上每一环指到了详细说明，这里是它的镜像。
+ * 20 张卡覆盖 13 个文档页，是站内权重流向文档站的主要通道。
+ */
+const FEATURE_DOC: Partial<Record<FeatureKey, DocKey>> = {
+  pipeline: 'quickStart',
+  multiAccount: 'stores',
+  sources: 'quickStart',
+  browse: 'catalogBrowse',
+  account: 'account',
+  translate: 'quickStart',
+  image: 'quickStart',
+  serial: 'quickStart',
+  category: 'quickStart',
+  variants: 'groupAndSizes',
+  price: 'quickStart',
+  export: 'features',
+  design: 'nomuDesign',
+  tasks: 'tasks',
+  engine: 'tasks',
+  duplicate: 'duplicate',
+  cloudPool: 'cloudPool',
+  sync: 'configSync',
+  assistant: 'nomuAssistant',
+  barcode: 'barcode',
 };
 
 function LucideIcon(name: FeatureKey) {
@@ -120,11 +150,15 @@ const reveal = useReveal();
     <!-- Poster banner — full-width hero -->
     <motion.figure v-bind="reveal(0.08)" class="relative">
       <div class="panel overflow-hidden rounded-[28px]">
+        <!-- WebP：同一张海报 1MB PNG → 43KB。首屏最大的一块就靠这一行 -->
         <img
-          src="/screens/poster.png"
+          src="/screens/poster.webp"
           :alt="t('landing.features.poster.alt')"
           class="block h-auto w-full"
+          width="1400"
+          height="560"
           loading="eager"
+          fetchpriority="high"
           decoding="async"
         />
       </div>
@@ -155,10 +189,14 @@ const reveal = useReveal();
                    chapters, right for right-aligned) so it reads as a chapter
                    mascot rather than a centered decoration. -->
               <img
-                :src="POSE_MAP[pillar.key]"
+                :src="POSE_MAP[pillar.key].src"
+                :width="POSE_MAP[pillar.key].w"
+                :height="POSE_MAP[pillar.key].h"
                 alt=""
                 aria-hidden="true"
                 class="size-14 shrink-0 self-end rounded-xl md:size-16"
+                loading="lazy"
+                decoding="async"
               />
               <span
                 class="text-ink font-mono text-[44px] leading-none tracking-[-0.04em] md:text-[60px]"
@@ -208,6 +246,15 @@ const reveal = useReveal();
               <p class="text-muted text-[12px] leading-[1.5]">
                 {{ t(`landing.features.items.${featKey}.body`) }}
               </p>
+              <!-- 指向文档站的上下文内链。锚文本用文档页自己的标题，Google 靠它判断
+                   目标页主题；写「点击这里」等于没给信息。 -->
+              <a
+                v-if="FEATURE_DOC[featKey]"
+                :href="`${DOCS_ORIGIN}${DOC_HREF[FEATURE_DOC[featKey]!]}`"
+                class="text-accent-slate mt-auto inline-flex items-center gap-1 pt-1 text-[12px] font-medium hover:underline"
+              >
+                {{ t('landing.docsCta') }}{{ t(`landing.docsLinks.${FEATURE_DOC[featKey]}`) }}
+              </a>
             </li>
           </ul>
         </div>

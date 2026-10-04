@@ -3,5 +3,6 @@ Allow: /
 
 Disallow: /nomu/login
 Disallow: /forgot-password
+Disallow: /register
 
 Sitemap: https://nomu.kanocifer.chat/sitemap.xml

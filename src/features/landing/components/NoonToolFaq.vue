@@ -8,12 +8,15 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { motion } from 'motion-v';
 import { useReveal } from '@/composables/useReveal';
+import { DOCS_ORIGIN, DOC_HREF, FAQ_DOC, FAQ_KEYS } from '../docsLinks';
 
 const { t } = useI18n();
 
 defineProps<{ id?: string }>();
 
-const items = ['free', 'apiKey', 'regions', 'sources', 'data', 'ai', 'translation', 'failure'] as const;
+// 展示的条目来自共享表（和 LandingView 里 FAQPage 结构化数据同一份），
+// 避免 schema 里出现页面上没渲染的问答。
+const items = FAQ_KEYS;
 
 const openKeys = ref<string[]>([]);
 
@@ -68,6 +71,16 @@ const reveal = useReveal();
           <div class="min-h-0 overflow-hidden">
             <p class="text-muted px-5 pb-5 text-[14px] leading-[1.6]">
               {{ t(`landing.faq.items.${key}.a`) }}
+            </p>
+            <!-- 每条答案都指向对应的文档页：8 条问答是站内最像长尾的正文，
+                 顺带把文档站的权重接回来。锚文本是文档页自己的标题。 -->
+            <p class="px-5 pb-5">
+              <a
+                :href="`${DOCS_ORIGIN}${DOC_HREF[FAQ_DOC[key]]}`"
+                class="text-accent-slate text-[13px] font-medium hover:underline"
+              >
+                {{ t('landing.docsCta') }}{{ t(`landing.docsLinks.${FAQ_DOC[key]}`) }}
+              </a>
             </p>
           </div>
         </div>

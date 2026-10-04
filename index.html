@@ -32,16 +32,21 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Nomu" />
     <meta property="og:locale" content="zh_CN" />
-    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:title" content="Nomu:一款易用的 Noon 插件" />
     <meta
       property="og:description"
       content="Nomu 是一款 Chrome 浏览器扩展,帮你从 1688、淘宝/天猫、京东采集商品,自动整理标题、价格和图片,翻译成英文和阿拉伯语,再逐件发布到 Noon 阿联酋和沙特站。"
     />
     <meta property="og:url" content="https://nomu.kanocifer.chat/" />
-    <meta property="og:image" content="https://nomu.kanocifer.chat/screens/poster.png" />
-    <meta property="og:image:width" content="1400" />
-    <meta property="og:image:height" content="560" />
+    <!--
+      分享图单独出一张 1200×630：og 的事实标准比例是 1.91:1（Facebook / 微信 /
+      Slack），Twitter summary_large_image 是 2:1。页面里那张 poster 是 1400×560
+      的 2.5:1，两边都不匹配，而且它是 1MB 的 PNG，当分享图必然加载慢。
+      这张是它的 1200×630 等比留白版，62KB。
+    -->
+    <meta property="og:image" content="https://nomu.kanocifer.chat/screens/og-1200x630.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Nomu:一款易用的 Noon 插件" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Nomu:一款易用的 Noon 插件" />
@@ -49,25 +54,24 @@
       name="twitter:description"
       content="Nomu 是一款 Chrome 浏览器扩展,帮你从 1688、淘宝/天猫、京东采集商品,翻译后逐件发布到 Noon 阿联酋和沙特站。"
     />
-    <meta name="twitter:image" content="https://nomu.kanocifer.chat/screens/poster.png" />
+    <meta name="twitter:image" content="https://nomu.kanocifer.chat/screens/og-1200x630.jpg" />
+    <meta name="twitter:image:alt" content="Nomu:一款易用的 Noon 插件" />
 
     <!--
-      SoftwareApplication 结构化数据:让搜索结果有机会出富媒体展现(应用卡片)。
-      注意这不直接提升排名,也不解决收录问题,收录靠的是预渲染正文 + sitemap。
+      关掉 JS 的兜底：入场动效（composables/useReveal）在 SSR 输出里把二十几个内容块
+      写成内联 style="opacity:0;transform:translateY(14px)"，等 motion 接手才显现。
+      Googlebot 会跑 JS 没事，但关 JS 的用户、不少 AI 爬虫、阅读器的抓取快照看到的是
+      一张空白页。这一行在 <noscript> 里，只有关掉 JS 时才生效，把内联初始态抹掉。
+      动效本身不动 —— 它仍然是 JS 打开时的默认行为。
     -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "Nomu",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Chrome",
-        "url": "https://nomu.kanocifer.chat/",
-        "image": "https://nomu.kanocifer.chat/screens/poster.png",
-        "inLanguage": ["zh-CN", "en"],
-        "description": "Nomu 是一款 Chrome 浏览器扩展,帮你从 1688、淘宝/天猫、京东采集商品,自动整理标题、价格和图片,翻译成英文和阿拉伯语,再逐件发布到 Noon 阿联酋和沙特站。"
-      }
-    </script>
+    <noscript>
+      <style>
+        [style*='opacity:0'] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
   </head>
   <body>
     <div id="app"></div>

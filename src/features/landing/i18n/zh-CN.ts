@@ -6,6 +6,29 @@ export default {
         'Nomu 是一款 Chrome 浏览器扩展，帮你从 1688、淘宝/天猫、京东采集商品，自动整理标题、价格和图片，翻译成英文和阿拉伯语，再逐件发布到 Noon 阿联酋和沙特站。多店铺集中管理、任务面板、店铺间复制、AI 类目推荐均已内置；注册一个免费账号即可登录使用，店铺设置默认保存在本地。',
       keywords: ['Nomu', '1688', '淘宝上架', '京东上架', 'Noon 上架', 'Noon UAE', 'Noon Saudi', '浏览器扩展'],
     },
+    // 文档站内链的锚文本，取各文档页自己的标题（NomuDocs frontmatter 的 title），
+    // 这样锚文本本身带信息量。key 与 docsLinks.ts 的 DOC_HREF 一一对应，改一处要改两处。
+    docsLinks: {
+      quickStart: '快速上手',
+      account: '账户与 AI 积分',
+      stores: '店铺管理',
+      catalogBrowse: '目录浏览',
+      quickSearch: '快捷搜索',
+      nomuDesign: 'NomuDesign 商品图生图',
+      nomuAssistant: 'Nomu 助手',
+      groupAndSizes: '归组与尺寸变体组',
+      tasks: '任务面板',
+      duplicate: '复制商品',
+      cloudPool: '云端共享池与中转站',
+      configSync: '云端配置同步',
+      barcode: '条码标签打印',
+      install: '安装 Nomu',
+      features: '功能总览',
+      privacy: '隐私政策',
+    },
+    // 挂在功能卡 / FAQ 答案下面的链接前缀，后面接锚文本。写成参数是为了能接
+    // 「在文档里看：快速上手」这种读得通的句子，而不是两个词硬拼。
+    docsCta: '在文档里看：',
     hero: {
       eyebrow: 'Nomu · Chrome 浏览器扩展',
       headline: '一款易用的',
