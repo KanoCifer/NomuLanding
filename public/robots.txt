@@ -5,6 +5,9 @@ Allow: /
 Disallow: /nomu/login
 Disallow: /forgot-password
 
-# sitemap 由 docs 站（VitePress SSG）构建时生成，覆盖 /docs/ 全部页面
-# 以及落地页与注册页
+# 落地页自己的 sitemap，由 vite-ssg 构建时生成（见 vite.config.ts 的 sitemapPlugin），
+# 覆盖 / 、/announcements 、/credits
+Sitemap: https://nomu.kanocifer.chat/sitemap.xml
+
+# 文档站 sitemap 由 docs 站（VitePress SSG）构建时生成，覆盖 /docs/ 全部页面
 Sitemap: https://nomu.kanocifer.chat/docs/sitemap.xml

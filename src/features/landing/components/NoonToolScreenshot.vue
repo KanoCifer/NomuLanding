@@ -93,7 +93,7 @@ function onFigureKeydown(e: KeyboardEvent) {
       role="button"
       tabindex="0"
       :aria-label="alt"
-      class="group/zoom focus-visible:ring-ring relative block h-full w-full cursor-zoom-in overflow-hidden rounded-2xl border border-white/40 bg-white/30 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.18),0_8px_24px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-md backdrop-saturate-150 transition-shadow focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none motion-safe:hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.25),0_8px_24px_rgba(0,0,0,0.10)]"
+      class="group/zoom focus-visible:ring-ring panel relative block h-full w-full cursor-zoom-in overflow-hidden rounded-[26px] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
       @click="openPreview"
       @keydown="onFigureKeydown"
     >
@@ -113,11 +113,11 @@ function onFigureKeydown(e: KeyboardEvent) {
         :alt="props.alt"
         loading="lazy"
         decoding="async"
-        class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 motion-safe:group-hover/zoom:scale-[1.02]"
+        class="absolute inset-0 h-full w-full object-cover"
       />
 
       <span
-        class="bg-card/80 text-ink/70 pointer-events-none absolute top-3 right-3 inline-flex items-center justify-center rounded-full p-1.5 opacity-0 shadow-sm backdrop-blur transition-opacity duration-150 ease-[var(--ease-out)] group-hover/zoom:opacity-100 group-focus-visible/zoom:opacity-100"
+        class="bg-surface text-ink/60 pointer-events-none absolute top-3 right-3 inline-flex items-center justify-center rounded-full border border-[var(--hairline)] p-1.5 opacity-0 shadow-[var(--shadow-panel)] transition-opacity duration-150 ease-[var(--ease-out)] group-hover/zoom:opacity-100 group-focus-visible/zoom:opacity-100"
         aria-hidden="true"
       >
         <svg
@@ -139,7 +139,7 @@ function onFigureKeydown(e: KeyboardEvent) {
 
       <figcaption
         v-if="caption"
-        class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-3 py-2 text-xs text-white"
+        class="text-muted pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-white/90 to-transparent px-4 pt-6 pb-3 text-xs"
       >
         {{ caption }}
       </figcaption>

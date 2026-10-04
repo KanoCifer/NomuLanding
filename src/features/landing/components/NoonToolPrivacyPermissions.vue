@@ -12,9 +12,10 @@
  * Apple §12 — never stack a light translucent surface on another.
  */
 import { useI18n } from 'vue-i18n';
-import { motion, useReducedMotion } from 'motion-v';
-import { EASE_OUT } from '@/constants/motionPresets';
+import { motion } from 'motion-v';
+import { useReveal } from '@/composables/useReveal';
 import { ICONS } from '../icons';
+import NoonToolOrnament from './NoonToolOrnament.vue';
 
 const { t } = useI18n();
 
@@ -88,41 +89,27 @@ const PERM_KEYS: PermKey[] = ['storage', 'alarms', 'notifications', 'activeTab',
 // Host codes are URLs / domain names — not localizable.
 const HOST_CODES = ['noon-partners.com', 'noon-cdn.com', 'alicdn.com', 'jdimg.com', 'api.nomu.kanocifer.chat'];
 
-const reduceMotion = useReducedMotion();
-
-function fade(delay = 0) {
-  return reduceMotion.value
-    ? {
-        initial: { opacity: 0 },
-        whileInView: { opacity: 1 },
-        viewport: { once: true },
-        transition: { duration: 0.2, delay },
-      }
-    : {
-        initial: { opacity: 0, y: 12, filter: 'blur(8px)' },
-        whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
-        viewport: { once: true, margin: '0px 0px -10% 0px' },
-        transition: { duration: 0.6, ease: EASE_OUT, delay },
-      };
-}
+const reveal = useReveal();
 
 const COL_META: Record<Dest, { chipClass: string }> = {
-  yours: { chipClass: 'bg-success/15 text-success' },
-  nomu: { chipClass: 'bg-accent-slate/20 text-accent-slate' },
-  noon: { chipClass: 'bg-accent/30 text-accent-text' },
-  nowhere: { chipClass: 'bg-muted/15 text-muted' },
+  // 三个"数据会去的地方"共用品牌黄；nowhere 是唯一到不了的，留在中性灰里。
+  yours: { chipClass: 'bg-accent-wash text-accent-slate' },
+  nomu: { chipClass: 'bg-accent-wash text-accent-slate' },
+  noon: { chipClass: 'bg-accent-wash text-accent-slate' },
+  nowhere: { chipClass: 'bg-ink/[0.06] text-muted' },
 };
 </script>
 
 <template>
-  <motion.section v-bind="fade(0.05)" aria-labelledby="privacy-permissions-heading" class="space-y-12">
+  <motion.section v-bind="reveal()" aria-labelledby="privacy-permissions-heading" class="space-y-12">
     <header class="max-w-3xl space-y-3">
-      <p class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
+      <p class="text-muted rule-glyph text-[11px] font-medium tracking-[0.22em] uppercase">
+        <NoonToolOrnament />
         {{ t('noonTool.privacyPermissions.eyebrow') }}
       </p>
       <h2
         id="privacy-permissions-heading"
-        class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[52px] md:tracking-[-0.035em]"
+        class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[48px] md:tracking-[-0.035em]"
       >
         {{ t('noonTool.privacyPermissions.sectionTitle') }}
       </h2>
@@ -132,13 +119,13 @@ const COL_META: Record<Dest, { chipClass: string }> = {
     </header>
 
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <div
+      <motion.div
         v-for="(dest, i) in ['yours', 'nomu', 'noon', 'nowhere'] as const"
         :key="dest"
-        v-bind="fade(0.1 + i * 0.08)"
-        class="flex flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/55 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"
+        v-bind="reveal(0.06 + i * 0.05)"
+        class="panel flex flex-col overflow-hidden rounded-[22px]"
       >
-        <header class="flex items-center justify-between gap-2 border-b border-white/40 px-5 py-4">
+        <header class="flex items-center justify-between gap-2 border-b border-[var(--hairline)] px-5 py-4">
           <h3 class="text-ink text-[15px] font-semibold tracking-[-0.01em]">
             {{ t(`noonTool.privacyPermissions.cols.${dest}.name`) }}
           </h3>
@@ -149,13 +136,13 @@ const COL_META: Record<Dest, { chipClass: string }> = {
             {{ t(`noonTool.privacyPermissions.cols.${dest}.chip`) }}
           </span>
         </header>
-        <p class="text-muted border-b border-white/40 px-5 py-3 text-[12px] leading-[1.45]">
+        <p class="text-muted border-b border-[var(--hairline)] px-5 py-3 text-[12px] leading-[1.45]">
           {{ t(`noonTool.privacyPermissions.cols.${dest}.tagline`) }}
         </p>
         <ul class="space-y-3 px-5 py-4">
           <li v-for="row in ROWS.filter((r) => r.dest === dest)" :key="row.key" class="flex gap-3">
             <span
-              class="text-accent-text inline-flex size-7 shrink-0 items-center justify-center rounded-lg border border-white/60 bg-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
+              class="bg-accent-wash text-accent-slate inline-flex size-7 shrink-0 items-center justify-center rounded-[10px]"
               aria-hidden="true"
             >
               <component :is="ROW_ICONS[row.icon]" :size="13" :stroke-width="1.75" />
@@ -170,11 +157,11 @@ const COL_META: Record<Dest, { chipClass: string }> = {
             </div>
           </li>
         </ul>
-      </div>
+      </motion.div>
     </div>
 
-    <motion.div v-bind="fade(0.3)" class="space-y-4">
-      <header class="flex items-baseline justify-between gap-4">
+    <motion.div v-bind="reveal(0.24)" class="space-y-4">
+      <header class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h3 class="text-ink text-[20px] font-semibold tracking-[-0.015em]">
           {{ t('noonTool.privacyPermissions.permissionsStrip.title') }}
         </h3>
@@ -186,23 +173,22 @@ const COL_META: Record<Dest, { chipClass: string }> = {
         <div
           v-for="(pk, i) in PERM_KEYS"
           :key="pk"
-          v-bind="fade(0.32 + i * 0.04)"
-          class="group/pill text-ink inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/55 px-3 py-2 text-[12px] font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-md backdrop-saturate-150 transition-all hover:bg-white/75"
+          v-bind="reveal(0.26 + i * 0.03)"
+          class="group/pill panel inline-flex items-center gap-2 rounded-full px-3 py-2 text-[12px] font-medium"
         >
           <component
             :is="ROW_ICONS[PERM_ICONS[pk]]"
             :size="13"
             :stroke-width="1.75"
-            class="text-accent-text"
+            class="text-accent-slate"
             aria-hidden="true"
           />
-          <span>{{ t(`noonTool.privacyPermissions.permissionsStrip.perms.${pk}.label`) }}</span>
+          <span class="text-ink">{{ t(`noonTool.privacyPermissions.permissionsStrip.perms.${pk}.label`) }}</span>
           <span
-            class="text-muted max-w-0 overflow-hidden text-[11px] whitespace-nowrap opacity-0 transition-all duration-200 ease-out group-hover/pill:max-w-[280px] group-hover/pill:opacity-100"
+            class="text-muted max-w-0 overflow-hidden text-[11px] whitespace-nowrap opacity-0 transition-all duration-200 ease-[var(--ease-out)] group-hover/pill:max-w-[280px] group-hover/pill:opacity-100"
             aria-hidden="true"
           >
-            &nbsp;—
-            {{ t(`noonTool.privacyPermissions.permissionsStrip.perms.${pk}.detail`) }}
+            &nbsp;— {{ t(`noonTool.privacyPermissions.permissionsStrip.perms.${pk}.detail`) }}
           </span>
         </div>
       </div>
@@ -212,7 +198,7 @@ const COL_META: Record<Dest, { chipClass: string }> = {
         <code
           v-for="h in HOST_CODES"
           :key="h"
-          class="text-ink/80 rounded-md border border-white/40 bg-white/40 px-2 py-0.5 font-mono text-[11px]"
+          class="text-ink/80 bg-card/70 rounded-md border border-[var(--hairline)] px-2 py-0.5 font-mono text-[11px]"
           >{{ h }}</code
         >
       </div>

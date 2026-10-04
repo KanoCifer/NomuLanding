@@ -8,11 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--
-      SEO meta 静态写死在这里,不依赖 JS。
-      原因是本站是纯 CSR:爬虫拿到的初始 HTML 里如果只有空 <div id="app">,
-      就等于一个没有任何标题和描述的空白页。LandingView.vue 里的 useHead 只在
-      JS 执行后生效,百度这类 JS 渲染能力弱的爬虫基本读不到。
-      文案与 src/locales/zh-CN.ts 的 noonTool.meta 保持一致,改文案时两边同步。
+      SEO meta 写死在这里，作为模板兜底，不依赖 JS。
+      预渲染的路径（/、/announcements、/credits、/prototype）会由 @unhead/vue
+      按页面覆写这些 title/description/og —— 爬虫拿到的就是成品 HTML。
+      这里保留一份是因为 CSR 外壳页（/register、/forgot-password、/nomu/login）
+      仍然只有这个模板，搜索引擎和 JS 关闭的用户至少能读到标题与描述。
+      文案与 src/locales/zh-CN.ts 的 noonTool.meta 保持一致，改文案时两边同步。
     -->
     <title>Nomu:一款易用的 Noon 插件</title>
     <meta
@@ -20,12 +21,12 @@
       content="Nomu 是一款 Chrome 浏览器扩展,帮你从 1688、淘宝/天猫、京东采集商品,自动整理标题、价格和图片,翻译成英文和阿拉伯语,再逐件发布到 Noon 阿联酋和沙特站。多店铺集中管理、任务面板、店铺间复制、AI 类目推荐均已内置;注册一个免费账号即可登录使用,店铺设置默认保存在本地。"
     />
     <meta name="keywords" content="Nomu, 1688, 淘宝上架, 京东上架, Noon 上架, Noon UAE, Noon Saudi, 浏览器扩展" />
-    <link rel="canonical" href="https://nomu.kanocifer.chat/" />
 
-    <!-- hreflang:告诉搜索引擎 / 与 /en/ 是同一页面的两种语言版本 -->
-    <link rel="alternate" hreflang="zh-CN" href="https://nomu.kanocifer.chat/" />
-    <link rel="alternate" hreflang="en" href="https://nomu.kanocifer.chat/en/" />
-    <link rel="alternate" hreflang="x-default" href="https://nomu.kanocifer.chat/" />
+    <!--
+      canonical 与 hreflang 不在这里：SSG 会把这份模板复制到每个预渲染页面，
+      写死等于告诉搜索引擎「公告页的规范版本是首页」。它们随页面走，在
+      LandingView.vue / AnnouncementsView.vue / CreditsView.vue 的 useHead 里。
+    -->
 
     <!-- 社交分享卡片:微信、Telegram、Slack 等都读 og:* -->
     <meta property="og:type" content="website" />
@@ -52,7 +53,7 @@
 
     <!--
       SoftwareApplication 结构化数据:让搜索结果有机会出富媒体展现(应用卡片)。
-      注意这不直接提升排名,也不解决收录问题,收录靠的是上面的静态 meta + 预渲染正文。
+      注意这不直接提升排名,也不解决收录问题,收录靠的是预渲染正文 + sitemap。
     -->
     <script type="application/ld+json">
       {

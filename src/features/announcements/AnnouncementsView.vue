@@ -8,9 +8,9 @@
  *
  * 内容全部来自 `GET /v3/announcements`，页面上没有硬编码公告。
  */
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import { motion, useReducedMotion } from 'motion-v';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onServerPrefetch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import dayjs from 'dayjs';
 import NoonToolFooter from '../landing/components/NoonToolFooter.vue';
@@ -26,6 +26,7 @@ const installHref = installUrl('announcements');
 
 useHead({
   title: () => `${t('noonTool.announcements.meta.title')} · Nomu`,
+  link: () => [{ rel: 'canonical', href: `${SITE_URL}/announcements` }],
   meta: () => [
     { name: 'description', content: t('noonTool.announcements.meta.description') },
     { property: 'og:title', content: `${t('noonTool.announcements.meta.title')} · Nomu` },
@@ -39,7 +40,7 @@ const loading = ref(true);
 const failed = ref(false);
 const reduced = useReducedMotion();
 
-onMounted(async () => {
+async function load() {
   try {
     items.value = await fetchAnnouncements();
   } catch {
@@ -48,7 +49,13 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
-});
+}
+
+// SSG 预渲染时 onMounted 不会跑，只靠它的话烤进 HTML 的只有「正在读取公告…」。
+// onServerPrefetch 负责构建期取数，客户端挂载后再拉一次保证新鲜（接口本身有
+// max-age=3600，这里不额外绕缓存策略）。
+onServerPrefetch(load);
+onMounted(load);
 
 /** 按 type 分组，组内保持时间倒序。组序按接口白名单固定，不随数据量抖动。 */
 const GROUPS: AnnouncementType[] = ['maintenance', 'security', 'feature', 'update', 'credit', 'general'];
@@ -96,7 +103,7 @@ function stamp(iso: string): string {
 
 <template>
   <div class="bg-page min-h-screen">
-    <div class="mx-auto max-w-[900px] space-y-16 px-4 pt-10 pb-16 md:px-8 md:pt-14">
+    <div class="mx-auto max-w-[1180px] space-y-20 px-4 pt-10 pb-16 md:space-y-24 md:px-8 md:pt-14">
       <!-- 顶部：logo 回首页 + 语言切换 + 安装。不用落地页的浮动导航，
            那条导航的锚点指向首页分栏，在本页会落空。 -->
       <header class="flex items-center justify-between gap-3">
@@ -177,8 +184,7 @@ function stamp(iso: string): string {
       </div>
 
       <NoonToolSupport />
+      <NoonToolFooter />
     </div>
-
-    <NoonToolFooter />
   </div>
 </template>

@@ -1,6 +1,6 @@
 # Nomu Landing
 
-Nomu Chrome 扩展的对外落地页 SPA,Vue 3 + Vite + Tailwind v4,线上 `https://nomu.kanocifer.chat`。
+Nomu Chrome 扩展的对外落地页,Vue 3 + Vite + Tailwind v4 + **vite-ssg 预渲染**,线上 `https://nomu.kanocifer.chat`。
 
 ## 起点
 
@@ -17,6 +17,19 @@ Nomu Chrome 扩展的对外落地页 SPA,Vue 3 + Vite + Tailwind v4,线上 `http
 
 **Footer 联动**:`src/features/landing/components/NoonToolFooter.vue` 里 `DOCS_URL` 拼出 NomuDocs(`~/Code/NomuDocs`)的 `/docs/`、`/docs/privacy/`、`/docs/guide/changelog`、`/docs/guide/support`。本站 footer 改了要去 NomuDocs 对应路由同步,反过来也成立。
 
+## 预渲染(SSG)
+
+`/announcements` `/credits` `/prototype`(别名 /credits)之外的落地页正文**不是**运行时渲染的:`pnpm build` 走 `vite-ssg build`,在 Node 里逐条路由渲染出 `dist/<path>/index.html`(`dirStyle: 'nested'`),爬虫拿到的是成品 HTML。
+
+- 入口是 `src/main.ts` 的 `ViteSSG(App, { routes, base, scrollBehavior }, setup)`,**只导出 `createApp`,不能自己 mount**。`dev`(`vite`)和生产构建共用这个文件,浏览器里自动 mount,Node 里被构建步骤调。
+- 路由表在 `src/router/routes.ts`(只导出表 + 滚动行为,router 实例由 ViteSSG 造 —— 旧的 `src/router/index.ts` 已删)。**dev、预渲染、客户端三方共用这一张表**。
+- 增删预渲染页面只改 `vite.config.ts` 的 `PRERENDER_ROUTES`:sitemap 由同一个数组生成(`sitemapPlugin`),`scripts/check-ssg.mjs` 按产物反向校验,漏改会在 build 里直接失败。
+- 页面级 head 用 **`@unhead/vue` v2**(不是 `@vueuse/head`,后者是 unhead v1,SSR 抓不到)。函数式 `useHead({ title: () => ..., meta: () => [...] })` 客户端和 SSR 都成立。
+- **canonical / hreflang 不能写在 `index.html` 里**:那份模板会被复制到每个预渲染页面,等于告诉搜索引擎「公告页的规范版本是首页」。它们随页面走,在各 view 的 `useHead.link` 里。
+- 内容来自接口的页面(`/announcements`、`/credits`)用 `onServerPrefetch` 在构建期取数,否则烤进 HTML 的只有「加载中」。客户端 `onMounted` 照常再拉一次保证新鲜 —— **构建机需要能连上 `api.kanocifer.chat`**,接口挂了会烤出空态(页面自身有兜底,不会崩)。
+- SSR 阶段没有 `document` / `window` / `localStorage`。碰浏览器 API 的代码要么放进 `onMounted`(SSR 不执行),要么显式守卫 —— `src/components/Modal.vue` 那个 `immediate: true` 的 watch 就是现成的例子。
+- **语言**:`SSG` 一次只烤得出中文这一份 HTML,i18n 固定 `locale: 'zh-CN'` 起;用户实际语言由 `src/App.vue` 在 `onMounted` 后切。首帧必须跟着水合产物走,否则英文用户拿英文首帧去水合中文 HTML,Vue 判定不匹配会整块重渲染,SSG 收益归零。代价是英文用户会看到一瞬中文。
+
 ## 路由
 
 - `/` → `src/features/landing/LandingView.vue`(主落地页)
@@ -28,5 +41,6 @@ Nomu Chrome 扩展的对外落地页 SPA,Vue 3 + Vite + Tailwind v4,线上 `http
 ## 完成态
 
 - 改文案或组件:`pnpm typecheck` 通过,`pnpm lint` 0 error
-- 改路由或 footer:`pnpm build`,浏览器肉眼抽查新路径未 404
+- 改路由或 footer:`pnpm build`(末尾自动跑 `scripts/check-ssg.mjs` 校验预渲染产物),浏览器肉眼抽查新路径未 404
 - 部署:`bash deploy.sh`(默认 rsync `dist/` 到 `kano@114.132.156.53:/home/kano/Nomu/Landing`);`SKIP_BUILD=1` 跳过 build,`DRY_RUN=1` 仅打印。**部署是线上行为,用户没确认不跑**
+- 线上 nginx 片段在 `deploy/nginx-nomu.conf`,**用户自己上服务器合**,合完必须让不存在的路径真 404,否则 SSG 白做

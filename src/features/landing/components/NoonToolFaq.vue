@@ -6,8 +6,8 @@
  */
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { motion, useReducedMotion } from 'motion-v';
-import { EASE_OUT } from '@/constants/motionPresets';
+import { motion } from 'motion-v';
+import { useReveal } from '@/composables/useReveal';
 
 const { t } = useI18n();
 
@@ -21,26 +21,11 @@ function toggle(key: string) {
   openKeys.value = openKeys.value.includes(key) ? openKeys.value.filter((k) => k !== key) : [...openKeys.value, key];
 }
 
-const reduceMotion = useReducedMotion();
-
-function sectionFadeUp() {
-  return reduceMotion.value
-    ? {
-        initial: { opacity: 0 },
-        whileInView: { opacity: 1 },
-        viewport: { once: true },
-      }
-    : {
-        initial: { opacity: 0, y: 20, filter: 'blur(10px)' },
-        whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
-        viewport: { once: true, margin: '0px 0px -15% 0px' },
-        transition: { duration: 0.7, ease: EASE_OUT },
-      };
-}
+const reveal = useReveal();
 </script>
 
 <template>
-  <motion.section v-bind="sectionFadeUp()" :id="id" aria-labelledby="faq-heading" class="space-y-8">
+  <motion.section v-bind="reveal()" :id="id" aria-labelledby="faq-heading" class="space-y-8">
     <header class="text-center">
       <h2
         id="faq-heading"
@@ -54,14 +39,12 @@ function sectionFadeUp() {
       <div
         v-for="key in items"
         :key="key"
-        class="overflow-hidden rounded-2xl border border-white/50 bg-white/55 shadow-[0_4px_24px_-12px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 transition-shadow hover:shadow-[0_8px_32px_-12px_rgba(0,0,0,0.12)]"
-        :class="{
-          'shadow-[0_8px_32px_-12px_rgba(0,0,0,0.14)]': openKeys.includes(key),
-        }"
+        class="panel overflow-hidden rounded-[18px]"
+        :class="{ 'shadow-[var(--shadow-panel-hover)]': openKeys.includes(key) }"
       >
         <button
           type="button"
-          class="text-ink flex w-full items-center gap-3 px-5 py-4 text-left text-[14px] font-medium transition-colors hover:bg-white/40"
+          class="text-ink hover:bg-accent-wash flex w-full items-center gap-3 px-5 py-4 text-left text-[14px] font-medium transition-colors duration-150"
           :aria-expanded="openKeys.includes(key)"
           :aria-controls="`faq-${key}-panel`"
           @click="toggle(key)"
@@ -79,11 +62,11 @@ function sectionFadeUp() {
         </button>
         <div
           :id="`faq-${key}-panel`"
-          class="grid transition-[grid-template-rows] duration-200 ease-out"
+          class="grid transition-[grid-template-rows] duration-250 ease-[var(--ease-out)]"
           :class="[openKeys.includes(key) ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]']"
         >
           <div class="min-h-0 overflow-hidden">
-            <p class="text-muted px-5 pb-5 text-[14px] leading-[1.55]">
+            <p class="text-muted px-5 pb-5 text-[14px] leading-[1.6]">
               {{ t(`noonTool.faq.items.${key}.a`) }}
             </p>
           </div>

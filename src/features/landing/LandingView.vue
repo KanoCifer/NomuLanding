@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import NoonToolNav from './components/NoonToolNav.vue';
 import NoonToolHero from './components/NoonToolHero.vue';
 import NoonToolFeatureGrid from './components/NoonToolFeatureGrid.vue';
@@ -25,6 +25,15 @@ const OG_IMAGE = `${SITE_URL}/screens/poster.png`;
 
 useHead({
   title: () => meta.value.title,
+  link: () => [
+    { rel: 'canonical', href: `${SITE_URL}/` },
+    // hreflang 告诉搜索引擎 / 与 /en/ 是同一页面的两种语言版本。
+    // 目前只落地了中文：/en/ 还没有真页面（线上是首页的软 404），搜索引擎会
+    // 自行忽略这条指向无效 URL 的标注。等 /en/ 真的做出来，这三条才算数。
+    { rel: 'alternate', hreflang: 'zh-CN', href: `${SITE_URL}/` },
+    { rel: 'alternate', hreflang: 'en', href: `${SITE_URL}/en/` },
+    { rel: 'alternate', hreflang: 'x-default', href: `${SITE_URL}/` },
+  ],
   meta: () => [
     { name: 'description', content: meta.value.description },
     { name: 'keywords', content: meta.value.keywords },
@@ -62,7 +71,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="bg-page min-h-screen">
+  <!-- grain = 极淡噪点(纸感)；page-glow = 两团径向光，给纯白底一点前后景 -->
+  <div class="bg-page grain page-glow min-h-screen">
     <!-- Floating translucent chrome (Spatial design) — sticks to the top of viewport,
          stays above content as the user scrolls. Apple "vibrancy" feel. -->
     <NoonToolNav />

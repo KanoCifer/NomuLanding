@@ -6,12 +6,13 @@
  * of abrupt. Apple closer pattern: title + body on the left, single CTA right.
  */
 import { useI18n } from 'vue-i18n';
-import { motion, useReducedMotion } from 'motion-v';
-import { EASE_OUT } from '@/constants/motionPresets';
+import { motion } from 'motion-v';
+import { useReveal } from '@/composables/useReveal';
 import { installUrl } from '@/constants/install';
 import { Share2, Check } from '@lucide/vue';
 import { useShare } from '@/composables/useShare';
 import { ICONS } from '../icons';
+import NoonToolOrnament from './NoonToolOrnament.vue';
 
 const { t } = useI18n();
 
@@ -23,37 +24,22 @@ function onShare() {
   return share(shareUrl, shareTitle);
 }
 
-const reduceMotion = useReducedMotion();
-
-function sectionFadeUp() {
-  return reduceMotion.value
-    ? {
-        initial: { opacity: 0 },
-        whileInView: { opacity: 1 },
-        viewport: { once: true },
-      }
-    : {
-        initial: { opacity: 0, y: 20, filter: 'blur(10px)' },
-        whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
-        viewport: { once: true, margin: '0px 0px -15% 0px' },
-        transition: { duration: 0.7, ease: EASE_OUT },
-      };
-}
+const reveal = useReveal();
 </script>
 
 <template>
-  <motion.section v-bind="sectionFadeUp()" aria-labelledby="final-cta-heading">
+  <motion.section v-bind="reveal()" aria-labelledby="final-cta-heading">
     <div
-      class="flex flex-col items-center justify-between gap-8 rounded-[28px] border border-white/50 bg-white/55 px-8 py-12 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 md:flex-row md:items-center md:px-12 md:py-16"
+      class="bg-surface flex flex-col items-center justify-between gap-8 rounded-[32px] border border-[var(--hairline)] px-8 py-12 shadow-[var(--shadow-float)] md:flex-row md:items-center md:px-14 md:py-16"
     >
       <div class="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
-        <div class="flex items-center gap-2">
-          <img src="/icon/48.png" alt="Nomu" class="h-6 w-6 rounded-md" />
-          <span class="text-ink text-base font-semibold tracking-tight">Nomu</span>
-        </div>
+        <p class="text-muted rule-glyph text-[11px] font-medium tracking-[0.22em] uppercase">
+          <NoonToolOrnament tone="accent" />
+          {{ t('noonTool.finalCta.eyebrow') }}
+        </p>
         <h2
           id="final-cta-heading"
-          class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[52px] md:tracking-[-0.035em]"
+          class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[48px] md:tracking-[-0.035em]"
         >
           {{ t('noonTool.finalCta.title') }}
         </h2>
@@ -66,7 +52,7 @@ function sectionFadeUp() {
           :href="installHref"
           target="_blank"
           rel="noopener"
-          class="group/cta focus-visible:ring-ring bg-accent text-contrast inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-7 py-4 text-[15px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.45)] transition-all hover:brightness-105 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.98]"
+          class="group/cta focus-visible:ring-ring bg-accent text-contrast inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-[15px] font-semibold shadow-[var(--shadow-accent)] transition-[transform,box-shadow,filter] duration-200 ease-[var(--ease-out)] hover:-translate-y-px hover:brightness-[1.03] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none active:translate-y-0 active:scale-[0.98]"
           :title="t('noonTool.finalCta.hint')"
         >
           <span class="grid size-4 shrink-0 place-items-center overflow-hidden [grid-template-areas:'stack']">
@@ -83,7 +69,7 @@ function sectionFadeUp() {
         </a>
         <button
           type="button"
-          class="text-muted hover:text-ink inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45 focus-visible:ring-2 focus-visible:ring-[var(--accent-slate)] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.97]"
+          class="text-muted hover:text-ink hover:bg-accent-wash inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] focus-visible:ring-2 focus-visible:ring-[var(--accent-slate)] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.97]"
           :aria-label="copied ? t('noonTool.share.copied') : t('noonTool.share.label')"
           @click="onShare"
         >

@@ -116,6 +116,9 @@ function unlockScroll() {
 watch(
   () => props.open,
   (isOpen) => {
+    // immediate: true 让回调在 setup 阶段就跑一次，SSG 预渲染时没有 document。
+    // lockScroll / unlockScroll 各自有守卫，挂锁 / 解锁是同一个开关，直接挡在入口。
+    if (typeof document === 'undefined') return;
     if (isOpen) {
       lockScroll();
       document.addEventListener('keydown', onKeydown);

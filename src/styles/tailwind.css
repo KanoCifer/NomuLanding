@@ -6,6 +6,7 @@
   --color-surface: var(--surface);
   --color-card: var(--card);
   --color-secondary: var(--secondary);
+  --color-cream: var(--cream);
   --color-ink: var(--ink);
   --color-muted: var(--muted-text);
   --color-border: var(--border);
@@ -21,12 +22,82 @@
   --color-warning: var(--warning);
   /* 落地页 focus-visible:ring-ring 依赖，博客与扩展的 @theme 都没有 */
   --color-ring: var(--accent-slate);
+
+  /* 黄的稀释档：chip 底、wash 底。品牌只有黄一个色相，中性由 --surface 阶梯负责。 */
+  --color-accent-wash: oklch(0.9321 0.1974 104.65 / 0.16);
+  --color-accent-wash-strong: oklch(0.9321 0.1974 104.65 / 0.3);
 }
 
-/* 裸 border（不带颜色 token）走柔和阴影当描边，保留博客行为 */
+/* 裸 border（不带颜色 token）走柔和阴影当描边，保留博客行为。
+   刻意维持 transparent：这条规则是全局的，Modal / Card 也在射程内，
+   落地页的面板一律显式写 border-[var(--hairline)]，不需要靠它取形。 */
 @layer base {
   :where([class~='border']) {
     border-color: transparent;
     box-shadow: var(--smooth-shadow-sm);
+  }
+}
+
+@layer components {
+  /* 全站唯一的面板表面写法。
+     落地页从前到后十几个面板各写一遍长串 border-white/50 + shadow-[inset_…]，
+     白底上"玻璃叠玻璃"几乎看不出效果，只剩一堆重复 class 和逐屏的模糊开销。
+     这里收成一处：大圆角 + 极淡 hairline + 一道有落差的实心阴影。
+     页面底是白的，面板靠 hairline 定形、靠阴影浮起，不靠模糊。 */
+  .panel {
+    border-radius: var(--radius-panel, 1.5rem);
+    border: 1px solid var(--hairline);
+    background-color: var(--surface);
+    box-shadow: var(--shadow-panel);
+    transition:
+      box-shadow 0.35s var(--ease-out),
+      border-color 0.35s var(--ease-out);
+  }
+
+  /* 悬停只升一档阴影 + 描边略实，不位移、不缩放 */
+  .panel-hover:hover {
+    border-color: oklch(0.18 0.02 95 / 0.14);
+    box-shadow: var(--shadow-panel-hover);
+  }
+
+  /* 分节 eyebrow 前的小标记，统一各分节的开头节奏 */
+  .rule-glyph {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+}
+
+@layer utilities {
+  /* 颗粒噪点。纯白 + 柔影的组合容易显得"数码",一层极淡的噪点把它拉回纸感。
+     内联 SVG feTurbulence,零请求。 */
+  .grain::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* 页面氛围：两团极淡的径向光（顶部阳光黄、底部冷白）压在纯白底上。
+     页面底色仍是白,只是让"白"有前后景,首屏和页尾不会糊成一张纸。 */
+  .page-glow {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .page-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(58rem 34rem at 50% -8%, oklch(0.9321 0.1974 104.65 / 0.22), transparent 70%),
+      radial-gradient(46rem 30rem at 88% 62%, oklch(0.62 0.16 240 / 0.07), transparent 72%),
+      radial-gradient(40rem 26rem at 6% 88%, oklch(0.72 0.18 75 / 0.08), transparent 70%);
   }
 }

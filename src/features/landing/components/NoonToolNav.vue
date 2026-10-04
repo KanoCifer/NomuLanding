@@ -3,8 +3,13 @@
  * Floating translucent chrome (Apple "vibrancy") — sticks to the top of viewport.
  *
  * Layout across breakpoints:
- * - ≥ md:  [logo] [anchor links + docs] [locale + CTA]
- * - < md:  [logo] [hamburger that opens a sheet with links + locale + CTA]
+ * - ≥ xl:  [logo] [anchor links + docs] [locale + CTA]
+ * - < xl:  [logo] [hamburger that opens a sheet with links + locale + CTA]
+ *
+ * 断点从 md 提到 xl：bar 上有 9 条入口（3 个分节锚点 + 文档 + 积分 + 公告 +
+ * 注册 + 找回密码 + 语言），英文文案下 768–1024px 必然换行，logo 会被第一条
+ * 链接压穿；提到 lg 之后 1024–1279px 也只剩几十像素余量。干脆收到 xl：
+ * 1280px 以上单行 nav，以下走抽屉（抽屉里 9 条入口都在，不丢内容）。
  *
  * Material hierarchy: heavier blur on this bigger surface; light-edge highlight on top
  * reads as light catching the material. Anchor links smooth-scroll to section ids;
@@ -23,8 +28,10 @@ const { t } = useI18n();
 
 const scrolled = ref(false);
 const mobileOpen = ref(false);
+const activeSection = ref<string | null>(null);
 const sheetPanelRef = ref<HTMLElement | null>(null);
 let observer: IntersectionObserver | null = null;
+let sectionObserver: IntersectionObserver | null = null;
 const reduceMotion = useReducedMotion();
 
 const installHref = installUrl('nav');
@@ -36,7 +43,7 @@ const sections = [
   { id: 'faq', key: 'noonTool.nav.sections.faq' },
 ] as const;
 
-onMounted(() => {
+onMounted(async () => {
   const sentinel = document.getElementById('nav-scroll-sentinel');
   if (!sentinel || typeof IntersectionObserver === 'undefined') return;
   observer = new IntersectionObserver(
@@ -47,11 +54,37 @@ onMounted(() => {
     { threshold: 0 },
   );
   observer.observe(sentinel);
+
+  // 分节高亮。分节在 Nav 之后渲染，onMounted 里拿不到它们的元素，等一次 tick。
+  await nextTick();
+  const ids = sections.map((s) => s.id);
+  const els = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => el !== null);
+  if (!els.length) return;
+
+  // 记着当前还落在触发带里的分节。只靠 isIntersecting 的话，滚过 FAQ 进入
+  // FinalCta 的那一段 FAQ 已经离开触发带，高亮会突然消失 —— 所以全空时保持上一个。
+  const onScreen = new Set<string>();
+  sectionObserver = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        const id = (e.target as HTMLElement).id;
+        if (e.isIntersecting) onScreen.add(id);
+        else onScreen.delete(id);
+      }
+      const hit = ids.find((id) => onScreen.has(id));
+      if (hit) activeSection.value = hit;
+    },
+    // 触发带上沿压在 sticky bar 下面，下沿留在视口中段，滚过头一分节就该熄。
+    { rootMargin: '-96px 0px -60% 0px' },
+  );
+  els.forEach((el) => sectionObserver?.observe(el));
 });
 
 onBeforeUnmount(() => {
   observer?.disconnect();
   observer = null;
+  sectionObserver?.disconnect();
+  sectionObserver = null;
   document.body.style.overflow = '';
 });
 
@@ -92,7 +125,7 @@ function onSheetKeydown(e: KeyboardEvent) {
 
 <template>
   <header
-    class="sticky top-3 z-40 mx-auto flex max-w-[1180px] items-center justify-between rounded-full border border-white/45 bg-white/50 px-3 py-2 shadow-[0_10px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur-xl backdrop-saturate-150 transition-[background-color,box-shadow] duration-200 ease-[var(--ease-out)] motion-safe:data-[scrolled=true]:bg-white/82 motion-safe:data-[scrolled=true]:shadow-[0_12px_36px_-10px_rgba(0,0,0,0.16),inset_0_1px_0_rgba(255,255,255,0.75)] md:px-4"
+    class="sticky top-3 z-40 mx-auto flex max-w-295 items-center justify-between rounded-full border border-(--hairline) bg-white/65 px-3 py-2 shadow-(--shadow-panel) backdrop-blur-xl backdrop-saturate-150 transition-[background-color,box-shadow] duration-200 ease-[var(--ease-out)] motion-safe:data-[scrolled=true]:bg-white/95 motion-safe:data-[scrolled=true]:shadow-[var(--shadow-panel-hover)] xl:px-4"
     :data-scrolled="scrolled ? 'true' : 'false'"
   >
     <!-- Left: logo -->
@@ -102,12 +135,14 @@ function onSheetKeydown(e: KeyboardEvent) {
     </a>
 
     <!-- Desktop center: section anchors + docs -->
-    <nav class="hidden items-center md:flex">
+    <nav class="hidden items-center xl:flex">
       <a
         v-for="s in sections"
         :key="s.id"
         :href="`#${s.id}`"
-        class="text-muted hover:text-ink inline-flex h-9 items-center rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
+        :aria-current="activeSection === s.id ? 'true' : undefined"
+        :class="activeSection === s.id ? 'text-ink bg-accent-wash' : 'text-muted hover:text-ink hover:bg-accent-wash'"
+        class="inline-flex h-9 items-center rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
       >
         {{ t(s.key) }}
       </a>
@@ -115,16 +150,16 @@ function onSheetKeydown(e: KeyboardEvent) {
       <!-- 积分说明：站内页面（内容），跟 docs 分隔符同侧，不进注册那条线 -->
       <RouterLink
         to="/credits"
-        class="text-muted/80 hover:text-ink inline-flex h-9 items-center rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
-        active-class="text-ink bg-white/45"
+        class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
+        active-class="text-ink bg-accent-wash"
       >
         {{ t('noonTool.nav.credits') }}
       </RouterLink>
       <!-- 公告：同样是站内内容页，排在积分之后 -->
       <RouterLink
         to="/announcements"
-        class="text-muted/80 hover:text-ink inline-flex h-9 items-center rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
-        active-class="text-ink bg-white/45"
+        class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
+        active-class="text-ink bg-accent-wash"
       >
         {{ t('noonTool.nav.announcements') }}
       </RouterLink>
@@ -132,7 +167,7 @@ function onSheetKeydown(e: KeyboardEvent) {
         :href="docsHref"
         target="_blank"
         rel="noopener"
-        class="text-muted/80 hover:text-ink inline-flex h-9 items-center gap-1 rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
+        class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center gap-1 rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
       >
         {{ t('noonTool.nav.docs') }}
         <span aria-hidden="true" class="text-[10px] leading-none">↗</span>
@@ -140,16 +175,16 @@ function onSheetKeydown(e: KeyboardEvent) {
       <!-- 注册：站内 SPA 路由，跟 docs 平级但不开新 tab（站内跳转同窗口即可） -->
       <RouterLink
         to="/register"
-        class="text-muted/80 hover:text-ink inline-flex h-9 items-center rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
-        active-class="text-ink bg-white/45"
+        class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
+        active-class="text-ink bg-accent-wash"
       >
         {{ t('noonTool.nav.register') }}
       </RouterLink>
       <!-- 忘记密码：跟 register 平级，recovery 操作；active 时跟 register 视觉一致 -->
       <RouterLink
         to="/forgot-password"
-        class="text-muted/80 hover:text-ink inline-flex h-9 items-center rounded-full px-3 text-[13px] transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/45"
-        active-class="text-ink bg-white/45"
+        class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
+        active-class="text-ink bg-accent-wash"
       >
         {{ t('noonTool.nav.forgotPassword') }}
       </RouterLink>
@@ -158,7 +193,7 @@ function onSheetKeydown(e: KeyboardEvent) {
     <!-- Right cluster -->
     <div class="flex items-center gap-1.5">
       <!-- Locale + CTA: desktop only inline; mobile moves into the sheet -->
-      <div class="hidden items-center gap-2 md:flex">
+      <div class="hidden items-center gap-2 xl:flex">
         <NoonToolLocaleSwitch />
         <a
           :href="installHref"
@@ -184,7 +219,7 @@ function onSheetKeydown(e: KeyboardEvent) {
       <!-- Mobile: hamburger -->
       <button
         type="button"
-        class="text-ink inline-flex size-10 items-center justify-center rounded-full transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/55 focus-visible:ring-2 focus-visible:ring-[var(--accent-slate)] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.96] md:hidden"
+        class="text-ink inline-flex size-10 items-center justify-center rounded-full transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/55 focus-visible:ring-2 focus-visible:ring-[var(--accent-slate)] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.96] xl:hidden"
         :aria-label="mobileOpen ? t('noonTool.nav.menuClose') : t('noonTool.nav.menuOpen')"
         :aria-expanded="mobileOpen"
         aria-controls="nav-mobile-sheet"
@@ -205,7 +240,7 @@ function onSheetKeydown(e: KeyboardEvent) {
         :animate="{ opacity: 1 }"
         :exit="{ opacity: 0 }"
         :transition="sheetTransition"
-        class="fixed inset-0 z-30 bg-[var(--scrim)]/35 backdrop-blur-sm md:hidden"
+        class="fixed inset-0 z-30 bg-[var(--scrim)]/35 backdrop-blur-sm xl:hidden"
         @click="closeSheet"
       />
 
@@ -221,7 +256,7 @@ function onSheetKeydown(e: KeyboardEvent) {
         :animate="{ opacity: 1, y: 0 }"
         :exit="{ opacity: 0, y: -12 }"
         :transition="sheetTransition"
-        class="fixed inset-x-3 top-[70px] z-40 origin-top overflow-hidden rounded-2xl border border-white/55 bg-white/85 shadow-[0_24px_60px_-18px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 md:hidden"
+        class="fixed inset-x-3 top-[70px] z-40 origin-top overflow-hidden rounded-2xl border border-white/55 bg-white/85 shadow-[0_24px_60px_-18px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 xl:hidden"
         @keydown="onSheetKeydown"
       >
         <header class="flex items-center justify-between border-b border-white/40 px-4 py-2.5">

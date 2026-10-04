@@ -14,7 +14,7 @@
  *
  * challenge 由步骤 1 拿到、只活在本页 ref 里，步骤 2 提交时回带给后端做会话绑定。
  */
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import { installUrl } from '@/constants/install';
 import axios from 'axios';
 import { Check, LoaderCircle, Mail, ShieldUser, TriangleAlert, X } from '@lucide/vue';
@@ -181,15 +181,9 @@ async function handleConfirm() {
     if (data && typeof data === 'object') {
       const obj = data as Record<string, unknown>;
       const codeMsg = Array.isArray(obj.email_code) ? (obj.email_code[0] as string | undefined) : undefined;
-      const newPwdMsg = Array.isArray(obj.new_password)
-        ? (obj.new_password[0] as string | undefined)
-        : undefined;
+      const newPwdMsg = Array.isArray(obj.new_password) ? (obj.new_password[0] as string | undefined) : undefined;
       const topMsg =
-        typeof obj.message === 'string'
-          ? obj.message
-          : typeof obj.error === 'string'
-            ? obj.error
-            : undefined;
+        typeof obj.message === 'string' ? obj.message : typeof obj.error === 'string' ? obj.error : undefined;
       if (codeMsg) confirmErrors.value.emailCode = codeMsg;
       if (newPwdMsg) confirmErrors.value.newPassword = newPwdMsg;
       if (topMsg) {
@@ -320,7 +314,9 @@ function fadeUp() {
                 autocomplete="email"
                 :placeholder="t('noonTool.forgotPassword.stepRequest.email')"
                 class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-3 pl-10 text-[15px] transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
-                :class="{ '!border-destructive focus:!border-destructive focus:!ring-destructive/30': requestErrors.email }"
+                :class="{
+                  '!border-destructive focus:!border-destructive focus:!ring-destructive/30': requestErrors.email,
+                }"
                 required
               />
             </div>
@@ -365,9 +361,7 @@ function fadeUp() {
           </div>
 
           <!-- 邮件已发送提示 -->
-          <div
-            class="bg-card text-muted border-border/60 rounded-xl border px-3 py-2 text-[12px] leading-[1.5]"
-          >
+          <div class="bg-card text-muted border-border/60 rounded-xl border px-3 py-2 text-[12px] leading-[1.5]">
             <p>{{ t('noonTool.forgotPassword.requestedHint') }}</p>
             <p>{{ t('noonTool.forgotPassword.requestedHintDetail') }}</p>
           </div>

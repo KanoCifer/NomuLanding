@@ -12,7 +12,7 @@
  *
  * 文案跟随 app 语言（vue-i18n，缺省英文）；来自后端的 err.message 保留原文。
  */
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import { Check, LoaderCircle, TriangleAlert } from '@lucide/vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

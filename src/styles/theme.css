@@ -11,9 +11,13 @@
     scrollbar-color: #888 #f1f1f1; /* 滑块颜色 轨道颜色 */
   }
 
-  /* 表面层级: page(页面底) → surface(主卡片) → card(嵌套容器) → secondary(控件)
-     暖灰底色（轻黄褐 hue 95），让 Noon 黄更"安家"。 */
+  /* 品牌主色: Noon 黄 (PROFILE.md §5 ≈ #FCD646) —— 全站唯一色相,其余全是中性灰。
+     --cream 只给插图里的 Nomu 身体用,不参与页面底色。 */
+  --accent: oklch(0.9321 0.1974 104.65);
+  --cream: oklch(0.978 0.0243 86.6); /* #FFF7E6 奶白,仅插图内 */
 
+  /* 表面层级: page(页面底) → surface(主卡片) → card(嵌套容器) → secondary(控件)
+     页面底保持白,面板靠中性柔影浮起来,不做大面积底色。 */
   --page: oklch(1 0.003 95);
   --surface: oklch(1 0 0);
   --card: oklch(0.9735 0 81.59);
@@ -25,8 +29,9 @@
   --muted-text: oklch(0.5 0.02 95);
 
   /* 边框 / 焦点环
-     焦点环用主色同色相降饱和，避免亮黄在白底晃眼。 */
+     hairline 是中性极淡描边,比 border token 更轻,给内部细分隔用。 */
   --border: oklch(0.89 0.015 95);
+  --hairline: oklch(0.18 0.02 95 / 0.08);
   --accent-slate: oklch(0.7 0.13 95);
 
   /* 主色: Noon 黄
@@ -34,7 +39,6 @@
      --accent-text 是文字/图标专用的暖金 (L 0.82),在白底上 APCA 对比度足够;
      --accent-slate 是更深的版本,给焦点环和低饱和小字用。
      contrast 是黄底文字色。 */
-  --accent: oklch(0.9321 0.1974 104.65);
   --accent-text: oklch(0.82 0.18 95);
   --contrast: oklch(0.18 0.02 95);
   --scrim: oklch(0.18 0.02 95);
@@ -59,26 +63,25 @@
   --gradient-decorative-from: oklch(0.9321 0.1974 104.65);
   --gradient-decorative-to: oklch(0.18 0.02 95);
 
-  /* 阴影 */
-  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.08);
-  --shadow-drawer: -16px 0 40px rgba(0, 0, 0, 0.1);
-  --shadow-accent: 0 1px 2px 0 oklch(0.84 0.21 95 / 0.35), 0 4px 12px -2px oklch(0.84 0.21 95 / 0.45);
-  --smooth-shadow-xs: 0 0 4px 0 rgba(0, 0, 0, 0.04);
-  --smooth-shadow-sm:
-    0 18px 47px 0 rgba(0, 0, 0, 0.03), 0 7.5px 19px 0 rgba(0, 0, 0, 0.02), 0 4px 10.5px 0 rgba(0, 0, 0, 0.02),
-    0 2.3px 5.8px 0 rgba(0, 0, 0, 0.01), 0 1.2px 3.1px 0 rgba(0, 0, 0, 0.01), 0 0.5px 1.3px 0 rgba(0, 0, 0, 0.01);
-  --smooth-shadow-md:
-    0 17.54px 23.39px 0 rgba(0, 0, 0, 0.04), 0 9.4px 12.5px 0 rgba(0, 0, 0, 0.03), 0 5.25px 7px 0 rgba(0, 0, 0, 0.02),
-    0 2.79px 3.72px -2px rgba(0, 0, 0, 0.01), 0 1.16px 1.5px 0 rgba(0, 0, 0, 0.01);
-  --smooth-shadow-lg:
-    0 25px 50px 0 rgba(0, 0, 0, 0.05), 0 12px 24px 0 rgba(0, 0, 0, 0.04), 0 6px 12px 0 rgba(0, 0, 0, 0.03),
-    0 3px 6px 0 rgba(0, 0, 0, 0.02), 0 1.5px 3px 0 rgba(0, 0, 0, 0.02);
-  --smooth-shadow-xl:
-    0 40px 80px 0 rgba(0, 0, 0, 0.06), 0 20px 40px 0 rgba(0, 0, 0, 0.05), 0 10px 20px 0 rgba(0, 0, 0, 0.04),
-    0 5px 10px 0 rgba(0, 0, 0, 0.03), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
-  --smooth-shadow-2xl:
-    0 60px 120px 0 rgba(0, 0, 0, 0.07), 0 30px 60px 0 rgba(0, 0, 0, 0.06), 0 15px 30px 0 rgba(0, 0, 0, 0.05),
-    0 7.5px 15px 0 rgba(0, 0, 0, 0.04), 0 3px 6px 0 rgba(0, 0, 0, 0.03);
+  /* 阴影 —— 全部换成单色中性黑。原来是七层 rgba(0,0,0,0.01~0.07) 叠出来的
+     "smooth-shadow" 阶梯，在白底上逐层几乎不可见，只是白付了六层滤镜的钱。
+     改成三档有明确落差的实心阴影，面板才真的浮得起来。 */
+  --shadow-soft: 0 1px 2px oklch(0.2 0 0 / 0.06);
+  --shadow-drawer: -16px 0 40px oklch(0.2 0 0 / 0.12);
+  --shadow-accent: 0 2px 6px -2px oklch(0.86 0.19 100 / 0.4), 0 10px 26px -10px oklch(0.86 0.19 100 / 0.5);
+
+  /* 面板三档:rest / hover / float。hover 只升一档,靠 motion 过渡,不做缩放。 */
+  --shadow-panel: 0 1px 2px oklch(0.2 0 0 / 0.04), 0 10px 30px -14px oklch(0.2 0 0 / 0.14);
+  --shadow-panel-hover: 0 2px 4px oklch(0.2 0 0 / 0.05), 0 22px 46px -18px oklch(0.2 0 0 / 0.2);
+  --shadow-float: 0 4px 10px oklch(0.2 0 0 / 0.05), 0 40px 90px -28px oklch(0.2 0 0 / 0.26);
+  --shadow-inset-top: inset 0 1px 0 oklch(1 0 0 / 0.9);
+
+  --smooth-shadow-xs: 0 0 4px 0 oklch(0.2 0 0 / 0.04);
+  --smooth-shadow-sm: 0 12px 28px -16px oklch(0.2 0 0 / 0.16);
+  --smooth-shadow-md: 0 16px 40px -18px oklch(0.2 0 0 / 0.2);
+  --smooth-shadow-lg: 0 24px 56px -22px oklch(0.2 0 0 / 0.24);
+  --smooth-shadow-xl: 0 36px 76px -28px oklch(0.2 0 0 / 0.28);
+  --smooth-shadow-2xl: 0 48px 100px -32px oklch(0.2 0 0 / 0.32);
 
   /* Motion — shared curves (see AUDIT.md §2) */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -86,7 +89,8 @@
 
   /* 品牌色别名（保留旧名以兼容仍引用这些 token 的代码） */
   --color-noon-yellow: oklch(0.9321 0.1974 104.65); /* 品牌原色 Noon 黄 */
-  --color-noon-black: oklch(0.18 0.02 95); /* → 新 ink */
+  --color-noon-black: var(--ink); /* → 新 ink(深紫) */
+  --color-noon-cream: var(--cream); /* → 奶白 */
 
   font-family:
     'OPPOSans',

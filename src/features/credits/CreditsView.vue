@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * CreditsView — /prototype（别名 /credits）
+ * CreditsView — /credits
  *
  * 积分消耗说明。刻意不谈钱：只写「做什么动作、扣多少积分、怎么扣」。
  * 数字来自 Server-Go 公开接口 GET /v3/credits/prices（credit_price 表的镜像），
@@ -8,9 +8,9 @@
  *
  * 前端只负责「展示哪几行 + 每行叫什么」，这两件事属于文案，不属于数据。
  */
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import { motion, useReducedMotion } from 'motion-v';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onServerPrefetch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import NoonToolFooter from '../landing/components/NoonToolFooter.vue';
 import NoonToolLocaleSwitch from '../landing/components/NoonToolLocaleSwitch.vue';
@@ -27,11 +27,12 @@ const installHref = installUrl('credits');
 
 useHead({
   title: () => `${t('noonTool.credits.meta.title')} · Nomu`,
+  link: () => [{ rel: 'canonical', href: `${SITE_URL}/credits` }],
   meta: () => [
     { name: 'description', content: t('noonTool.credits.meta.description') },
     { property: 'og:title', content: `${t('noonTool.credits.meta.title')} · Nomu` },
     { property: 'og:description', content: t('noonTool.credits.meta.description') },
-    { property: 'og:url', content: `${SITE_URL}/prototype` },
+    { property: 'og:url', content: `${SITE_URL}/credits` },
   ],
 });
 
@@ -100,14 +101,20 @@ interface Row {
 const prices = ref<CreditPrice[] | null>(null);
 const loadFailed = ref(false);
 
-onMounted(async () => {
+async function load() {
   try {
     prices.value = await fetchCreditPrices();
   } catch (err) {
     console.error('[Nomu] credit prices request failed:', err);
     loadFailed.value = true;
   }
-});
+}
+
+// 数字只在接口里，SSG 预渲染时 onMounted 不跑，所以构建期得先取一次，
+// 否则烤进 HTML 的只有「正在加载…」，这一页对搜索引擎就等于空页。
+// 客户端挂载后再拉一次，调价不需要重新部署。
+onServerPrefetch(load);
+onMounted(load);
 
 const rows = computed<Row[]>(() => {
   const items = prices.value;

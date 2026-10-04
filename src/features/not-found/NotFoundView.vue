@@ -24,7 +24,7 @@
  */
 import { motion, useReducedMotion } from 'motion-v';
 import { useI18n } from 'vue-i18n';
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import { EASE_OUT } from '@/constants/motionPresets';
 import NoonToolNav from '@/features/landing/components/NoonToolNav.vue';
 import NoonToolFooter from '@/features/landing/components/NoonToolFooter.vue';
@@ -56,9 +56,7 @@ const introContainer = {
 
 const introItem = {
   variants: {
-    hidden: reduceMotion.value
-      ? { opacity: 0 }
-      : { opacity: 0, y: 12, filter: 'blur(8px)' },
+    hidden: reduceMotion.value ? { opacity: 0 } : { opacity: 0, y: 12, filter: 'blur(8px)' },
     visible: {
       opacity: 1,
       y: 0,
@@ -82,10 +80,7 @@ const supportHref = 'https://nomu.kanocifer.chat/docs/guide/support';
         class="flex min-h-[60vh] flex-col items-center justify-center px-6 py-20 text-center"
       >
         <motion.div v-bind="introContainer" class="flex max-w-xl flex-col items-center">
-          <motion.p
-            v-bind="introItem"
-            class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase"
-          >
+          <motion.p v-bind="introItem" class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
             {{ t('noonTool.notFound.quiet.eyebrow') }}
           </motion.p>
 
@@ -104,17 +99,11 @@ const supportHref = 'https://nomu.kanocifer.chat/docs/guide/support';
             {{ t('noonTool.notFound.quiet.title') }}
           </motion.h2>
 
-          <motion.p
-            v-bind="introItem"
-            class="text-muted mt-3 max-w-md text-[15px] leading-[1.55]"
-          >
+          <motion.p v-bind="introItem" class="text-muted mt-3 max-w-md text-[15px] leading-[1.55]">
             {{ t('noonTool.notFound.quiet.body') }}
           </motion.p>
 
-          <motion.div
-            v-bind="introItem"
-            class="mt-9 flex flex-wrap items-center justify-center gap-2"
-          >
+          <motion.div v-bind="introItem" class="mt-9 flex flex-wrap items-center justify-center gap-2">
             <RouterLink
               to="/"
               :aria-label="t('noonTool.notFound.quiet.ctaHint')"

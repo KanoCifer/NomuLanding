@@ -9,16 +9,24 @@
  *
  * 落地页不承担会话态：注册成功只显示成功卡 + 跳转安装链接，不落 cookie / token；
  * 已注册账号后续登录走 /nomu/login 的魔法链接（NomuLoginView），与本页正交。
+ *
+ * 这一层只排版。两步状态机、每步校验、倒计时、后端错误映射、动效参数全在
+ * `useRegisterForm` 里 —— 视图不该知道「验证码要等 60 秒」或「第 2 步从右侧
+ * 滑入」这类事，改它们不用来翻这个 400 行的模板。
+ *
+ * 视觉：单栏窄列（25rem）浮在 RegisterScene 铺开的画面上。画是整片页面底色，
+ * 不再是一块带边框的面板；表单用磨砂材质承住背后的光。黄色在这一页当**光**用 ——
+ * CTA 与画里那张发光的验证码卡是仅有的两处，其余全是中性色。
  */
-import { useHead } from '@vueuse/head';
-import axios from 'axios';
-import { Check, LoaderCircle, Mail, ShieldUser, TriangleAlert, X } from '@lucide/vue';
-import { motion, useReducedMotion } from 'motion-v';
-import { computed, onMounted, ref } from 'vue';
+import { useHead } from '@unhead/vue';
+import { ArrowRight, LoaderCircle, TriangleAlert } from '@lucide/vue';
+import { AnimatePresence, motion } from 'motion-v';
 import { useI18n } from 'vue-i18n';
-import { EASE_OUT, SPRING_SNUG } from '@/constants/motionPresets';
 import { installUrl } from '@/constants/install';
-import { sendRegisterEmailCode, submitRegistration } from '@/lib/nomuRegister';
+import NoonToolLocaleSwitch from '../landing/components/NoonToolLocaleSwitch.vue';
+import RegisterScene from './RegisterScene.vue';
+import TextField from './TextField.vue';
+import { useRegisterForm } from './useRegisterForm';
 
 const { t } = useI18n();
 
@@ -37,482 +45,297 @@ useHead({
   ],
 });
 
-const reduceMotion = useReducedMotion();
-
-/* ---------- 表单状态 ---------- */
-
-interface FormState {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  emailCode: string;
-}
-
-interface ErrorState {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  emailCode: string;
-  submit: string;
-}
-
-const form = ref<FormState>({
-  username: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  emailCode: '',
-});
-
-const errors = ref<ErrorState>({
-  username: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  emailCode: '',
-  submit: '',
-});
-
-const isSubmitting = ref(false);
-const isSendingCode = ref(false);
-const codeCountdown = ref(0);
-const codeSent = ref(false);
-const isSuccess = ref(false);
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-const submitDisabled = computed(() => isSubmitting.value || isSuccess.value || !form.value.emailCode);
-
-/* ---------- 倒计时（setInterval 句柄挂在 module-scoped 闭包） ---------- */
-
-let countdownTimer: ReturnType<typeof setInterval> | null = null;
-
-function startCountdown(seconds: number) {
-  codeCountdown.value = seconds;
-  countdownTimer = setInterval(() => {
-    codeCountdown.value--;
-    if (codeCountdown.value <= 0) {
-      if (countdownTimer) clearInterval(countdownTimer);
-      countdownTimer = null;
-      codeSent.value = false;
-    }
-  }, 1000);
-}
-
-onMounted(() => {
-  return () => {
-    if (countdownTimer) clearInterval(countdownTimer);
-  };
-});
-
-/* ---------- 发送验证码 ---------- */
-
-const sendCodeLabel = computed(() => {
-  if (isSendingCode.value) return t('noonTool.register.form.sending');
-  if (codeCountdown.value > 0) return t('noonTool.register.form.resendIn', { n: codeCountdown.value });
-  if (codeSent.value) return t('noonTool.register.form.sent');
-  return t('noonTool.register.form.sendCode');
-});
-
-async function handleSendCode() {
-  errors.value.email = '';
-  errors.value.submit = '';
-
-  if (!form.value.email) {
-    errors.value.email = t('noonTool.register.errors.emailRequired');
-    return;
-  }
-  if (!EMAIL_RE.test(form.value.email)) {
-    errors.value.email = t('noonTool.register.errors.emailInvalid');
-    return;
-  }
-
-  isSendingCode.value = true;
-  try {
-    await sendRegisterEmailCode(form.value.email);
-    codeSent.value = true;
-    startCountdown(60);
-  } catch (err) {
-    errors.value.email = extractAxiosFieldError(err, 'email') || t('noonTool.register.errors.sendCodeFailed');
-  } finally {
-    isSendingCode.value = false;
-  }
-}
-
-/* ---------- 提交注册 ---------- */
-
-function clearErrors() {
-  errors.value = {
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    emailCode: '',
-    submit: '',
-  };
-}
-
-async function handleSubmit() {
-  clearErrors();
-
-  /* 前端校验：必填 + 密码一致性 */
-  if (!form.value.username) errors.value.username = t('noonTool.register.errors.usernameRequired');
-  if (!form.value.email) errors.value.email = t('noonTool.register.errors.emailRequired');
-  else if (!EMAIL_RE.test(form.value.email)) errors.value.email = t('noonTool.register.errors.emailInvalid');
-  if (!form.value.password) errors.value.password = t('noonTool.register.errors.passwordRequired');
-  if (!form.value.confirmPassword) {
-    errors.value.confirmPassword = t('noonTool.register.errors.confirmPasswordRequired');
-  } else if (form.value.password !== form.value.confirmPassword) {
-    errors.value.confirmPassword = t('noonTool.register.errors.passwordMismatch');
-  }
-  if (!form.value.emailCode) errors.value.emailCode = t('noonTool.register.errors.emailCodeRequired');
-
-  if (Object.values(errors.value).some((v) => v)) return;
-
-  isSubmitting.value = true;
-  try {
-    await submitRegistration({
-      username: form.value.username,
-      email: form.value.email,
-      password: form.value.password,
-      confirm_password: form.value.confirmPassword,
-      email_code: form.value.emailCode,
-    });
-    isSuccess.value = true;
-    /* 滚动到顶部，让成功卡可见（移动端键盘可能遮住） */
-    window.scrollTo({ top: 0, behavior: reduceMotion.value ? 'auto' : 'smooth' });
-  } catch (err) {
-    /* 后端按字段返回错误数组（{field: [msg, ...]}），逐字段映射；其它错误归到 submit。 */
-    const data = axios.isAxiosError(err) ? err.response?.data : undefined;
-    if (data && typeof data === 'object') {
-      if (Array.isArray(data.username) && data.username[0]) errors.value.username = data.username[0];
-      if (Array.isArray(data.email) && data.email[0]) errors.value.email = data.email[0];
-      if (Array.isArray(data.password) && data.password[0]) errors.value.password = data.password[0];
-      if (Array.isArray(data.confirm_password) && data.confirm_password[0]) {
-        errors.value.confirmPassword = data.confirm_password[0];
-      }
-      if (Array.isArray(data.email_code) && data.email_code[0]) errors.value.emailCode = data.email_code[0];
-      if (typeof data.error === 'string') errors.value.submit = data.error;
-      if (typeof data.message === 'string' && !errors.value.submit) errors.value.submit = data.message;
-    }
-    if (!Object.values(errors.value).some((v) => v)) {
-      errors.value.submit = (err instanceof Error && err.message) || t('noonTool.register.errors.submitFailed');
-    }
-  } finally {
-    isSubmitting.value = false;
-  }
-}
-
-function extractAxiosFieldError(err: unknown, field: string): string {
-  if (!axios.isAxiosError(err)) return '';
-  const data = err.response?.data;
-  if (data && typeof data === 'object' && Array.isArray((data as Record<string, unknown>)[field])) {
-    const arr = (data as Record<string, string[]>)[field];
-    return arr[0] ?? '';
-  }
-  if (data && typeof data === 'object' && typeof (data as Record<string, unknown>).message === 'string') {
-    return (data as Record<string, string>).message;
-  }
-  return '';
-}
-
-/* ---------- 页面入场动画 ---------- */
-
-function fadeUp() {
-  return reduceMotion.value
-    ? {
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        transition: { duration: 0.2 },
-      }
-    : {
-        initial: { opacity: 0, y: 16, filter: 'blur(8px)' },
-        animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
-        transition: { duration: 0.55, ease: EASE_OUT },
-      };
-}
+const {
+  form,
+  errors,
+  step,
+  stepLabel,
+  stepMotion,
+  enter,
+  successMotion,
+  showPassword,
+  toggleReveal,
+  isSendingCode,
+  codeSent,
+  canSendCode,
+  sendCode,
+  sendCodeLabel,
+  isSubmitting,
+  isSuccess,
+  submitDisabled,
+  submitLabel,
+  submit,
+  goBack,
+} = useRegisterForm();
 </script>
 
 <template>
-  <main class="bg-page min-h-screen px-4 pt-12 pb-20 sm:px-6 md:pt-16">
-    <motion.div v-bind="fadeUp()" class="mx-auto flex w-full max-w-md flex-col items-stretch">
-      <!-- 顶部：logo + 标题 -->
-      <header class="mb-8 flex flex-col items-center text-center md:items-start md:text-left">
-        <a href="/" class="mb-6 inline-flex items-center gap-2">
+  <!-- w-full 而不是 w-screen：100vw 含滚动条宽度，页面一纵向滚动就横向溢出。
+       overflow-x-clip 裁掉画里任何越界的一截（clip 不创建滚动容器，纵向照常滚）。 -->
+  <div class="bg-page grain relative min-h-screen w-full overflow-x-clip">
+    <!-- 桌面：两列 grid，表单一列、画一列，各自垂直居中。画不再绝对定位，
+         所以两列有共同的中线，不会再有一高一低。
+         header 跨两列单独一行：语言切换落到版心右端，不压在画的光晕上。 -->
+    <main
+      class="relative z-10 mx-auto grid w-full max-w-[64rem] grid-cols-1 px-5 pt-7 pb-24 sm:px-8 lg:min-h-screen lg:grid-cols-[minmax(0,25rem)_minmax(0,1fr)] lg:grid-rows-[auto_1fr] lg:items-center lg:gap-x-10 lg:px-10 lg:pt-10"
+    >
+      <!-- 顶部：logo + 品牌 + 语言切换。不用落地页的浮动导航，锚点在本页会落空 -->
+      <header class="mb-9 flex items-center justify-between gap-3 lg:col-span-2 lg:row-start-1">
+        <a href="/" class="focus-visible:ring-ring inline-flex items-center gap-2 rounded-full px-1 py-1">
           <img src="/icon/32.png" alt="Nomu" class="size-7 rounded-md" />
-          <span class="text-ink text-[15px] font-semibold tracking-tight">Nomu</span>
+          <span class="text-ink text-[15px] font-semibold tracking-[-0.01em]">Nomu</span>
         </a>
-        <h1
-          class="text-ink text-[34px] leading-[1.08] font-semibold tracking-[-0.025em] md:text-[42px] md:tracking-[-0.035em]"
-        >
-          {{ t('noonTool.register.headline') }}
-        </h1>
-        <p class="text-muted mt-3 max-w-md text-[15px] leading-[1.55]">
-          {{ t('noonTool.register.subheadline') }}
-        </p>
+        <NoonToolLocaleSwitch />
       </header>
 
-      <!-- 成功状态卡（替换表单） -->
-      <motion.section
-        v-if="isSuccess"
-        :initial="reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.98 }"
-        :animate="reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }"
-        :transition="SPRING_SNUG"
-        class="flex flex-col items-center gap-5 rounded-[28px] border border-white/55 bg-white/60 px-6 py-10 text-center shadow-[0_24px_64px_-24px_rgba(0,0,0,0.16),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"
-        role="status"
-        aria-live="polite"
-      >
-        <div
-          class="grid size-16 place-items-center rounded-2xl bg-white/85 text-[var(--shadow-accent)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_18px_40px_-16px_rgba(254,238,0,0.45)]"
-        >
-          <Check :size="36" :stroke-width="2.2" />
-        </div>
-        <div class="flex flex-col gap-2">
-          <h2 class="text-ink text-[22px] font-semibold tracking-[-0.02em]">
-            {{ t('noonTool.register.success.title') }}
-          </h2>
-          <p class="text-muted max-w-sm text-[14px] leading-[1.55]">
-            {{ t('noonTool.register.success.body') }}
-          </p>
-        </div>
-        <div class="flex w-full flex-col gap-2 pt-2">
-          <a
-            :href="INSTALL_HREF"
-            target="_blank"
-            rel="noopener"
-            class="bg-accent text-contrast inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-medium shadow-[0_4px_18px_rgba(254,238,0,0.4)] transition-all hover:brightness-105 active:scale-[0.98]"
+      <!-- 表单列：z-10 保证浮在画上面（两者同层时 DOM 顺序会让画盖住表单） -->
+      <div class="relative z-10 max-w-[25rem] lg:col-start-1 lg:row-start-2">
+        <motion.div v-bind="enter">
+          <!-- 标题：注册成功后整块让位给成功卡 —— 留着这行 40px 大字说
+               「注册 Nomu 账号」会和卡里的「注册成功」互相打架，
+               而且全页最大字号在说一件已经做完的事。 -->
+          <div v-if="!isSuccess" class="mb-7">
+            <h1
+              class="text-ink text-[34px] leading-[1.14] font-semibold tracking-[-0.035em] text-balance md:text-[40px] md:tracking-[-0.04em]"
+            >
+              {{ t('noonTool.register.headline') }}
+            </h1>
+            <p class="text-muted mt-3 text-[15px] leading-[1.6] text-pretty">
+              {{ t('noonTool.register.subheadline') }}
+            </p>
+            <!-- 分步了就得让人看见还剩几步：没有这条，「下一步」看起来像
+                 多余的一层，用户会以为漏了字段，或者干脆不点。 -->
+            <p class="text-muted/70 mt-2 text-[12.5px] tracking-[0.01em]">
+              {{ stepLabel }}
+            </p>
+          </div>
+
+          <!-- 成功态：替换表单，是这一页唯一的另一个状态 -->
+          <motion.section
+            v-if="isSuccess"
+            v-bind="successMotion"
+            class="[@media(prefers-reduced-transparency:reduce)]:bg-surface flex flex-col items-center gap-4 rounded-[26px] border border-[color-mix(in_oklch,var(--ink)_7%,transparent)] bg-[color-mix(in_oklch,var(--surface)_78%,transparent)] px-6 py-10 text-center shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_4%,transparent),0_24px_60px_-24px_color-mix(in_oklch,var(--ink)_22%,transparent)] backdrop-blur-[30px] backdrop-saturate-180 xl:min-h-[calc(100dvh-9rem)] xl:justify-center"
+            role="status"
+            aria-live="polite"
           >
-            {{ t('noonTool.register.success.cta') }}
-          </a>
-          <a
-            href="/"
-            class="text-muted hover:text-ink inline-flex items-center justify-center rounded-full px-6 py-3 text-[14px] transition-colors hover:bg-white/55"
-          >
-            {{ t('noonTool.register.success.back') }}
-          </a>
-        </div>
-      </motion.section>
-
-      <!-- 注册表单卡（玻璃质感，Apple "vibrancy"） -->
-      <section
-        v-else
-        class="rounded-[28px] border border-white/55 bg-white/55 px-6 py-7 shadow-[0_24px_64px_-24px_rgba(0,0,0,0.14),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150 sm:px-8"
-        aria-labelledby="register-form-heading"
-      >
-        <h2 id="register-form-heading" class="sr-only">
-          {{ t('noonTool.register.headline') }}
-        </h2>
-
-        <form class="flex flex-col gap-4" novalidate @submit.prevent="handleSubmit">
-          <!-- 用户名 -->
-          <div class="flex flex-col gap-1.5">
-            <label for="reg-username" class="text-ink text-[13px] font-medium">
-              {{ t('noonTool.register.form.username') }}
-            </label>
-            <div class="relative">
-              <ShieldUser
-                :size="18"
-                :stroke-width="1.75"
-                class="text-muted/70 pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
-                aria-hidden="true"
-              />
-              <input
-                id="reg-username"
-                v-model="form.username"
-                type="text"
-                autocomplete="username"
-                :placeholder="t('noonTool.register.form.username')"
-                class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-3 pl-10 text-[15px] transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
-                :class="{ '!border-destructive focus:!border-destructive focus:!ring-destructive/30': errors.username }"
-                required
-              />
+            <!-- 画里的验证码卡同步换成对勾：这幅画跟着页面状态走完 -->
+            <div class="bg-accent flex size-16 items-center justify-center rounded-full">
+              <svg viewBox="0 0 24 24" class="size-8" aria-hidden="true">
+                <path
+                  d="m5 13 4.5 4.5L19 7"
+                  fill="none"
+                  stroke="var(--contrast)"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             </div>
-            <p v-if="errors.username" class="text-destructive flex items-center gap-1 text-[12px]">
-              <X :size="12" :stroke-width="2" aria-hidden="true" />
-              {{ errors.username }}
-            </p>
-          </div>
-
-          <!-- 邮箱 -->
-          <div class="flex flex-col gap-1.5">
-            <label for="reg-email" class="text-ink text-[13px] font-medium">
-              {{ t('noonTool.register.form.email') }}
-            </label>
-            <div class="relative">
-              <Mail
-                :size="18"
-                :stroke-width="1.75"
-                class="text-muted/70 pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
-                aria-hidden="true"
-              />
-              <input
-                id="reg-email"
-                v-model="form.email"
-                type="email"
-                autocomplete="email"
-                :placeholder="t('noonTool.register.form.email')"
-                class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-3 pl-10 text-[15px] transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
-                :class="{ '!border-destructive focus:!border-destructive focus:!ring-destructive/30': errors.email }"
-                required
-              />
+            <div class="flex flex-col gap-2">
+              <h2 class="text-ink text-[21px] font-semibold tracking-[-0.02em]">
+                {{ t('noonTool.register.success.title') }}
+              </h2>
+              <p class="text-muted max-w-[19rem] text-[14px] leading-[1.6] text-pretty">
+                {{ t('noonTool.register.success.body') }}
+              </p>
             </div>
-            <p v-if="errors.email" class="text-destructive flex items-center gap-1 text-[12px]">
-              <X :size="12" :stroke-width="2" aria-hidden="true" />
-              {{ errors.email }}
-            </p>
-          </div>
-
-          <!-- 密码 -->
-          <div class="flex flex-col gap-1.5">
-            <label for="reg-password" class="text-ink text-[13px] font-medium">
-              {{ t('noonTool.register.form.password') }}
-            </label>
-            <div class="relative">
-              <ShieldUser
-                :size="18"
-                :stroke-width="1.75"
-                class="text-muted/70 pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
-                aria-hidden="true"
-              />
-              <input
-                id="reg-password"
-                v-model="form.password"
-                type="password"
-                autocomplete="new-password"
-                :placeholder="t('noonTool.register.form.password')"
-                class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-3 pl-10 text-[15px] transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
-                :class="{ '!border-destructive focus:!border-destructive focus:!ring-destructive/30': errors.password }"
-                required
-              />
-            </div>
-            <p v-if="errors.password" class="text-destructive flex items-center gap-1 text-[12px]">
-              <X :size="12" :stroke-width="2" aria-hidden="true" />
-              {{ errors.password }}
-            </p>
-          </div>
-
-          <!-- 确认密码 -->
-          <div class="flex flex-col gap-1.5">
-            <label for="reg-confirm" class="text-ink text-[13px] font-medium">
-              {{ t('noonTool.register.form.confirmPassword') }}
-            </label>
-            <div class="relative">
-              <ShieldUser
-                :size="18"
-                :stroke-width="1.75"
-                class="text-muted/70 pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
-                aria-hidden="true"
-              />
-              <input
-                id="reg-confirm"
-                v-model="form.confirmPassword"
-                type="password"
-                autocomplete="new-password"
-                :placeholder="t('noonTool.register.form.confirmPassword')"
-                class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-3 pl-10 text-[15px] transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
-                :class="{
-                  '!border-destructive focus:!border-destructive focus:!ring-destructive/30': errors.confirmPassword,
-                }"
-                required
-              />
-            </div>
-            <p v-if="errors.confirmPassword" class="text-destructive flex items-center gap-1 text-[12px]">
-              <X :size="12" :stroke-width="2" aria-hidden="true" />
-              {{ errors.confirmPassword }}
-            </p>
-          </div>
-
-          <!-- 邮箱验证码 -->
-          <div class="flex flex-col gap-1.5">
-            <label for="reg-code" class="text-ink text-[13px] font-medium">
-              {{ t('noonTool.register.form.emailCode') }}
-            </label>
-            <div class="relative">
-              <Mail
-                :size="18"
-                :stroke-width="1.75"
-                class="text-muted/70 pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
-                aria-hidden="true"
-              />
-              <input
-                id="reg-code"
-                v-model="form.emailCode"
-                type="text"
-                inputmode="numeric"
-                autocomplete="one-time-code"
-                :placeholder="t('noonTool.register.form.emailCode')"
-                class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-28 pl-10 text-[15px] tracking-wider transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
-                :class="{
-                  '!border-destructive focus:!border-destructive focus:!ring-destructive/30': errors.emailCode,
-                }"
-                required
-              />
-              <button
-                type="button"
-                :disabled="isSendingCode || codeCountdown > 0"
-                class="text-ink absolute top-1/2 right-1.5 -translate-y-1/2 cursor-pointer rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors duration-150 ease-[var(--ease-out)] enabled:hover:bg-white/70 disabled:cursor-not-allowed disabled:opacity-60"
-                :aria-label="sendCodeLabel"
-                @click="handleSendCode"
+            <div class="flex w-full flex-col gap-2 pt-1">
+              <a
+                :href="INSTALL_HREF"
+                target="_blank"
+                rel="noopener"
+                class="bg-accent text-contrast inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold shadow-[var(--shadow-accent)] transition-[filter,transform] duration-200 ease-[var(--ease-out)] hover:-translate-y-px hover:brightness-105 active:scale-[0.99]"
               >
-                <LoaderCircle v-if="isSendingCode" :size="14" :stroke-width="2.2" class="animate-spin" />
-                <span v-else>{{ sendCodeLabel }}</span>
+                {{ t('noonTool.register.success.cta') }}
+                <ArrowRight :size="16" :stroke-width="2" aria-hidden="true" />
+              </a>
+              <a
+                href="/"
+                class="text-muted hover:text-ink inline-flex items-center justify-center rounded-full px-6 py-2.5 text-[14px] transition-colors duration-200 hover:bg-[color-mix(in_oklch,var(--ink)_4%,transparent)]"
+              >
+                {{ t('noonTool.register.success.back') }}
+              </a>
+            </div>
+          </motion.section>
+
+          <!-- 表单卡：磨砂面承住背后的光。透明度只到 78% —— 再低透出来的光
+               会把文字压到读不清（浅色材质不能叠浅色材质）。 -->
+          <form
+            v-else
+            class="[@media(prefers-reduced-transparency:reduce)]:bg-surface rounded-[26px] border border-[color-mix(in_oklch,var(--ink)_7%,transparent)] bg-[color-mix(in_oklch,var(--surface)_78%,transparent)] px-6 py-7 shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_4%,transparent),0_24px_60px_-24px_color-mix(in_oklch,var(--ink)_22%,transparent)] backdrop-blur-[30px] backdrop-saturate-180"
+            novalidate
+            aria-labelledby="register-form-heading"
+            @submit.prevent="submit"
+          >
+            <h2 id="register-form-heading" class="sr-only">{{ t('noonTool.register.headline') }}</h2>
+
+            <!-- 第 1 步：账户信息。第 2 步：确认密码 + 邮箱验证码。
+                 mode="wait" 让旧的一步先退干净再进下一步 —— 同步交叉的话两个
+                 表单会在同一位置叠着退场，容器高度翻倍，页面跟着抖一下。 -->
+            <AnimatePresence mode="wait" :initial="false">
+              <motion.div v-if="step === 1" :key="1" class="flex flex-col gap-5" v-bind="stepMotion">
+                <TextField
+                  v-model="form.username"
+                  id="reg-username"
+                  :label="t('noonTool.register.form.username')"
+                  autocomplete="username"
+                  :error="errors.username"
+                />
+                <TextField
+                  v-model="form.email"
+                  id="reg-email"
+                  type="email"
+                  :label="t('noonTool.register.form.email')"
+                  autocomplete="email"
+                  :error="errors.email"
+                />
+                <TextField
+                  v-model="form.password"
+                  id="reg-password"
+                  :type="showPassword ? 'text' : 'password'"
+                  :label="t('noonTool.register.form.password')"
+                  autocomplete="new-password"
+                  :error="errors.password"
+                  revealable
+                  :reveal-label="
+                    showPassword ? t('noonTool.register.form.hidePassword') : t('noonTool.register.form.showPassword')
+                  "
+                  @toggle-reveal="toggleReveal"
+                />
+              </motion.div>
+
+              <motion.div v-else :key="2" class="flex flex-col gap-5" v-bind="stepMotion">
+                <TextField
+                  v-model="form.confirmPassword"
+                  id="reg-confirm"
+                  :type="showPassword ? 'text' : 'password'"
+                  :label="t('noonTool.register.form.confirmPassword')"
+                  autocomplete="new-password"
+                  :error="errors.confirmPassword"
+                  revealable
+                  :reveal-label="
+                    showPassword ? t('noonTool.register.form.hidePassword') : t('noonTool.register.form.showPassword')
+                  "
+                  @toggle-reveal="toggleReveal"
+                />
+
+                <!-- 验证码：和其余字段同一种长相，不再单独垫一块黄底。
+                     这一页里「要去邮箱收信」那一步由画面上那张发光的卡在讲，
+                     表单这边保持安静；黄色留给 CTA 和那张卡。 -->
+                <div>
+                  <label for="reg-code" class="text-ink text-[13px] font-medium">
+                    {{ t('noonTool.register.form.emailCode') }}
+                  </label>
+                  <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-start">
+                    <input
+                      id="reg-code"
+                      v-model="form.emailCode"
+                      type="text"
+                      inputmode="numeric"
+                      autocomplete="one-time-code"
+                      :placeholder="t('noonTool.register.form.emailCodeHint')"
+                      :aria-invalid="errors.emailCode ? 'true' : undefined"
+                      class="text-ink placeholder:text-muted/55 focus:border-accent-slate focus:bg-surface focus:ring-accent-slate/26 [@media(prefers-reduced-transparency:reduce)]:bg-surface w-full flex-1 rounded-[13px] border border-[color-mix(in_oklch,var(--ink)_10%,transparent)] bg-[color-mix(in_oklch,var(--surface)_66%,transparent)] px-[0.85rem] py-[0.7rem] text-[15px] tracking-[0.2em] transition-[border-color,background-color,box-shadow] duration-200 ease-[var(--ease-out)] placeholder:tracking-normal hover:bg-[color-mix(in_oklch,var(--surface)_82%,transparent)] focus:ring-2 focus:outline-none"
+                      :class="{
+                        '!border-destructive focus:!border-destructive focus:!ring-destructive/30': errors.emailCode,
+                      }"
+                    />
+                    <button
+                      type="button"
+                      :disabled="!canSendCode"
+                      :aria-label="sendCodeLabel"
+                      class="text-ink bg-surface inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-[13px] border border-[color-mix(in_oklch,var(--ink)_22%,transparent)] px-4 py-[0.7rem] text-[14px] font-semibold transition-[background-color,transform] duration-200 ease-[var(--ease-out)] enabled:hover:bg-[color-mix(in_oklch,var(--ink)_6%,var(--surface))] enabled:active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-55"
+                      @click="sendCode"
+                    >
+                      <LoaderCircle
+                        v-if="isSendingCode"
+                        :size="14"
+                        :stroke-width="2.2"
+                        class="animate-spin"
+                        aria-hidden="true"
+                      />
+                      <span>{{ sendCodeLabel }}</span>
+                    </button>
+                  </div>
+                  <p v-if="codeSent" class="text-muted mt-2.5 text-[12.5px] leading-[1.5]">
+                    {{ t('noonTool.register.form.codeSentTo', { email: form.email }) }}
+                  </p>
+                  <p v-if="errors.emailCode" class="text-destructive mt-2 flex items-center gap-1 text-[12.5px]">
+                    <TriangleAlert :size="13" :stroke-width="2" class="shrink-0" aria-hidden="true" />
+                    {{ errors.emailCode }}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            <!-- 整体错误（后端 error/message） -->
+            <p
+              v-if="errors.submit"
+              class="bg-destructive-soft text-destructive mt-4 flex items-center gap-1.5 rounded-lg px-3 py-2 text-[13px]"
+              role="alert"
+            >
+              <TriangleAlert :size="14" :stroke-width="2" class="shrink-0" aria-hidden="true" />
+              <span>{{ errors.submit }}</span>
+            </p>
+
+            <!-- CTA 行：DOM 顺序 = 视觉顺序 = 重要性顺序，主操作「注册」在最前
+                 （键盘 Tab 和读屏先碰到它）。sm+ 用 row-reverse 把次要的「上一步」
+                 翻到左侧；窄屏不需要 reverse，「注册」本来就在「上一步」上方。 -->
+            <div class="mt-6 flex flex-col gap-4 sm:flex-row-reverse sm:items-center">
+              <button
+                type="submit"
+                :disabled="submitDisabled"
+                class="bg-accent text-contrast inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold shadow-[var(--shadow-accent)] transition-[filter,transform] duration-200 ease-[var(--ease-out)] enabled:hover:-translate-y-px enabled:hover:brightness-105 enabled:active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <LoaderCircle
+                  v-if="isSubmitting"
+                  :size="16"
+                  :stroke-width="2.2"
+                  class="animate-spin"
+                  aria-hidden="true"
+                />
+                <span>{{ submitLabel }}</span>
+              </button>
+              <button
+                v-if="step === 2"
+                type="button"
+                class="text-muted hover:text-ink inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full px-5 py-3 text-[15px] font-medium transition-colors duration-200 hover:bg-[color-mix(in_oklch,var(--ink)_5%,transparent)]"
+                @click="goBack"
+              >
+                {{ t('noonTool.register.form.back') }}
               </button>
             </div>
-            <p v-if="errors.emailCode" class="text-destructive flex items-center gap-1 text-[12px]">
-              <X :size="12" :stroke-width="2" aria-hidden="true" />
-              {{ errors.emailCode }}
+
+            <!-- 法务提示跟着它约束的那个动作走。用 text-balance 而不是 text-pretty：
+                 这是一句固定长度的声明，pretty 只会避免单词孤行，结果把
+                 「privacy policy.」整段甩到第二行；balance 让两行长度相当。 -->
+            <p class="text-muted/80 mt-4 text-[12px] leading-[1.6] text-balance">
+              <i18n-t keypath="noonTool.register.bottomHint">
+                <template #terms>
+                  <a
+                    :href="TERMS_HREF"
+                    target="_blank"
+                    rel="noopener"
+                    class="text-muted hover:text-ink underline decoration-current/35 underline-offset-[3px] transition-colors"
+                    >{{ t('noonTool.register.terms') }}</a
+                  >
+                </template>
+                <template #privacy>
+                  <a
+                    :href="PRIVACY_POLICY_HREF"
+                    target="_blank"
+                    rel="noopener"
+                    class="text-muted hover:text-ink underline decoration-current/35 underline-offset-[3px] transition-colors"
+                    >{{ t('noonTool.register.privacy') }}</a
+                  >
+                </template>
+              </i18n-t>
             </p>
-          </div>
+          </form>
+        </motion.div>
+      </div>
 
-          <!-- 提交 -->
-          <button
-            type="submit"
-            :disabled="submitDisabled"
-            class="bg-accent text-contrast mt-2 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold shadow-[0_4px_18px_rgba(254,238,0,0.4)] transition-all hover:brightness-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <LoaderCircle v-if="isSubmitting" :size="16" :stroke-width="2.2" class="animate-spin" />
-            <span>{{
-              isSubmitting ? t('noonTool.register.form.submitting') : t('noonTool.register.form.submit')
-            }}</span>
-          </button>
-
-          <!-- 整体错误（后端 error/message） -->
-          <p
-            v-if="errors.submit"
-            class="text-destructive bg-destructive-soft mt-1 flex items-center gap-1.5 rounded-lg px-3 py-2 text-[13px]"
-            role="alert"
-          >
-            <TriangleAlert :size="14" :stroke-width="2" class="shrink-0" aria-hidden="true" />
-            <span>{{ errors.submit }}</span>
-          </p>
-        </form>
-      </section>
-
-      <!-- 底部提示 — 「用户协议」「隐私政策」用插槽内嵌链接到 NomuDocs -->
-      <p class="text-muted/85 mt-6 text-center text-[12px] leading-[1.55]">
-        <i18n-t keypath="noonTool.register.bottomHint">
-          <template #terms>
-            <a
-              :href="TERMS_HREF"
-              target="_blank"
-              rel="noopener"
-              class="text-muted hover:text-ink hover:decoration-ink/55 underline decoration-current/35 underline-offset-[3px] transition-colors"
-              >{{ t('noonTool.register.terms') }}</a
-            >
-          </template>
-          <template #privacy>
-            <a
-              :href="PRIVACY_POLICY_HREF"
-              target="_blank"
-              rel="noopener"
-              class="text-muted hover:text-ink hover:decoration-ink/55 underline decoration-current/35 underline-offset-[3px] transition-colors"
-              >{{ t('noonTool.register.privacy') }}</a
-            >
-          </template>
-        </i18n-t>
-      </p>
-    </motion.div>
-  </main>
+      <RegisterScene :done="isSuccess" class="mt-10 lg:col-start-2 lg:row-start-2 lg:mt-0" />
+    </main>
+  </div>
 </template>
