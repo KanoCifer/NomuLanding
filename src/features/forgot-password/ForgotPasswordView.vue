@@ -32,11 +32,11 @@ const PRIVACY_POLICY_HREF = 'https://nomu.kanocifer.chat/docs/privacy';
 const TERMS_HREF = 'https://nomu.kanocifer.chat/docs/terms';
 
 useHead({
-  title: () => `${t('noonTool.forgotPassword.meta.title')} · Nomu`,
+  title: () => `${t('forgotPassword.meta.title')} · Nomu`,
   meta: () => [
-    { name: 'description', content: t('noonTool.forgotPassword.meta.description') },
-    { property: 'og:title', content: t('noonTool.forgotPassword.meta.title') },
-    { property: 'og:description', content: t('noonTool.forgotPassword.meta.description') },
+    { name: 'description', content: t('forgotPassword.meta.description') },
+    { property: 'og:title', content: t('forgotPassword.meta.title') },
+    { property: 'og:description', content: t('forgotPassword.meta.description') },
     { property: 'og:url', content: `${SITE_URL}/forgot-password` },
   ],
 });
@@ -66,11 +66,11 @@ async function handleRequest() {
   requestErrors.value = { email: '', submit: '' };
 
   if (!emailInput.value) {
-    requestErrors.value.email = t('noonTool.forgotPassword.errors.emailRequired');
+    requestErrors.value.email = t('forgotPassword.errors.emailRequired');
     return;
   }
   if (!EMAIL_RE.test(emailInput.value)) {
-    requestErrors.value.email = t('noonTool.forgotPassword.errors.emailInvalid');
+    requestErrors.value.email = t('forgotPassword.errors.emailInvalid');
     return;
   }
 
@@ -132,13 +132,13 @@ const submitDisabled = computed(() => isConfirming.value || step.value === 'succ
 
 function validateConfirm(): boolean {
   const e: ConfirmErrors = { emailCode: '', newPassword: '', confirmPassword: '', submit: '' };
-  if (!codeInput.value) e.emailCode = t('noonTool.forgotPassword.errors.emailCodeRequired');
-  if (!passwordInput.value) e.newPassword = t('noonTool.forgotPassword.errors.newPasswordRequired');
-  else if (passwordInput.value.length < 6) e.newPassword = t('noonTool.forgotPassword.errors.newPasswordTooShort');
+  if (!codeInput.value) e.emailCode = t('forgotPassword.errors.emailCodeRequired');
+  if (!passwordInput.value) e.newPassword = t('forgotPassword.errors.newPasswordRequired');
+  else if (passwordInput.value.length < 6) e.newPassword = t('forgotPassword.errors.newPasswordTooShort');
   if (!confirmPasswordInput.value) {
-    e.confirmPassword = t('noonTool.forgotPassword.errors.confirmPasswordRequired');
+    e.confirmPassword = t('forgotPassword.errors.confirmPasswordRequired');
   } else if (passwordInput.value !== confirmPasswordInput.value) {
-    e.confirmPassword = t('noonTool.forgotPassword.errors.passwordMismatch');
+    e.confirmPassword = t('forgotPassword.errors.passwordMismatch');
   }
   confirmErrors.value = e;
   return !Object.values(e).some((v) => v);
@@ -150,7 +150,7 @@ async function handleConfirm() {
   /* challenge 没拿到（步骤 1 catch 路径 / 字段名不匹配）——
      不要发空字符串过去让后端返 400，直接引导用户回步骤 1 重申请。 */
   if (!challenge.value) {
-    confirmErrors.value.submit = t('noonTool.forgotPassword.errors.sessionExpired');
+    confirmErrors.value.submit = t('forgotPassword.errors.sessionExpired');
     return;
   }
 
@@ -174,7 +174,7 @@ async function handleConfirm() {
     const status = axios.isAxiosError(err) ? err.response?.status : undefined;
 
     if (status === 404) {
-      confirmErrors.value.submit = t('noonTool.forgotPassword.errors.invalidCodeOrEmail');
+      confirmErrors.value.submit = t('forgotPassword.errors.invalidCodeOrEmail');
       return;
     }
 
@@ -190,7 +190,7 @@ async function handleConfirm() {
         /* 后端 400「密码必须与之前的不同」原文是中文「密码必须与之前的不同」，
            英文译本里也是 "password ... same as ...",为了不绑死 i18n 文案，简单包含判断。 */
         if (/不同|same as/i.test(topMsg)) {
-          confirmErrors.value.submit = t('noonTool.forgotPassword.errors.passwordSameAsOld');
+          confirmErrors.value.submit = t('forgotPassword.errors.passwordSameAsOld');
         } else {
           confirmErrors.value.submit = topMsg;
         }
@@ -199,8 +199,8 @@ async function handleConfirm() {
 
     if (!confirmErrors.value.submit && !confirmErrors.value.emailCode && !confirmErrors.value.newPassword) {
       confirmErrors.value.submit = axios.isAxiosError(err)
-        ? t('noonTool.forgotPassword.errors.networkError')
-        : t('noonTool.forgotPassword.errors.submitFailed');
+        ? t('forgotPassword.errors.networkError')
+        : t('forgotPassword.errors.submitFailed');
     }
   } finally {
     isConfirming.value = false;
@@ -236,10 +236,10 @@ function fadeUp() {
         <h1
           class="text-ink text-[34px] leading-[1.08] font-semibold tracking-[-0.025em] md:text-[42px] md:tracking-[-0.035em]"
         >
-          {{ t('noonTool.forgotPassword.headline') }}
+          {{ t('forgotPassword.headline') }}
         </h1>
         <p class="text-muted mt-3 max-w-md text-[15px] leading-[1.55]">
-          {{ t('noonTool.forgotPassword.subheadline') }}
+          {{ t('forgotPassword.subheadline') }}
         </p>
       </header>
 
@@ -260,10 +260,10 @@ function fadeUp() {
         </div>
         <div class="flex flex-col gap-2">
           <h2 class="text-ink text-[22px] font-semibold tracking-[-0.02em]">
-            {{ t('noonTool.forgotPassword.success.title') }}
+            {{ t('forgotPassword.success.title') }}
           </h2>
           <p class="text-muted max-w-sm text-[14px] leading-[1.55]">
-            {{ t('noonTool.forgotPassword.success.body') }}
+            {{ t('forgotPassword.success.body') }}
           </p>
         </div>
         <div class="flex w-full flex-col gap-2 pt-2">
@@ -273,13 +273,13 @@ function fadeUp() {
             rel="noopener"
             class="bg-accent text-contrast inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-medium shadow-[0_4px_18px_rgba(254,238,0,0.4)] transition-all hover:brightness-105 active:scale-[0.98]"
           >
-            {{ t('noonTool.forgotPassword.success.cta') }}
+            {{ t('forgotPassword.success.cta') }}
           </a>
           <a
             href="/"
             class="text-muted hover:text-ink inline-flex items-center justify-center rounded-full px-6 py-3 text-[14px] transition-colors hover:bg-white/55"
           >
-            {{ t('noonTool.forgotPassword.success.back') }}
+            {{ t('forgotPassword.success.back') }}
           </a>
         </div>
       </motion.section>
@@ -291,14 +291,14 @@ function fadeUp() {
         aria-labelledby="forgot-form-heading"
       >
         <h2 id="forgot-form-heading" class="sr-only">
-          {{ t('noonTool.forgotPassword.headline') }}
+          {{ t('forgotPassword.headline') }}
         </h2>
 
         <!-- 步骤 1：邮箱 -->
         <form v-if="step === 'request'" class="flex flex-col gap-4" novalidate @submit.prevent="handleRequest">
           <div class="flex flex-col gap-1.5">
             <label for="forgot-email" class="text-ink text-[13px] font-medium">
-              {{ t('noonTool.forgotPassword.stepRequest.email') }}
+              {{ t('forgotPassword.stepRequest.email') }}
             </label>
             <div class="relative">
               <Mail
@@ -312,7 +312,7 @@ function fadeUp() {
                 v-model="emailInput"
                 type="email"
                 autocomplete="email"
-                :placeholder="t('noonTool.forgotPassword.stepRequest.email')"
+                :placeholder="t('forgotPassword.stepRequest.email')"
                 class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-3 pl-10 text-[15px] transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
                 :class="{
                   '!border-destructive focus:!border-destructive focus:!ring-destructive/30': requestErrors.email,
@@ -334,8 +334,8 @@ function fadeUp() {
             <LoaderCircle v-if="isRequesting" :size="16" :stroke-width="2.2" class="animate-spin" />
             <span>{{
               isRequesting
-                ? t('noonTool.forgotPassword.stepRequest.submitting')
-                : t('noonTool.forgotPassword.stepRequest.submit')
+                ? t('forgotPassword.stepRequest.submitting')
+                : t('forgotPassword.stepRequest.submit')
             }}</span>
           </button>
 
@@ -349,27 +349,27 @@ function fadeUp() {
         <form v-else class="flex flex-col gap-4" novalidate @submit.prevent="handleConfirm">
           <!-- 邮箱（只读显示 + 改邮箱） -->
           <div class="flex items-center justify-between gap-3 rounded-xl bg-white/40 px-3 py-2 text-[13px]">
-            <span class="text-muted truncate">{{ t('noonTool.forgotPassword.stepConfirm.emailLabel') }}</span>
+            <span class="text-muted truncate">{{ t('forgotPassword.stepConfirm.emailLabel') }}</span>
             <span class="text-ink truncate font-medium">{{ emailInput }}</span>
             <button
               type="button"
               class="text-muted hover:text-ink cursor-pointer text-[12px] underline decoration-current/35 underline-offset-[3px] transition-colors"
               @click="backToRequest"
             >
-              {{ t('noonTool.forgotPassword.stepConfirm.changeEmail') }}
+              {{ t('forgotPassword.stepConfirm.changeEmail') }}
             </button>
           </div>
 
           <!-- 邮件已发送提示 -->
           <div class="bg-card text-muted border-border/60 rounded-xl border px-3 py-2 text-[12px] leading-[1.5]">
-            <p>{{ t('noonTool.forgotPassword.requestedHint') }}</p>
-            <p>{{ t('noonTool.forgotPassword.requestedHintDetail') }}</p>
+            <p>{{ t('forgotPassword.requestedHint') }}</p>
+            <p>{{ t('forgotPassword.requestedHintDetail') }}</p>
           </div>
 
           <!-- 验证码 -->
           <div class="flex flex-col gap-1.5">
             <label for="forgot-code" class="text-ink text-[13px] font-medium">
-              {{ t('noonTool.forgotPassword.stepConfirm.emailCode') }}
+              {{ t('forgotPassword.stepConfirm.emailCode') }}
             </label>
             <div class="relative">
               <Mail
@@ -385,7 +385,7 @@ function fadeUp() {
                 inputmode="numeric"
                 autocomplete="one-time-code"
                 maxlength="6"
-                :placeholder="t('noonTool.forgotPassword.stepConfirm.emailCode')"
+                :placeholder="t('forgotPassword.stepConfirm.emailCode')"
                 class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-3 pl-10 text-[15px] tracking-wider transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
                 :class="{
                   '!border-destructive focus:!border-destructive focus:!ring-destructive/30': confirmErrors.emailCode,
@@ -402,7 +402,7 @@ function fadeUp() {
           <!-- 新密码 -->
           <div class="flex flex-col gap-1.5">
             <label for="forgot-new-password" class="text-ink text-[13px] font-medium">
-              {{ t('noonTool.forgotPassword.stepConfirm.newPassword') }}
+              {{ t('forgotPassword.stepConfirm.newPassword') }}
             </label>
             <div class="relative">
               <ShieldUser
@@ -416,7 +416,7 @@ function fadeUp() {
                 v-model="passwordInput"
                 type="password"
                 autocomplete="new-password"
-                :placeholder="t('noonTool.forgotPassword.stepConfirm.newPassword')"
+                :placeholder="t('forgotPassword.stepConfirm.newPassword')"
                 class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-3 pl-10 text-[15px] transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
                 :class="{
                   '!border-destructive focus:!border-destructive focus:!ring-destructive/30': confirmErrors.newPassword,
@@ -433,7 +433,7 @@ function fadeUp() {
           <!-- 确认新密码 -->
           <div class="flex flex-col gap-1.5">
             <label for="forgot-confirm" class="text-ink text-[13px] font-medium">
-              {{ t('noonTool.forgotPassword.stepConfirm.confirmPassword') }}
+              {{ t('forgotPassword.stepConfirm.confirmPassword') }}
             </label>
             <div class="relative">
               <ShieldUser
@@ -447,7 +447,7 @@ function fadeUp() {
                 v-model="confirmPasswordInput"
                 type="password"
                 autocomplete="new-password"
-                :placeholder="t('noonTool.forgotPassword.stepConfirm.confirmPassword')"
+                :placeholder="t('forgotPassword.stepConfirm.confirmPassword')"
                 class="border-border/60 bg-surface/70 text-ink placeholder:text-muted/55 focus:border-accent-slate focus:ring-accent-slate/30 w-full rounded-xl border py-2.5 pr-3 pl-10 text-[15px] transition-[border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus:ring-2 focus:outline-none"
                 :class="{
                   '!border-destructive focus:!border-destructive focus:!ring-destructive/30':
@@ -470,8 +470,8 @@ function fadeUp() {
             <LoaderCircle v-if="isConfirming" :size="16" :stroke-width="2.2" class="animate-spin" />
             <span>{{
               isConfirming
-                ? t('noonTool.forgotPassword.stepConfirm.submitting')
-                : t('noonTool.forgotPassword.stepConfirm.submit')
+                ? t('forgotPassword.stepConfirm.submitting')
+                : t('forgotPassword.stepConfirm.submit')
             }}</span>
           </button>
 
@@ -488,14 +488,14 @@ function fadeUp() {
 
       <!-- 底部提示 — 用户协议与隐私政策（忘记密码入口已上 nav，这里不放二级入口） -->
       <p class="text-muted/85 mt-6 text-center text-[12px] leading-[1.55]">
-        <i18n-t keypath="noonTool.register.bottomHint">
+        <i18n-t keypath="common.bottomHint">
           <template #terms>
             <a
               :href="TERMS_HREF"
               target="_blank"
               rel="noopener"
               class="text-muted hover:text-ink hover:decoration-ink/55 underline decoration-current/35 underline-offset-[3px] transition-colors"
-              >{{ t('noonTool.register.terms') }}</a
+              >{{ t('common.terms') }}</a
             >
           </template>
           <template #privacy>
@@ -504,7 +504,7 @@ function fadeUp() {
               target="_blank"
               rel="noopener"
               class="text-muted hover:text-ink hover:decoration-ink/55 underline decoration-current/35 underline-offset-[3px] transition-colors"
-              >{{ t('noonTool.register.privacy') }}</a
+              >{{ t('common.privacy') }}</a
             >
           </template>
         </i18n-t>

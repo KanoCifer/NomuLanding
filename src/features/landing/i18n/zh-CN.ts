@@ -1,5 +1,5 @@
 export default {
-  noonTool: {
+  landing: {
     meta: {
       title: 'Nomu：一款易用的 Noon 插件',
       description:
@@ -30,26 +30,6 @@ export default {
     },
     splash: {
       eyebrow: 'Nomu',
-    },
-    nav: {
-      sections: {
-        features: '功能',
-        support: '支持',
-        faq: '常见疑问',
-      },
-      docs: '文档',
-      install: 'Add to Chrome',
-      credits: '积分',
-      announcements: '公告',
-      register: '注册',
-      forgotPassword: '忘记密码',
-      menu: '菜单',
-      menuOpen: '打开菜单',
-      menuClose: '关闭菜单',
-    },
-    share: {
-      label: '分享',
-      copied: '链接已复制',
     },
     features: {
       eyebrow: '功能',
@@ -367,101 +347,6 @@ export default {
         },
       },
     },
-    announcements: {
-      meta: {
-        title: '公告',
-        description: 'Nomu 的功能更新、版本变化、维护停机与安全公告，按时间倒序集中查看。',
-      },
-      eyebrow: '公告',
-      title: 'Nomu 的公告',
-      subheadline:
-        '新功能上线、版本更新、维护停机和安全公告都发在这里。按类别分组，时间新的在前；扩展内的总览台也会同步显示需要留意的几条。',
-      loading: '正在读取公告…',
-      loadFailed: '暂时读不到公告，稍后再来看看。',
-      empty: '暂时没有公告。',
-      /** 键名与后端 API 的 type 取值一致，不另造枚举。 */
-      types: {
-        general: '通知',
-        feature: '新功能',
-        update: '更新',
-        maintenance: '维护',
-        security: '安全',
-        credit: '积分',
-      },
-    },
-    credits: {
-      meta: {
-        title: '积分说明',
-        description:
-          'Nomu 的 AI 功能使用积分：通用翻译、AI 提示词优化、AI 商品解析、知识库问答与 AI 生图各消耗多少积分，积分怎么扣，采集与发布不消耗积分。',
-      },
-      eyebrow: '积分',
-      title: '一次 AI 操作，消耗多少积分。',
-      subtitle:
-        '只有 AI 功能消耗积分，采集、编辑、发布主流程不消耗。下面按功能列出每次操作的积分消耗；余额和每一笔消耗，扩展内「账户」里都能查到。',
-      unitFen: '分',
-      back: '返回首页',
-      updatedAt: '规则如有调整，会在这页和更新日志同步。',
-      table: {
-        title: '各功能的积分消耗',
-        feature: '功能',
-        unit: '每次操作',
-        amount: '消耗积分',
-        caption: '积分余额与流水都在扩展内「账户」里查看，扣了多少、为什么扣，逐条都有记录。',
-        loading: '正在读取积分消耗表…',
-        failed: '暂时读不到积分消耗表，请稍后刷新或到扩展内「账户」查看。',
-      },
-      units: {
-        perCall: '每次调用',
-        perKToken: '每 1K tokens',
-        perImage: '每张图',
-      },
-      items: {
-        translate: {
-          name: '通用翻译',
-          desc: '商品信息中译英 / 中译阿',
-        },
-        promptOptimize: {
-          name: 'AI 提示词优化',
-          desc: '把一句话扩成可用的生图、上架提示词',
-        },
-        productParse: {
-          name: 'AI 商品解析',
-          desc: '右键「用 AI 解析」从任意源页解析商品',
-        },
-        knowledgeAsk: {
-          name: '知识库问答',
-          desc: '扩展内 AI 助手，上架规则随问随答（按 token 向上取整）',
-        },
-        designLite: {
-          name: 'AI 生图 · 标准档',
-          desc: 'Seedream 5.0 / GPT-Image 2 系列',
-        },
-        designPro: {
-          name: 'AI 生图 · 高清档',
-          desc: 'Seedream 5.0 Pro，画质优先',
-        },
-      },
-      rulesTitle: '积分怎么扣',
-      rules: {
-        preconsume: {
-          title: '先预扣，多退少补',
-          body: '生图这类任务开始时按张数预扣积分，任务结束后按实际张数核对，多扣的部分自动退回。',
-        },
-        idempotent: {
-          title: '重复请求不重复扣',
-          body: '每次调用都带唯一幂等键，网络重试或重复点击只会扣一次。',
-        },
-        insufficient: {
-          title: '积分用完直接拦下',
-          body: '积分不够时请求会被当场拒绝，余额不会扣成负数；补充积分后立即恢复。',
-        },
-        records: {
-          title: '每一笔都有明细',
-          body: '扩展内「账户 · 消费记录」可逐条查看来源、消耗与时间，退回的积分也会单独列出。',
-        },
-      },
-    },
     services: {
       eyebrow: '代办服务',
       sectionTitle: '开店这几件事，我们替你办',
@@ -502,115 +387,6 @@ export default {
       hint: '在 Chrome 网上应用商店一键安装 Nomu',
       shareHint: '或分享给同事',
     },
-    register: {
-      meta: {
-        title: '注册 Nomu 账号',
-        description: '注册 Nomu 账号以使用扩展的全部功能，AI 助手与 AI 生图按积分计费。',
-      },
-      headline: '注册 Nomu 账号',
-      subheadline: '注册后即可使用扩展内的采集、上架与 AI 助手等全部功能。',
-      eyebrow: '账号',
-      form: {
-        username: '用户名',
-        email: '邮箱',
-        password: '密码',
-        confirmPassword: '确认密码',
-        emailCode: '邮箱验证码',
-        emailCodeHint: '6 位数字',
-        showPassword: '显示密码',
-        hidePassword: '隐藏密码',
-        sendCode: '发送验证码',
-        sending: '发送中…',
-        sent: '已发送',
-        codeSentTo: '验证码已发到 {email}，请查收。',
-        resendIn: '{n}s 后重发',
-        next: '下一步',
-        back: '上一步',
-        step: '第 {current} 步 / 共 {total} 步',
-        submit: '注册',
-        submitting: '注册中…',
-      },
-      errors: {
-        usernameRequired: '请输入用户名',
-        emailRequired: '请输入邮箱',
-        emailInvalid: '邮箱格式不正确',
-        passwordRequired: '请输入密码',
-        confirmPasswordRequired: '请再次输入密码',
-        passwordMismatch: '两次密码不一致',
-        emailCodeRequired: '请输入邮箱验证码',
-        sendCodeFailed: '发送验证码失败，请稍后再试',
-        submitFailed: '注册失败，请稍后再试',
-      },
-      success: {
-        title: '注册成功',
-        body: '账号已就绪。现在装上 Nomu 扩展，登录后采集、上架、AI 助手、跨设备复制全部可用。',
-        cta: '去安装 Nomu',
-        back: '返回首页',
-      },
-      bottomHint: '注册即代表你同意 Nomu 的{terms}与{privacy}。',
-      terms: '用户协议',
-      privacy: '隐私政策',
-    },
-    login: {
-      /* 与 ReadingList 的 noonTool.nomuLogin 文案保持一致 */
-      headlinePending: '欢迎回来',
-      headlineSuccess: '登录已同步',
-      headlineError: '无法继续',
-      sublinePending: '正在和 Nomu 服务确认这次登录…',
-      sublineSuccess: '现在可以回到 Nomu 扩展继续你的工作。',
-      sublineFallbackError: 'Nomu 没有在有效时间内确认这个链接，可能已过期。',
-      missingTokenError: '缺少 token，链接无效。',
-      closePage: '关闭此页',
-      retry: '再试一次',
-    },
-    forgotPassword: {
-      meta: {
-        title: '重置 Nomu 账号密码',
-        description: '通过邮箱验证码重置 Nomu 账号密码。',
-      },
-      headline: '重置密码',
-      subheadline: '输入注册邮箱，我们会发送一封含 6 位验证码的重置邮件。',
-      /* 步骤 1（申请邮件） */
-      stepRequest: {
-        email: '注册邮箱',
-        submit: '发送重置邮件',
-        submitting: '发送中…',
-      },
-      /* 步骤 1 成功：固定话术，避免泄露邮箱是否注册 */
-      requestedHint: '若该邮箱已注册，重置邮件已发送。',
-      requestedHintDetail: '请到邮箱抄 6 位验证码，回到这里继续。',
-      /* 步骤 2（验证码 + 新密码） */
-      stepConfirm: {
-        emailLabel: '已发送到',
-        changeEmail: '换个邮箱',
-        emailCode: '邮箱验证码',
-        newPassword: '新密码',
-        confirmPassword: '确认新密码',
-        submit: '重置密码',
-        submitting: '重置中…',
-      },
-      errors: {
-        emailRequired: '请输入邮箱',
-        emailInvalid: '邮箱格式不正确',
-        emailCodeRequired: '请输入 6 位验证码',
-        newPasswordRequired: '请输入新密码',
-        newPasswordTooShort: '密码至少 6 位',
-        confirmPasswordRequired: '请再次输入新密码',
-        passwordMismatch: '两次密码不一致',
-        /* 步骤 2 错误：404 故意统一文案，防枚举 */
-        invalidCodeOrEmail: '验证码错误或邮箱未注册',
-        sessionExpired: '会话已过期，请重新申请验证码',
-        passwordSameAsOld: '请换一个未使用过的密码',
-        submitFailed: '重置失败，请稍后再试',
-        networkError: '网络异常，请稍后再试',
-      },
-      success: {
-        title: '密码已重置',
-        body: '现在去安装 Nomu 扩展，下次用新密码登录，即可使用扩展的全部功能。',
-        cta: '去安装 Nomu',
-        back: '返回首页',
-      },
-    },
     footer: {
       tagline: 'Nomu：一款易用的 Noon 插件',
       links: {
@@ -621,39 +397,6 @@ export default {
         docs: '文档',
       },
       license: '保留所有权利',
-    },
-    notFound: {
-      meta: {
-        title: '没找到这页 · Nomu',
-        description: 'Nomu 落地页 · 你访问的页面不在这里。',
-      },
-      quiet: {
-        eyebrow: '404',
-        title: '没找到这页',
-        body: '也许是链接拼错了，或者页面已经搬走。',
-        cta: '回到首页',
-        ctaHint: '返回 Nomu 落地页',
-        docsLabel: '查看文档',
-        supportLabel: '获取支持',
-      },
-      spatial: {
-        eyebrow: '404 · 标签飘走了',
-        title: '这页不在这儿',
-        body: '点击本来要打开的标签页已经离开这片屏幕，回到首页或去文档站都行。',
-        cta: '回到首页',
-        ctaHint: '返回 Nomu 落地页',
-        docsLabel: '查看文档',
-        supportLabel: '获取支持',
-      },
-      editorial: {
-        eyebrow: '404',
-        title: '没找到的，也可能是商品图没贴上。',
-        body: '链接失效的可能性大于 0。回到首页、装上 Nomu 或翻翻文档都行。',
-        cta: '回到首页',
-        ctaHint: '返回 Nomu 落地页',
-        docsLabel: '查看文档',
-        supportLabel: '获取支持',
-      },
     },
   },
 } as const;

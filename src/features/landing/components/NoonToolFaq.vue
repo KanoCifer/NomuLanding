@@ -31,7 +31,7 @@ const reveal = useReveal();
         id="faq-heading"
         class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[44px] md:tracking-[-0.03em]"
       >
-        {{ t('noonTool.faq.sectionTitle') }}
+        {{ t('landing.faq.sectionTitle') }}
       </h2>
     </header>
 
@@ -58,7 +58,7 @@ const reveal = useReveal();
           >
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
-          <span>{{ t(`noonTool.faq.items.${key}.q`) }}</span>
+          <span>{{ t(`landing.faq.items.${key}.q`) }}</span>
         </button>
         <div
           :id="`faq-${key}-panel`"
@@ -67,7 +67,7 @@ const reveal = useReveal();
         >
           <div class="min-h-0 overflow-hidden">
             <p class="text-muted px-5 pb-5 text-[14px] leading-[1.6]">
-              {{ t(`noonTool.faq.items.${key}.a`) }}
+              {{ t(`landing.faq.items.${key}.a`) }}
             </p>
           </div>
         </div>

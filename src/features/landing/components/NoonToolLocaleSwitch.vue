@@ -6,7 +6,7 @@
  *
  * Kept as a separate component so other entry points (docs site footer,
  * extension settings panel) can reuse it. The active code is sourced from
- * vue-i18n's `locale` ref and labels come from existing noonTool.hero.* keys.
+ * vue-i18n's `locale` ref and labels come from existing landing.hero.* keys.
  */
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -16,7 +16,7 @@ type LocaleCode = 'zh-CN' | 'en';
 const { t, locale } = useI18n();
 
 function labelFor(code: LocaleCode): string {
-  return code === 'zh-CN' ? t('noonTool.hero.localeZh') : t('noonTool.hero.localeEn');
+  return code === 'zh-CN' ? t('landing.hero.localeZh') : t('landing.hero.localeEn');
 }
 
 const currentLabel = computed(() => labelFor(locale.value as LocaleCode));

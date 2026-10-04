@@ -36,11 +36,11 @@ const PRIVACY_POLICY_HREF = 'https://nomu.kanocifer.chat/docs/privacy';
 const TERMS_HREF = 'https://nomu.kanocifer.chat/docs/terms';
 
 useHead({
-  title: () => `${t('noonTool.register.meta.title')} · Nomu`,
+  title: () => `${t('register.meta.title')} · Nomu`,
   meta: () => [
-    { name: 'description', content: t('noonTool.register.meta.description') },
-    { property: 'og:title', content: t('noonTool.register.meta.title') },
-    { property: 'og:description', content: t('noonTool.register.meta.description') },
+    { name: 'description', content: t('register.meta.description') },
+    { property: 'og:title', content: t('register.meta.title') },
+    { property: 'og:description', content: t('register.meta.description') },
     { property: 'og:url', content: `${SITE_URL}/register` },
   ],
 });
@@ -98,10 +98,10 @@ const {
             <h1
               class="text-ink text-[34px] leading-[1.14] font-semibold tracking-[-0.035em] text-balance md:text-[40px] md:tracking-[-0.04em]"
             >
-              {{ t('noonTool.register.headline') }}
+              {{ t('register.headline') }}
             </h1>
             <p class="text-muted mt-3 text-[15px] leading-[1.6] text-pretty">
-              {{ t('noonTool.register.subheadline') }}
+              {{ t('register.subheadline') }}
             </p>
             <!-- 分步了就得让人看见还剩几步：没有这条，「下一步」看起来像
                  多余的一层，用户会以为漏了字段，或者干脆不点。 -->
@@ -133,10 +133,10 @@ const {
             </div>
             <div class="flex flex-col gap-2">
               <h2 class="text-ink text-[21px] font-semibold tracking-[-0.02em]">
-                {{ t('noonTool.register.success.title') }}
+                {{ t('register.success.title') }}
               </h2>
               <p class="text-muted max-w-[19rem] text-[14px] leading-[1.6] text-pretty">
-                {{ t('noonTool.register.success.body') }}
+                {{ t('register.success.body') }}
               </p>
             </div>
             <div class="flex w-full flex-col gap-2 pt-1">
@@ -146,14 +146,14 @@ const {
                 rel="noopener"
                 class="bg-accent text-contrast inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold shadow-[var(--shadow-accent)] transition-[filter,transform] duration-200 ease-[var(--ease-out)] hover:-translate-y-px hover:brightness-105 active:scale-[0.99]"
               >
-                {{ t('noonTool.register.success.cta') }}
+                {{ t('register.success.cta') }}
                 <ArrowRight :size="16" :stroke-width="2" aria-hidden="true" />
               </a>
               <a
                 href="/"
                 class="text-muted hover:text-ink inline-flex items-center justify-center rounded-full px-6 py-2.5 text-[14px] transition-colors duration-200 hover:bg-[color-mix(in_oklch,var(--ink)_4%,transparent)]"
               >
-                {{ t('noonTool.register.success.back') }}
+                {{ t('register.success.back') }}
               </a>
             </div>
           </motion.section>
@@ -167,7 +167,7 @@ const {
             aria-labelledby="register-form-heading"
             @submit.prevent="submit"
           >
-            <h2 id="register-form-heading" class="sr-only">{{ t('noonTool.register.headline') }}</h2>
+            <h2 id="register-form-heading" class="sr-only">{{ t('register.headline') }}</h2>
 
             <!-- 第 1 步：账户信息。第 2 步：确认密码 + 邮箱验证码。
                  mode="wait" 让旧的一步先退干净再进下一步 —— 同步交叉的话两个
@@ -177,7 +177,7 @@ const {
                 <TextField
                   v-model="form.username"
                   id="reg-username"
-                  :label="t('noonTool.register.form.username')"
+                  :label="t('register.form.username')"
                   autocomplete="username"
                   :error="errors.username"
                 />
@@ -185,7 +185,7 @@ const {
                   v-model="form.email"
                   id="reg-email"
                   type="email"
-                  :label="t('noonTool.register.form.email')"
+                  :label="t('register.form.email')"
                   autocomplete="email"
                   :error="errors.email"
                 />
@@ -193,12 +193,12 @@ const {
                   v-model="form.password"
                   id="reg-password"
                   :type="showPassword ? 'text' : 'password'"
-                  :label="t('noonTool.register.form.password')"
+                  :label="t('register.form.password')"
                   autocomplete="new-password"
                   :error="errors.password"
                   revealable
                   :reveal-label="
-                    showPassword ? t('noonTool.register.form.hidePassword') : t('noonTool.register.form.showPassword')
+                    showPassword ? t('register.form.hidePassword') : t('register.form.showPassword')
                   "
                   @toggle-reveal="toggleReveal"
                 />
@@ -209,12 +209,12 @@ const {
                   v-model="form.confirmPassword"
                   id="reg-confirm"
                   :type="showPassword ? 'text' : 'password'"
-                  :label="t('noonTool.register.form.confirmPassword')"
+                  :label="t('register.form.confirmPassword')"
                   autocomplete="new-password"
                   :error="errors.confirmPassword"
                   revealable
                   :reveal-label="
-                    showPassword ? t('noonTool.register.form.hidePassword') : t('noonTool.register.form.showPassword')
+                    showPassword ? t('register.form.hidePassword') : t('register.form.showPassword')
                   "
                   @toggle-reveal="toggleReveal"
                 />
@@ -224,7 +224,7 @@ const {
                      表单这边保持安静；黄色留给 CTA 和那张卡。 -->
                 <div>
                   <label for="reg-code" class="text-ink text-[13px] font-medium">
-                    {{ t('noonTool.register.form.emailCode') }}
+                    {{ t('register.form.emailCode') }}
                   </label>
                   <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-start">
                     <input
@@ -233,7 +233,7 @@ const {
                       type="text"
                       inputmode="numeric"
                       autocomplete="one-time-code"
-                      :placeholder="t('noonTool.register.form.emailCodeHint')"
+                      :placeholder="t('register.form.emailCodeHint')"
                       :aria-invalid="errors.emailCode ? 'true' : undefined"
                       class="text-ink placeholder:text-muted/55 focus:border-accent-slate focus:bg-surface focus:ring-accent-slate/26 [@media(prefers-reduced-transparency:reduce)]:bg-surface w-full flex-1 rounded-[13px] border border-[color-mix(in_oklch,var(--ink)_10%,transparent)] bg-[color-mix(in_oklch,var(--surface)_66%,transparent)] px-[0.85rem] py-[0.7rem] text-[15px] tracking-[0.2em] transition-[border-color,background-color,box-shadow] duration-200 ease-[var(--ease-out)] placeholder:tracking-normal hover:bg-[color-mix(in_oklch,var(--surface)_82%,transparent)] focus:ring-2 focus:outline-none"
                       :class="{
@@ -258,7 +258,7 @@ const {
                     </button>
                   </div>
                   <p v-if="codeSent" class="text-muted mt-2.5 text-[12.5px] leading-[1.5]">
-                    {{ t('noonTool.register.form.codeSentTo', { email: form.email }) }}
+                    {{ t('register.form.codeSentTo', { email: form.email }) }}
                   </p>
                   <p v-if="errors.emailCode" class="text-destructive mt-2 flex items-center gap-1 text-[12.5px]">
                     <TriangleAlert :size="13" :stroke-width="2" class="shrink-0" aria-hidden="true" />
@@ -302,7 +302,7 @@ const {
                 class="text-muted hover:text-ink inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full px-5 py-3 text-[15px] font-medium transition-colors duration-200 hover:bg-[color-mix(in_oklch,var(--ink)_5%,transparent)]"
                 @click="goBack"
               >
-                {{ t('noonTool.register.form.back') }}
+                {{ t('register.form.back') }}
               </button>
             </div>
 
@@ -310,14 +310,14 @@ const {
                  这是一句固定长度的声明，pretty 只会避免单词孤行，结果把
                  「privacy policy.」整段甩到第二行；balance 让两行长度相当。 -->
             <p class="text-muted/80 mt-4 text-[12px] leading-[1.6] text-balance">
-              <i18n-t keypath="noonTool.register.bottomHint">
+              <i18n-t keypath="common.bottomHint">
                 <template #terms>
                   <a
                     :href="TERMS_HREF"
                     target="_blank"
                     rel="noopener"
                     class="text-muted hover:text-ink underline decoration-current/35 underline-offset-[3px] transition-colors"
-                    >{{ t('noonTool.register.terms') }}</a
+                    >{{ t('common.terms') }}</a
                   >
                 </template>
                 <template #privacy>
@@ -326,7 +326,7 @@ const {
                     target="_blank"
                     rel="noopener"
                     class="text-muted hover:text-ink underline decoration-current/35 underline-offset-[3px] transition-colors"
-                    >{{ t('noonTool.register.privacy') }}</a
+                    >{{ t('common.privacy') }}</a
                   >
                 </template>
               </i18n-t>

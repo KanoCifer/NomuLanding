@@ -63,7 +63,7 @@ const highlightItem = {
       <div class="lg:col-span-6 xl:col-span-5">
         <motion.p v-bind="heroItem" class="text-muted rule-glyph text-[11px] font-medium tracking-[0.22em] uppercase">
           <NoonToolOrnament tone="accent" />
-          {{ t('noonTool.hero.eyebrow') }}
+          {{ t('landing.hero.eyebrow') }}
         </motion.p>
 
         <motion.h1
@@ -71,19 +71,19 @@ const highlightItem = {
           id="hero-heading"
           class="text-ink mt-6 max-w-[15ch] text-[42px] leading-[1.04] font-semibold tracking-[-0.035em] sm:text-[52px] lg:text-[54px] lg:leading-[1.0] xl:text-[64px] xl:tracking-[-0.04em]"
         >
-          {{ t('noonTool.hero.headline') }}
+          {{ t('landing.hero.headline') }}
           <span class="relative inline-block">
             <motion.span
               aria-hidden="true"
               v-bind="highlightItem"
               class="bg-accent/55 absolute inset-x-[-0.05em] bottom-[0.04em] z-0 h-[0.28em] origin-left rounded-full"
             ></motion.span>
-            <span class="relative z-10">{{ t('noonTool.hero.headlineTail') }}</span>
+            <span class="relative z-10">{{ t('landing.hero.headlineTail') }}</span>
           </span>
         </motion.h1>
 
         <motion.p v-bind="heroItem" class="text-muted mt-7 max-w-[46ch] text-[16px] leading-[1.6] md:text-[18px]">
-          {{ t('noonTool.hero.subheadline') }}
+          {{ t('landing.hero.subheadline') }}
         </motion.p>
 
         <motion.div v-bind="heroItem" class="mt-9 flex flex-wrap items-center gap-3">
@@ -104,13 +104,13 @@ const highlightItem = {
                 class="size-4 -translate-x-[1.35em] translate-y-[1.35em] transition-transform duration-200 ease-[var(--ease-out)] [grid-area:stack] motion-safe:group-hover/cta:translate-x-0 motion-safe:group-hover/cta:translate-y-0 motion-reduce:transition-none"
               />
             </span>
-            {{ t('noonTool.hero.ctaPrimary') }}
+            {{ t('landing.hero.ctaPrimary') }}
           </a>
           <a
             href="#features"
             class="text-ink inline-flex items-center gap-2 rounded-full border border-[var(--hairline)] bg-white px-5 py-3.5 text-[14px] font-medium transition-[transform,box-shadow] duration-200 ease-[var(--ease-out)] hover:-translate-y-px hover:shadow-[var(--shadow-panel)]"
           >
-            {{ t('noonTool.hero.ctaSecondary') }}
+            {{ t('landing.hero.ctaSecondary') }}
           </a>
           <a
             :href="DOCS_URL"
@@ -119,7 +119,7 @@ const highlightItem = {
             class="text-muted hover:text-ink inline-flex items-center gap-1.5 rounded-full px-3 py-3.5 text-[14px] font-medium transition-colors duration-150"
           >
             <component :is="ICONS.docs" :size="14" />
-            {{ t('noonTool.hero.ctaDocs') }}
+            {{ t('landing.hero.ctaDocs') }}
           </a>
         </motion.div>
       </div>
@@ -134,9 +134,9 @@ const highlightItem = {
     <motion.div v-bind="heroItem" class="mt-20 md:mt-24">
       <NoonToolScreenshot
         video-src="/screens/01-hero.mp4"
-        :alt="t('noonTool.hero.screenshotAlt')"
+        :alt="t('landing.hero.screenshotAlt')"
         aspect="5/2"
-        :caption="t('noonTool.hero.screenshotCaption')"
+        :caption="t('landing.hero.screenshotCaption')"
       />
     </motion.div>
   </motion.section>

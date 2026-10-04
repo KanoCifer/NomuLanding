@@ -29,15 +29,15 @@ const status = ref<Status>('pending');
 const message = ref('');
 
 const headline = computed(() => {
-  if (status.value === 'pending') return t('noonTool.login.headlinePending');
-  if (status.value === 'success') return t('noonTool.login.headlineSuccess');
-  return t('noonTool.login.headlineError');
+  if (status.value === 'pending') return t('login.headlinePending');
+  if (status.value === 'success') return t('login.headlineSuccess');
+  return t('login.headlineError');
 });
 
 const subline = computed(() => {
-  if (status.value === 'pending') return t('noonTool.login.sublinePending');
-  if (status.value === 'success') return t('noonTool.login.sublineSuccess');
-  return message.value || t('noonTool.login.sublineFallbackError');
+  if (status.value === 'pending') return t('login.sublinePending');
+  if (status.value === 'success') return t('login.sublineSuccess');
+  return message.value || t('login.sublineFallbackError');
 });
 
 onMounted(async () => {
@@ -46,7 +46,7 @@ onMounted(async () => {
 
   if (!token) {
     status.value = 'error';
-    message.value = t('noonTool.login.missingTokenError');
+    message.value = t('login.missingTokenError');
     return;
   }
 
@@ -92,12 +92,12 @@ function retry(): void {
 
       <!-- success：用户回扩展继续 -->
       <button v-if="status === 'success'" class="bloom-btn bloom-btn-secondary" type="button" @click="closePage">
-        {{ t('noonTool.login.closePage') }}
+        {{ t('login.closePage') }}
       </button>
 
       <!-- error：重试 -->
       <button v-else-if="status === 'error'" class="bloom-btn bloom-btn-primary" type="button" @click="retry">
-        {{ t('noonTool.login.retry') }}
+        {{ t('login.retry') }}
       </button>
     </div>
   </div>

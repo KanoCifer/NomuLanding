@@ -23,16 +23,16 @@ const reveal = useReveal();
     <header class="max-w-3xl space-y-3">
       <p class="text-muted rule-glyph text-[11px] font-medium tracking-[0.22em] uppercase">
         <NoonToolOrnament />
-        {{ t('noonTool.services.eyebrow') }}
+        {{ t('landing.services.eyebrow') }}
       </p>
       <h2
         id="services-heading"
         class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[48px] md:tracking-[-0.035em]"
       >
-        {{ t('noonTool.services.sectionTitle') }}
+        {{ t('landing.services.sectionTitle') }}
       </h2>
       <p class="text-muted max-w-xl text-[15px] leading-[1.55] md:text-[17px]">
-        {{ t('noonTool.services.sectionSubtitle') }}
+        {{ t('landing.services.sectionSubtitle') }}
       </p>
     </header>
 
@@ -44,16 +44,16 @@ const reveal = useReveal();
           <component :is="ICONS[key]" :size="16" :stroke-width="1.75" />
         </span>
         <h3 class="text-ink text-lg font-semibold tracking-[-0.01em]">
-          {{ t(`noonTool.services.items.${key}.title`) }}
+          {{ t(`landing.services.items.${key}.title`) }}
         </h3>
         <p class="text-muted text-[14px] leading-[1.55]">
-          {{ t(`noonTool.services.items.${key}.body`) }}
+          {{ t(`landing.services.items.${key}.body`) }}
         </p>
         <a
           :href="DOCS_URL + 'guide/support'"
           class="text-accent-slate hover:text-ink mt-auto inline-flex items-center gap-1 pt-1 text-sm font-medium transition-colors"
         >
-          {{ t('noonTool.services.cta') }}
+          {{ t('landing.services.cta') }}
           <component :is="ICONS.footerLink" :size="14" />
         </a>
       </li>

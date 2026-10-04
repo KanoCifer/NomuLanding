@@ -105,16 +105,16 @@ const COL_META: Record<Dest, { chipClass: string }> = {
     <header class="max-w-3xl space-y-3">
       <p class="text-muted rule-glyph text-[11px] font-medium tracking-[0.22em] uppercase">
         <NoonToolOrnament />
-        {{ t('noonTool.privacyPermissions.eyebrow') }}
+        {{ t('landing.privacyPermissions.eyebrow') }}
       </p>
       <h2
         id="privacy-permissions-heading"
         class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[48px] md:tracking-[-0.035em]"
       >
-        {{ t('noonTool.privacyPermissions.sectionTitle') }}
+        {{ t('landing.privacyPermissions.sectionTitle') }}
       </h2>
       <p class="text-muted max-w-2xl text-[15px] leading-[1.55] md:text-[17px]">
-        {{ t('noonTool.privacyPermissions.sectionSubtitle') }}
+        {{ t('landing.privacyPermissions.sectionSubtitle') }}
       </p>
     </header>
 
@@ -127,17 +127,17 @@ const COL_META: Record<Dest, { chipClass: string }> = {
       >
         <header class="flex items-center justify-between gap-2 border-b border-[var(--hairline)] px-5 py-4">
           <h3 class="text-ink text-[15px] font-semibold tracking-[-0.01em]">
-            {{ t(`noonTool.privacyPermissions.cols.${dest}.name`) }}
+            {{ t(`landing.privacyPermissions.cols.${dest}.name`) }}
           </h3>
           <span
             :class="COL_META[dest].chipClass"
             class="rounded-full px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em] uppercase"
           >
-            {{ t(`noonTool.privacyPermissions.cols.${dest}.chip`) }}
+            {{ t(`landing.privacyPermissions.cols.${dest}.chip`) }}
           </span>
         </header>
         <p class="text-muted border-b border-[var(--hairline)] px-5 py-3 text-[12px] leading-[1.45]">
-          {{ t(`noonTool.privacyPermissions.cols.${dest}.tagline`) }}
+          {{ t(`landing.privacyPermissions.cols.${dest}.tagline`) }}
         </p>
         <ul class="space-y-3 px-5 py-4">
           <li v-for="row in ROWS.filter((r) => r.dest === dest)" :key="row.key" class="flex gap-3">
@@ -149,10 +149,10 @@ const COL_META: Record<Dest, { chipClass: string }> = {
             </span>
             <div class="min-w-0 flex-1">
               <div class="text-ink text-[13px] leading-[1.4] font-semibold">
-                {{ t(`noonTool.privacyPermissions.items.${row.key}.name`) }}
+                {{ t(`landing.privacyPermissions.items.${row.key}.name`) }}
               </div>
               <div class="text-muted mt-0.5 text-[12px] leading-[1.5]">
-                {{ t(`noonTool.privacyPermissions.items.${row.key}.detail`) }}
+                {{ t(`landing.privacyPermissions.items.${row.key}.detail`) }}
               </div>
             </div>
           </li>
@@ -163,10 +163,10 @@ const COL_META: Record<Dest, { chipClass: string }> = {
     <motion.div v-bind="reveal(0.24)" class="space-y-4">
       <header class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h3 class="text-ink text-[20px] font-semibold tracking-[-0.015em]">
-          {{ t('noonTool.privacyPermissions.permissionsStrip.title') }}
+          {{ t('landing.privacyPermissions.permissionsStrip.title') }}
         </h3>
         <p class="text-muted text-[12px]">
-          {{ t('noonTool.privacyPermissions.permissionsStrip.subtitle') }}
+          {{ t('landing.privacyPermissions.permissionsStrip.subtitle') }}
         </p>
       </header>
       <div class="flex flex-wrap gap-2">
@@ -183,18 +183,18 @@ const COL_META: Record<Dest, { chipClass: string }> = {
             class="text-accent-slate"
             aria-hidden="true"
           />
-          <span class="text-ink">{{ t(`noonTool.privacyPermissions.permissionsStrip.perms.${pk}.label`) }}</span>
+          <span class="text-ink">{{ t(`landing.privacyPermissions.permissionsStrip.perms.${pk}.label`) }}</span>
           <span
             class="text-muted max-w-0 overflow-hidden text-[11px] whitespace-nowrap opacity-0 transition-all duration-200 ease-[var(--ease-out)] group-hover/pill:max-w-[280px] group-hover/pill:opacity-100"
             aria-hidden="true"
           >
-            &nbsp;— {{ t(`noonTool.privacyPermissions.permissionsStrip.perms.${pk}.detail`) }}
+            &nbsp;— {{ t(`landing.privacyPermissions.permissionsStrip.perms.${pk}.detail`) }}
           </span>
         </div>
       </div>
 
       <div class="text-muted mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px]">
-        <span>{{ t('noonTool.privacyPermissions.hostsTitle') }}</span>
+        <span>{{ t('landing.privacyPermissions.hostsTitle') }}</span>
         <code
           v-for="h in HOST_CODES"
           :key="h"

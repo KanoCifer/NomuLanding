@@ -33,9 +33,9 @@ const { t } = useI18n();
 const reduceMotion = useReducedMotion();
 
 useHead({
-  title: () => t('noonTool.notFound.meta.title'),
+  title: () => t('notFound.meta.title'),
   meta: () => [
-    { name: 'description', content: t('noonTool.notFound.meta.description') },
+    { name: 'description', content: t('notFound.meta.description') },
     { name: 'robots', content: 'noindex,nofollow' },
   ],
 });
@@ -81,7 +81,7 @@ const supportHref = 'https://nomu.kanocifer.chat/docs/guide/support';
       >
         <motion.div v-bind="introContainer" class="flex max-w-xl flex-col items-center">
           <motion.p v-bind="introItem" class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
-            {{ t('noonTool.notFound.quiet.eyebrow') }}
+            {{ t('notFound.quiet.eyebrow') }}
           </motion.p>
 
           <motion.h1
@@ -96,20 +96,20 @@ const supportHref = 'https://nomu.kanocifer.chat/docs/guide/support';
             id="not-found-title"
             class="text-ink mt-6 text-[22px] font-semibold tracking-[-0.01em] md:text-[26px]"
           >
-            {{ t('noonTool.notFound.quiet.title') }}
+            {{ t('notFound.quiet.title') }}
           </motion.h2>
 
           <motion.p v-bind="introItem" class="text-muted mt-3 max-w-md text-[15px] leading-[1.55]">
-            {{ t('noonTool.notFound.quiet.body') }}
+            {{ t('notFound.quiet.body') }}
           </motion.p>
 
           <motion.div v-bind="introItem" class="mt-9 flex flex-wrap items-center justify-center gap-2">
             <RouterLink
               to="/"
-              :aria-label="t('noonTool.notFound.quiet.ctaHint')"
+              :aria-label="t('notFound.quiet.ctaHint')"
               class="bg-ink text-surface hover:bg-ink/90 inline-flex items-center gap-2 rounded-full px-6 py-3 text-[14px] font-medium transition-[background-color,transform] duration-150 ease-[var(--ease-out)] active:scale-[0.97] motion-reduce:transition-none"
             >
-              {{ t('noonTool.notFound.quiet.cta') }}
+              {{ t('notFound.quiet.cta') }}
             </RouterLink>
             <a
               :href="docsHref"
@@ -117,7 +117,7 @@ const supportHref = 'https://nomu.kanocifer.chat/docs/guide/support';
               rel="noopener"
               class="text-muted hover:text-ink inline-flex items-center rounded-full px-3 py-3 text-[14px] font-medium transition-colors"
             >
-              {{ t('noonTool.notFound.quiet.docsLabel') }}
+              {{ t('notFound.quiet.docsLabel') }}
             </a>
             <a
               :href="supportHref"
@@ -125,7 +125,7 @@ const supportHref = 'https://nomu.kanocifer.chat/docs/guide/support';
               rel="noopener"
               class="text-muted hover:text-ink inline-flex items-center rounded-full px-3 py-3 text-[14px] font-medium transition-colors"
             >
-              {{ t('noonTool.notFound.quiet.supportLabel') }}
+              {{ t('notFound.quiet.supportLabel') }}
             </a>
           </motion.div>
         </motion.div>

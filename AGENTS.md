@@ -11,9 +11,13 @@ Nomu Chrome 扩展的对外落地页,Vue 3 + Vite + Tailwind v4 + **vite-ssg 预
 
 ## 写作与同步
 
-**事实以 NoonToolv1 为准**。`src/locales/*.ts` 的 `noonTool.*` 描述的功能、能力、数字,凡涉及 Nomu 本体的,只能来源 `/Users/liudetao/Code/NoonToolv1` 的当前实现。**禁止虚构功能描述、性能数字、客户证言**。
+**事实以 NoonToolv1 为准**。各模块 `i18n/` 里描述 Nomu 本体的功能、能力、数字,凡涉及 Nomu 本体的,只能来源 `/Users/liudetao/Code/NoonToolv1` 的当前实现。**禁止虚构功能描述、性能数字、客户证言**。
 
-**双语镜像**:`src/locales/zh-CN.ts` 与 `src/locales/en.ts` 同构,任何 `noonTool.<key>` 改动都要同步另一份。
+**文案跟着模块走**:文案在各自模块的 `i18n/{zh-CN,en}.ts`,不在 `src/locales/` 里(那儿只有聚合入口和共享层)。调用处用模块全路径:`t('credits.title')`、`t('landing.hero.headline')`;历史上统一的 `noonTool.` 前缀已拆掉,别再加回来。
+
+**双语镜像**:同一模块的 `zh-CN.ts` 与 `en.ts` 同构,改一边必须同步另一边。`node scripts/check-i18n-keys.mjs`(已挂在 `build` 首位)会把漏翻、拼错、跨模块串用一起挑出来 —— **`vue-i18n` 在本项目没开类型,漏掉的 key 不会报错,只会把裸 key 渲染到页面上**,所以这个自检不能跳。
+
+**跨模块共用**:`src/locales/common/i18n/` 放多个模块都要用、且必须保持一致的文案(导航、分享、注册页与忘记密码页共用的法务提示)。新加共享文案前先确认不是只有一处用 —— 只有一处就留在模块自己目录里。
 
 **Footer 联动**:`src/features/landing/components/NoonToolFooter.vue` 里 `DOCS_URL` 拼出 NomuDocs(`~/Code/NomuDocs`)的 `/docs/`、`/docs/privacy/`、`/docs/guide/changelog`、`/docs/guide/support`。本站 footer 改了要去 NomuDocs 对应路由同步,反过来也成立。
 
@@ -41,6 +45,7 @@ Nomu Chrome 扩展的对外落地页,Vue 3 + Vite + Tailwind v4 + **vite-ssg 预
 ## 完成态
 
 - 改文案或组件:`pnpm typecheck` 通过,`pnpm lint` 0 error
+- 改文案:`node scripts/check-i18n-keys.mjs`(或 `pnpm check:i18n`)通过 —— 改完 i18n 必跑,build 首位也会跑
 - 改路由或 footer:`pnpm build`(末尾自动跑 `scripts/check-ssg.mjs` 校验预渲染产物),浏览器肉眼抽查新路径未 404
 - 部署:`bash deploy.sh`(默认 rsync `dist/` 到 `kano@114.132.156.53:/home/kano/Nomu/Landing`);`SKIP_BUILD=1` 跳过 build,`DRY_RUN=1` 仅打印。**部署是线上行为,用户没确认不跑**
 - 线上 nginx 片段在 `deploy/nginx-nomu.conf`,**用户自己上服务器合**,合完必须让不存在的路径真 404,否则 SSG 白做

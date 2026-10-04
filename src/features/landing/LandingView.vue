@@ -15,9 +15,9 @@ import NoonToolFooter from './components/NoonToolFooter.vue';
 const { t, tm } = useI18n();
 
 const meta = computed(() => ({
-  title: t('noonTool.meta.title'),
-  description: t('noonTool.meta.description'),
-  keywords: (tm('noonTool.meta.keywords') as string[]).join(', '),
+  title: t('landing.meta.title'),
+  description: t('landing.meta.description'),
+  keywords: (tm('landing.meta.keywords') as string[]).join(', '),
 }));
 
 const SITE_URL = 'https://nomu.kanocifer.chat';

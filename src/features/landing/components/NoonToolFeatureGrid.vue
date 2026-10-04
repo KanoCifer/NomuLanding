@@ -104,16 +104,16 @@ const reveal = useReveal();
     <motion.header v-bind="reveal()" class="max-w-3xl space-y-4">
       <p class="text-muted rule-glyph text-[11px] font-medium tracking-[0.22em] uppercase">
         <NoonToolOrnament tone="accent" />
-        {{ t('noonTool.features.eyebrow') }}
+        {{ t('landing.features.eyebrow') }}
       </p>
       <h2
         id="features-heading"
         class="text-ink text-[40px] leading-[1.02] font-semibold tracking-[-0.03em] md:text-[64px] md:leading-[1.0] md:tracking-[-0.04em]"
       >
-        {{ t('noonTool.features.sectionTitle') }}
+        {{ t('landing.features.sectionTitle') }}
       </h2>
       <p class="text-muted max-w-xl text-[15px] leading-[1.55] md:text-[17px]">
-        {{ t('noonTool.features.sectionSubtitle') }}
+        {{ t('landing.features.sectionSubtitle') }}
       </p>
     </motion.header>
 
@@ -122,14 +122,14 @@ const reveal = useReveal();
       <div class="panel overflow-hidden rounded-[28px]">
         <img
           src="/screens/poster.png"
-          :alt="t('noonTool.features.poster.alt')"
+          :alt="t('landing.features.poster.alt')"
           class="block h-auto w-full"
           loading="eager"
           decoding="async"
         />
       </div>
       <figcaption class="text-muted mt-3 px-1 text-[12px] tracking-[0.04em] uppercase">
-        {{ t('noonTool.features.poster.caption') }}
+        {{ t('landing.features.poster.caption') }}
       </figcaption>
     </motion.figure>
 
@@ -167,7 +167,7 @@ const reveal = useReveal();
                 {{ pillar.number }}
               </span>
               <span class="text-muted pb-1 text-[11px] font-medium tracking-[0.22em] uppercase md:pb-2">
-                {{ t('noonTool.features.chapter') }}
+                {{ t('landing.features.chapter') }}
               </span>
             </div>
             <h3
@@ -176,7 +176,7 @@ const reveal = useReveal();
                 idx % 2 === 1 ? 'md:text-right' : 'md:text-left',
               ]"
             >
-              {{ t(`noonTool.features.pillars.${pillar.key}.title`) }}
+              {{ t(`landing.features.pillars.${pillar.key}.title`) }}
             </h3>
             <p
               :class="[
@@ -184,7 +184,7 @@ const reveal = useReveal();
                 idx % 2 === 1 ? 'md:ml-auto md:text-right' : 'md:mr-auto md:text-left',
               ]"
             >
-              {{ t(`noonTool.features.pillars.${pillar.key}.tagline`) }}
+              {{ t(`landing.features.pillars.${pillar.key}.tagline`) }}
             </p>
           </div>
         </div>
@@ -203,10 +203,10 @@ const reveal = useReveal();
                 <component :is="LucideIcon(featKey)" :size="14" :stroke-width="1.75" />
               </span>
               <h4 class="text-ink text-[13.5px] leading-[1.35] font-semibold tracking-[-0.005em]">
-                {{ t(`noonTool.features.items.${featKey}.title`) }}
+                {{ t(`landing.features.items.${featKey}.title`) }}
               </h4>
               <p class="text-muted text-[12px] leading-[1.5]">
-                {{ t(`noonTool.features.items.${featKey}.body`) }}
+                {{ t(`landing.features.items.${featKey}.body`) }}
               </p>
             </li>
           </ul>

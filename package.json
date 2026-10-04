@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite-ssg build && node scripts/check-ssg.mjs",
+    "build": "node scripts/check-i18n-keys.mjs && vue-tsc -b && vite-ssg build && node scripts/check-ssg.mjs",
+    "check:i18n": "node scripts/check-i18n-keys.mjs",
     "preview": "vite preview",
     "typecheck": "vue-tsc -b --noEmit",
     "lint": "pnpm exec oxlint src",

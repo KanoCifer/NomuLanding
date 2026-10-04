@@ -15,11 +15,11 @@ const DOCS_URL = 'https://nomu.kanocifer.chat/docs/';
 /** footer 五条链接：i18n key + 站内路径后缀 + 图标。
  *  五条逐个手写 <a> 时，hover 态改一次要改五处；收成数组后只改这一处。 */
 const FOOTER_LINKS: { key: string; path: string; icon: IconKey }[] = [
-  { key: 'noonTool.footer.links.privacy', path: 'privacy/', icon: 'privacy' },
-  { key: 'noonTool.footer.links.terms', path: 'terms/', icon: 'terms' },
-  { key: 'noonTool.footer.links.changelog', path: 'guide/changelog', icon: 'faq' },
-  { key: 'noonTool.footer.links.support', path: 'guide/support', icon: 'support' },
-  { key: 'noonTool.footer.links.docs', path: '', icon: 'docs' },
+  { key: 'landing.footer.links.privacy', path: 'privacy/', icon: 'privacy' },
+  { key: 'landing.footer.links.terms', path: 'terms/', icon: 'terms' },
+  { key: 'landing.footer.links.changelog', path: 'guide/changelog', icon: 'faq' },
+  { key: 'landing.footer.links.support', path: 'guide/support', icon: 'support' },
+  { key: 'landing.footer.links.docs', path: '', icon: 'docs' },
 ];
 
 // 备案号固定不变,不进 i18n;工信部要求备案号跳转查询站点
@@ -31,7 +31,7 @@ const ICP_NUMBER = '粤ICP备2026018113号';
   <footer class="panel text-muted flex flex-col items-center justify-between gap-4 px-6 py-5 text-xs md:flex-row">
     <div class="flex items-center gap-2">
       <img src="/icon/32.png" alt="Nomu" class="h-4 w-4 rounded-sm" />
-      <span>{{ t('noonTool.footer.tagline') }}</span>
+      <span>{{ t('landing.footer.tagline') }}</span>
     </div>
     <nav class="flex flex-wrap items-center gap-1">
       <a
@@ -45,7 +45,7 @@ const ICP_NUMBER = '粤ICP备2026018113号';
       </a>
     </nav>
     <div class="flex flex-col items-center gap-1">
-      <p>{{ t('noonTool.footer.license') }} · © {{ year }}</p>
+      <p>{{ t('landing.footer.license') }} · © {{ year }}</p>
       <a :href="ICP_URL" target="_blank" rel="noopener noreferrer" class="hover:text-ink transition-colors">
         {{ ICP_NUMBER }}
       </a>

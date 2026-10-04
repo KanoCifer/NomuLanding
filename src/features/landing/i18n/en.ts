@@ -1,5 +1,5 @@
 export default {
-  noonTool: {
+  landing: {
     meta: {
       title: 'Nomu: an easy-to-use Chrome extension for Noon',
       description:
@@ -40,26 +40,6 @@ export default {
     },
     splash: {
       eyebrow: 'Nomu',
-    },
-    nav: {
-      sections: {
-        features: 'Features',
-        support: 'Support',
-        faq: 'FAQ',
-      },
-      docs: 'Docs',
-      install: 'Add to Chrome',
-      credits: 'Credits',
-      announcements: 'Announcements',
-      register: 'Sign up',
-      forgotPassword: 'Forgot password',
-      menu: 'Menu',
-      menuOpen: 'Open menu',
-      menuClose: 'Close menu',
-    },
-    share: {
-      label: 'Share',
-      copied: 'Link copied',
     },
     features: {
       eyebrow: 'Features',
@@ -386,103 +366,6 @@ export default {
         },
       },
     },
-    announcements: {
-      meta: {
-        title: 'Announcements',
-        description:
-          'Feature releases, version changes, maintenance windows and security notices for Nomu, newest first.',
-      },
-      eyebrow: 'Announcements',
-      title: 'Nomu announcements',
-      subheadline:
-        'New features, version updates, maintenance windows and security notices are posted here, grouped by category with the newest first. The extension overview also surfaces the ones worth acting on.',
-      loading: 'Loading announcements…',
-      loadFailed: 'Announcements are unavailable right now. Please check back later.',
-      empty: 'No announcements yet.',
-      // Keys match the backend API `type` values; no separate enum is invented here.
-      types: {
-        general: 'Notice',
-        feature: 'New feature',
-        update: 'Update',
-        maintenance: 'Maintenance',
-        security: 'Security',
-        credit: 'Credits',
-      },
-    },
-    credits: {
-      meta: {
-        title: 'Credits explained',
-        description:
-          'Nomu AI features spend credits: how many credits translation, AI prompt optimization, AI product parsing, knowledge-base Q&A and AI image generation use, and how credits are deducted. Capturing and publishing use none.',
-      },
-      eyebrow: 'Credits',
-      title: 'What one AI action costs you in credits.',
-      subtitle:
-        'Only AI features spend credits — capturing, editing and publishing do not. Below is what a single action uses; your balance and every deduction are in the extension under Account.',
-      unitFen: 'credits',
-      back: 'Back to home',
-      updatedAt: 'Any rule change shows up here and in the changelog.',
-      table: {
-        title: 'Credits used per action',
-        feature: 'Feature',
-        unit: 'Per action',
-        amount: 'Credits used',
-        caption:
-          'Balance and history live in the extension under Account — every deduction, and why, is listed item by item.',
-        loading: 'Loading the credit table…',
-        failed: 'The credit table is unavailable right now. Refresh, or check it under Account in the extension.',
-      },
-      units: {
-        perCall: 'Call',
-        perKToken: '1K tokens',
-        perImage: 'Image',
-      },
-      items: {
-        translate: {
-          name: 'Translation',
-          desc: 'Product details, Chinese to English or Arabic',
-        },
-        promptOptimize: {
-          name: 'AI prompt optimization',
-          desc: 'Turns one line into a usable image or listing prompt',
-        },
-        productParse: {
-          name: 'AI product parsing',
-          desc: 'Right-click “Parse with AI” on any source page',
-        },
-        knowledgeAsk: {
-          name: 'Knowledge-base Q&A',
-          desc: 'The in-extension assistant for listing rules (tokens, rounded up)',
-        },
-        designLite: {
-          name: 'AI image · standard',
-          desc: 'Seedream 5.0 / GPT-Image 2 series',
-        },
-        designPro: {
-          name: 'AI image · high quality',
-          desc: 'Seedream 5.0 Pro, when quality matters more than speed',
-        },
-      },
-      rulesTitle: 'How credits are deducted',
-      rules: {
-        preconsume: {
-          title: 'Reserved up front, reconciled after',
-          body: 'Image generation reserves credits by image count up front, then checks the actual count and returns the difference.',
-        },
-        idempotent: {
-          title: 'Retries never deduct twice',
-          body: 'Every call carries a unique idempotency key, so a network retry or a double click only counts once.',
-        },
-        insufficient: {
-          title: 'Blocked when credits run out',
-          body: 'A request with too few credits is rejected on the spot and the balance never goes negative; add credits and it works again immediately.',
-        },
-        records: {
-          title: 'Every deduction is itemized',
-          body: 'Account · Usage history lists the source, the amount and the time of each one, with returned credits shown separately.',
-        },
-      },
-    },
     services: {
       eyebrow: 'Agency services',
       sectionTitle: 'We handle the store-opening paperwork',
@@ -525,117 +408,6 @@ export default {
       hint: 'One-click install from the Chrome Web Store',
       shareHint: 'Or share with a colleague',
     },
-    register: {
-      meta: {
-        title: 'Create your Nomu account',
-        description:
-          'Create a Nomu account to use the whole extension. The AI assistant and AI Generation are billed in credits.',
-      },
-      headline: 'Create your Nomu account',
-      subheadline:
-        'An account unlocks everything in the extension: capture, publishing, the AI assistant and AI Generation.',
-      eyebrow: 'Account',
-      form: {
-        username: 'Username',
-        email: 'Email',
-        password: 'Password',
-        confirmPassword: 'Confirm password',
-        emailCode: 'Email code',
-        emailCodeHint: '6 digits',
-        showPassword: 'Show password',
-        hidePassword: 'Hide password',
-        sendCode: 'Send code',
-        sending: 'Sending…',
-        sent: 'Sent',
-        codeSentTo: 'The code is on its way to {email}. Check that inbox.',
-        resendIn: 'Resend in {n}s',
-        next: 'Next',
-        back: 'Back',
-        step: 'Step {current} of {total}',
-        submit: 'Create account',
-        submitting: 'Creating…',
-      },
-      errors: {
-        usernameRequired: 'Please enter a username',
-        emailRequired: 'Please enter your email',
-        emailInvalid: 'That email looks invalid',
-        passwordRequired: 'Please enter a password',
-        confirmPasswordRequired: 'Please confirm your password',
-        passwordMismatch: "Passwords don't match",
-        emailCodeRequired: 'Please enter the email code',
-        sendCodeFailed: "Couldn't send the code. Try again in a moment.",
-        submitFailed: "Couldn't create the account. Try again in a moment.",
-      },
-      success: {
-        title: "You're in",
-        body: 'Your account is ready. Install the Nomu extension — sign in and capture, listing, the AI assistant and cross-device duplication are all open.',
-        cta: 'Install Nomu',
-        back: 'Back to home',
-      },
-      bottomHint: "By creating an account you agree to Nomu's {terms} and {privacy}.",
-      terms: 'terms of service',
-      privacy: 'privacy policy',
-    },
-    login: {
-      /* 与 ReadingList 的 noonTool.nomuLogin 文案保持一致 */
-      headlinePending: 'Welcome back',
-      headlineSuccess: 'Sign-in synced',
-      headlineError: 'Unable to continue',
-      sublinePending: 'Confirming this sign-in with Nomu…',
-      sublineSuccess: 'You can return to the Nomu extension to keep working.',
-      sublineFallbackError: "Nomu didn't confirm this link in time. It may have expired.",
-      missingTokenError: 'Missing token. This link is invalid.',
-      closePage: 'Close this page',
-      retry: 'Try again',
-    },
-    forgotPassword: {
-      meta: {
-        title: 'Reset your Nomu password',
-        description: 'Reset your Nomu account password with an email verification code.',
-      },
-      headline: 'Reset password',
-      subheadline: 'Enter the email on your account — we will send a 6-digit code to reset your password.',
-      /* Step 1: request the reset email */
-      stepRequest: {
-        email: 'Account email',
-        submit: 'Send reset email',
-        submitting: 'Sending…',
-      },
-      /* Step 1 success: fixed wording to avoid leaking whether the email is registered */
-      requestedHint: 'If that email is registered, a reset link is on its way.',
-      requestedHintDetail: 'Grab the 6-digit code from your inbox, then come back here.',
-      /* Step 2: code + new password */
-      stepConfirm: {
-        emailLabel: 'Sent to',
-        changeEmail: 'Use a different email',
-        emailCode: 'Email code',
-        newPassword: 'New password',
-        confirmPassword: 'Confirm new password',
-        submit: 'Reset password',
-        submitting: 'Resetting…',
-      },
-      errors: {
-        emailRequired: 'Please enter your email',
-        emailInvalid: 'That email looks invalid',
-        emailCodeRequired: 'Please enter the 6-digit code',
-        newPasswordRequired: 'Please enter a new password',
-        newPasswordTooShort: 'Use at least 6 characters',
-        confirmPasswordRequired: 'Please confirm your new password',
-        passwordMismatch: "Passwords don't match",
-        /* Step 2 errors: 404 is intentionally rewritten to block account enumeration */
-        invalidCodeOrEmail: 'Code is invalid or the email is not registered',
-        sessionExpired: 'Session expired. Please request a new code.',
-        passwordSameAsOld: 'Pick a password you have not used before',
-        submitFailed: "Couldn't reset the password. Try again in a moment.",
-        networkError: 'Network error. Try again in a moment.',
-      },
-      success: {
-        title: 'Password updated',
-        body: 'Install the Nomu extension and sign in with your new password to open the whole extension.',
-        cta: 'Install Nomu',
-        back: 'Back to home',
-      },
-    },
     footer: {
       tagline: 'Nomu: an easy-to-use Chrome extension for Noon',
       links: {
@@ -646,39 +418,6 @@ export default {
         docs: 'Docs',
       },
       license: 'All rights reserved',
-    },
-    notFound: {
-      meta: {
-        title: 'Page not found · Nomu',
-        description: 'Nomu landing · The page you asked for is not here.',
-      },
-      quiet: {
-        eyebrow: '404',
-        title: 'Page not found',
-        body: 'The link may be off, or the page has moved.',
-        cta: 'Back to home',
-        ctaHint: 'Return to the Nomu landing',
-        docsLabel: 'Read the docs',
-        supportLabel: 'Get support',
-      },
-      spatial: {
-        eyebrow: '404 · Tab has drifted away',
-        title: "This page isn't here",
-        body: 'The tab you meant to open has left the screen. Head back home or open the docs.',
-        cta: 'Back to home',
-        ctaHint: 'Return to the Nomu landing',
-        docsLabel: 'Read the docs',
-        supportLabel: 'Get support',
-      },
-      editorial: {
-        eyebrow: '404',
-        title: 'Not found — or the product image never uploaded.',
-        body: 'A broken link is more likely than a missing feature. Head home, install Nomu, or read the docs.',
-        cta: 'Back to home',
-        ctaHint: 'Return to the Nomu landing',
-        docsLabel: 'Read the docs',
-        supportLabel: 'Get support',
-      },
     },
   },
 } as const;

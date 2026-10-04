@@ -14,7 +14,7 @@ import { sendRegisterEmailCode, submitRegistration } from '@/lib/nomuRegister';
  * 调动效不必在 570 行的模板里翻。
  *
  * 网络调用直接用 `@/lib/nomuRegister`，没有再包一层 —— 中间那层只会转发。
- * 文案不外泄成 key 字符串：标签都是 computed，视图里看不到 `noonTool.register.*`。
+ * 文案不外泄成 key 字符串：标签都是 computed，视图里看不到 `register.*`。
  */
 export function useRegisterForm() {
   const { t } = useI18n();
@@ -71,7 +71,7 @@ export function useRegisterForm() {
   const stepDirection = ref<1 | -1>(1);
 
   const STEP_TOTAL = 2;
-  const stepLabel = computed(() => t('noonTool.register.form.step', { current: step.value, total: STEP_TOTAL }));
+  const stepLabel = computed(() => t('register.form.step', { current: step.value, total: STEP_TOTAL }));
 
   /* 切页动效。两步共用同一份参数，视图 `v-bind` 上去即可，不必知道位移量、
      曲线和 reduceMotion 分支。 */
@@ -122,10 +122,10 @@ export function useRegisterForm() {
   /* ---------- 发送验证码 ---------- */
 
   const sendCodeLabel = computed(() => {
-    if (isSendingCode.value) return t('noonTool.register.form.sending');
-    if (codeCountdown.value > 0) return t('noonTool.register.form.resendIn', { n: codeCountdown.value });
-    if (codeSent.value) return t('noonTool.register.form.sent');
-    return t('noonTool.register.form.sendCode');
+    if (isSendingCode.value) return t('register.form.sending');
+    if (codeCountdown.value > 0) return t('register.form.resendIn', { n: codeCountdown.value });
+    if (codeSent.value) return t('register.form.sent');
+    return t('register.form.sendCode');
   });
 
   async function sendCode() {
@@ -133,11 +133,11 @@ export function useRegisterForm() {
     errors.value.submit = '';
 
     if (!form.value.email) {
-      errors.value.email = t('noonTool.register.errors.emailRequired');
+      errors.value.email = t('register.errors.emailRequired');
       return;
     }
     if (!EMAIL_RE.test(form.value.email)) {
-      errors.value.email = t('noonTool.register.errors.emailInvalid');
+      errors.value.email = t('register.errors.emailInvalid');
       return;
     }
 
@@ -147,7 +147,7 @@ export function useRegisterForm() {
       codeSent.value = true;
       startCountdown(60);
     } catch (err) {
-      errors.value.email = extractAxiosFieldError(err, 'email') || t('noonTool.register.errors.sendCodeFailed');
+      errors.value.email = extractAxiosFieldError(err, 'email') || t('register.errors.sendCodeFailed');
     } finally {
       isSendingCode.value = false;
     }
@@ -160,8 +160,8 @@ export function useRegisterForm() {
   const submitDisabled = computed(() => isSubmitting.value || isSuccess.value);
 
   const submitLabel = computed(() => {
-    if (isSubmitting.value) return t('noonTool.register.form.submitting');
-    return step.value === 1 ? t('noonTool.register.form.next') : t('noonTool.register.form.submit');
+    if (isSubmitting.value) return t('register.form.submitting');
+    return step.value === 1 ? t('register.form.next') : t('register.form.submit');
   });
 
   async function submit() {
@@ -169,10 +169,10 @@ export function useRegisterForm() {
 
     /* 第一步只校验账户信息，通过就翻页 —— 不碰后端。 */
     if (step.value === 1) {
-      if (!form.value.username) errors.value.username = t('noonTool.register.errors.usernameRequired');
-      if (!form.value.email) errors.value.email = t('noonTool.register.errors.emailRequired');
-      else if (!EMAIL_RE.test(form.value.email)) errors.value.email = t('noonTool.register.errors.emailInvalid');
-      if (!form.value.password) errors.value.password = t('noonTool.register.errors.passwordRequired');
+      if (!form.value.username) errors.value.username = t('register.errors.usernameRequired');
+      if (!form.value.email) errors.value.email = t('register.errors.emailRequired');
+      else if (!EMAIL_RE.test(form.value.email)) errors.value.email = t('register.errors.emailInvalid');
+      if (!form.value.password) errors.value.password = t('register.errors.passwordRequired');
       if (Object.values(errors.value).some((v) => v)) return;
       stepDirection.value = 1;
       step.value = 2;
@@ -180,11 +180,11 @@ export function useRegisterForm() {
     }
 
     if (!form.value.confirmPassword) {
-      errors.value.confirmPassword = t('noonTool.register.errors.confirmPasswordRequired');
+      errors.value.confirmPassword = t('register.errors.confirmPasswordRequired');
     } else if (form.value.password !== form.value.confirmPassword) {
-      errors.value.confirmPassword = t('noonTool.register.errors.passwordMismatch');
+      errors.value.confirmPassword = t('register.errors.passwordMismatch');
     }
-    if (!form.value.emailCode) errors.value.emailCode = t('noonTool.register.errors.emailCodeRequired');
+    if (!form.value.emailCode) errors.value.emailCode = t('register.errors.emailCodeRequired');
 
     if (Object.values(errors.value).some((v) => v)) return;
 
@@ -223,7 +223,7 @@ export function useRegisterForm() {
       if (typeof body.message === 'string' && !errors.value.submit) errors.value.submit = body.message;
     }
     if (!Object.values(errors.value).some((v) => v)) {
-      errors.value.submit = (err instanceof Error && err.message) || t('noonTool.register.errors.submitFailed');
+      errors.value.submit = (err instanceof Error && err.message) || t('register.errors.submitFailed');
     }
     /* 后端可能驳回第一步的字段（用户名被占用等），而那些输入框在第 1 步 ——
        不翻页错误就贴在看不见的地方。 */

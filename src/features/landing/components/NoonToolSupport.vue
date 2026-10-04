@@ -23,16 +23,16 @@ const reveal = useReveal();
     <header class="max-w-3xl space-y-3">
       <p class="text-muted rule-glyph text-[11px] font-medium tracking-[0.22em] uppercase">
         <NoonToolOrnament />
-        {{ t('noonTool.support.eyebrow') }}
+        {{ t('landing.support.eyebrow') }}
       </p>
       <h2
         id="support-heading"
         class="text-ink text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[48px] md:tracking-[-0.035em]"
       >
-        {{ t('noonTool.support.sectionTitle') }}
+        {{ t('landing.support.sectionTitle') }}
       </h2>
       <p class="text-muted max-w-xl text-[15px] leading-[1.55] md:text-[17px]">
-        {{ t('noonTool.support.sectionSubtitle') }}
+        {{ t('landing.support.sectionSubtitle') }}
       </p>
     </header>
 
@@ -44,17 +44,17 @@ const reveal = useReveal();
           <component :is="ICONS[key]" :size="16" :stroke-width="1.75" />
         </span>
         <h3 class="text-ink text-lg font-semibold tracking-[-0.01em]">
-          {{ t(`noonTool.support.channels.${key}.title`) }}
+          {{ t(`landing.support.channels.${key}.title`) }}
         </h3>
         <p class="text-muted text-[14px] leading-[1.55]">
-          {{ t(`noonTool.support.channels.${key}.body`) }}
+          {{ t(`landing.support.channels.${key}.body`) }}
         </p>
         <a
           v-if="key === 'wechat'"
           :href="DOCS_URL + 'guide/support'"
           class="text-accent-slate hover:text-ink mt-auto inline-flex items-center gap-1 pt-1 text-sm font-medium transition-colors"
         >
-          {{ t('noonTool.support.viewQr') }}
+          {{ t('landing.support.viewQr') }}
           <component :is="ICONS.footerLink" :size="14" />
         </a>
       </li>

@@ -25,12 +25,12 @@ const SITE_URL = 'https://nomu.kanocifer.chat';
 const installHref = installUrl('announcements');
 
 useHead({
-  title: () => `${t('noonTool.announcements.meta.title')} · Nomu`,
+  title: () => `${t('announcements.meta.title')} · Nomu`,
   link: () => [{ rel: 'canonical', href: `${SITE_URL}/announcements` }],
   meta: () => [
-    { name: 'description', content: t('noonTool.announcements.meta.description') },
-    { property: 'og:title', content: `${t('noonTool.announcements.meta.title')} · Nomu` },
-    { property: 'og:description', content: t('noonTool.announcements.meta.description') },
+    { name: 'description', content: t('announcements.meta.description') },
+    { property: 'og:title', content: `${t('announcements.meta.title')} · Nomu` },
+    { property: 'og:description', content: t('announcements.meta.description') },
     { property: 'og:url', content: `${SITE_URL}/announcements` },
   ],
 });
@@ -119,31 +119,31 @@ function stamp(iso: string): string {
             rel="noopener"
             class="bg-ink text-surface hover:bg-ink/90 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[12.5px] font-medium transition-[background-color,transform] duration-150 ease-[var(--ease-out)] active:scale-[0.96]"
           >
-            {{ t('noonTool.nav.install') }}
+            {{ t('common.nav.install') }}
           </a>
         </div>
       </header>
 
       <motion.header v-bind="sectionFadeUp()">
         <p class="text-muted text-[11px] tracking-[0.12em] uppercase">
-          {{ t('noonTool.announcements.eyebrow') }}
+          {{ t('announcements.eyebrow') }}
         </p>
         <h1 class="text-ink mt-3 text-[32px] leading-[1.1] font-semibold tracking-[-0.02em] md:text-[42px]">
-          {{ t('noonTool.announcements.title') }}
+          {{ t('announcements.title') }}
         </h1>
         <p class="text-muted mt-4 max-w-2xl text-[15px] leading-[1.6]">
-          {{ t('noonTool.announcements.subheadline') }}
+          {{ t('announcements.subheadline') }}
         </p>
       </motion.header>
 
-      <p v-if="loading" class="text-muted text-[14px]">{{ t('noonTool.announcements.loading') }}</p>
+      <p v-if="loading" class="text-muted text-[14px]">{{ t('announcements.loading') }}</p>
 
       <p v-else-if="failed" class="text-muted text-[14px]">
-        {{ t('noonTool.announcements.loadFailed') }}
+        {{ t('announcements.loadFailed') }}
       </p>
 
       <p v-else-if="!items.length" class="text-muted text-[14px]">
-        {{ t('noonTool.announcements.empty') }}
+        {{ t('announcements.empty') }}
       </p>
 
       <div v-else class="flex flex-col gap-16">
@@ -159,7 +159,7 @@ function stamp(iso: string): string {
             :class="TYPE_TONE[group.type]"
           >
             <span class="h-1.5 w-1.5 rounded-full" :class="TYPE_DOT[group.type]" aria-hidden />
-            {{ t(`noonTool.announcements.types.${group.type}`) }}
+            {{ t(`announcements.types.${group.type}`) }}
             <span class="text-muted font-normal tabular-nums">{{ group.rows.length }}</span>
           </h2>
 

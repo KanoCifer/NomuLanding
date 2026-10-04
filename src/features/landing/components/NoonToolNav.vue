@@ -38,9 +38,9 @@ const installHref = installUrl('nav');
 const docsHref = 'https://nomu.kanocifer.chat/docs/';
 
 const sections = [
-  { id: 'features', key: 'noonTool.nav.sections.features' },
-  { id: 'support', key: 'noonTool.nav.sections.support' },
-  { id: 'faq', key: 'noonTool.nav.sections.faq' },
+  { id: 'features', key: 'common.nav.sections.features' },
+  { id: 'support', key: 'common.nav.sections.support' },
+  { id: 'faq', key: 'common.nav.sections.faq' },
 ] as const;
 
 onMounted(async () => {
@@ -153,7 +153,7 @@ function onSheetKeydown(e: KeyboardEvent) {
         class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
         active-class="text-ink bg-accent-wash"
       >
-        {{ t('noonTool.nav.credits') }}
+        {{ t('common.nav.credits') }}
       </RouterLink>
       <!-- 公告：同样是站内内容页，排在积分之后 -->
       <RouterLink
@@ -161,7 +161,7 @@ function onSheetKeydown(e: KeyboardEvent) {
         class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
         active-class="text-ink bg-accent-wash"
       >
-        {{ t('noonTool.nav.announcements') }}
+        {{ t('common.nav.announcements') }}
       </RouterLink>
       <a
         :href="docsHref"
@@ -169,7 +169,7 @@ function onSheetKeydown(e: KeyboardEvent) {
         rel="noopener"
         class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center gap-1 rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
       >
-        {{ t('noonTool.nav.docs') }}
+        {{ t('common.nav.docs') }}
         <span aria-hidden="true" class="text-[10px] leading-none">↗</span>
       </a>
       <!-- 注册：站内 SPA 路由，跟 docs 平级但不开新 tab（站内跳转同窗口即可） -->
@@ -178,7 +178,7 @@ function onSheetKeydown(e: KeyboardEvent) {
         class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
         active-class="text-ink bg-accent-wash"
       >
-        {{ t('noonTool.nav.register') }}
+        {{ t('common.nav.register') }}
       </RouterLink>
       <!-- 忘记密码：跟 register 平级，recovery 操作；active 时跟 register 视觉一致 -->
       <RouterLink
@@ -186,7 +186,7 @@ function onSheetKeydown(e: KeyboardEvent) {
         class="text-muted/80 hover:text-ink hover:bg-accent-wash inline-flex h-9 items-center rounded-full px-2.5 text-[13px] whitespace-nowrap transition-colors duration-150 ease-[var(--ease-out)]"
         active-class="text-ink bg-accent-wash"
       >
-        {{ t('noonTool.nav.forgotPassword') }}
+        {{ t('common.nav.forgotPassword') }}
       </RouterLink>
     </nav>
 
@@ -220,7 +220,7 @@ function onSheetKeydown(e: KeyboardEvent) {
       <button
         type="button"
         class="text-ink inline-flex size-10 items-center justify-center rounded-full transition-colors duration-150 ease-[var(--ease-out)] hover:bg-white/55 focus-visible:ring-2 focus-visible:ring-[var(--accent-slate)] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.96] xl:hidden"
-        :aria-label="mobileOpen ? t('noonTool.nav.menuClose') : t('noonTool.nav.menuOpen')"
+        :aria-label="mobileOpen ? t('common.nav.menuClose') : t('common.nav.menuOpen')"
         :aria-expanded="mobileOpen"
         aria-controls="nav-mobile-sheet"
         @click="openSheet"
@@ -251,7 +251,7 @@ function onSheetKeydown(e: KeyboardEvent) {
         ref="sheetPanelRef"
         role="dialog"
         aria-modal="true"
-        :aria-label="t('noonTool.nav.menu')"
+        :aria-label="t('common.nav.menu')"
         :initial="{ opacity: 0, y: -12 }"
         :animate="{ opacity: 1, y: 0 }"
         :exit="{ opacity: 0, y: -12 }"
@@ -261,12 +261,12 @@ function onSheetKeydown(e: KeyboardEvent) {
       >
         <header class="flex items-center justify-between border-b border-white/40 px-4 py-2.5">
           <span class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
-            {{ t('noonTool.nav.menu') }}
+            {{ t('common.nav.menu') }}
           </span>
           <button
             type="button"
             class="text-muted hover:text-ink inline-flex size-8 items-center justify-center rounded-full transition-colors hover:bg-white/55 focus-visible:ring-2 focus-visible:ring-[var(--accent-slate)] focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.96]"
-            :aria-label="t('noonTool.nav.menuClose')"
+            :aria-label="t('common.nav.menuClose')"
             @click="closeSheet"
           >
             <X :size="18" :stroke-width="1.75" aria-hidden="true" />
@@ -290,7 +290,7 @@ function onSheetKeydown(e: KeyboardEvent) {
             rel="noopener"
             class="text-ink/85 mt-1 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55"
           >
-            <span>{{ t('noonTool.nav.docs') }}</span>
+            <span>{{ t('common.nav.docs') }}</span>
             <ArrowUpRight :size="16" :stroke-width="1.75" class="text-muted" aria-hidden="true" />
           </a>
           <RouterLink
@@ -298,28 +298,28 @@ function onSheetKeydown(e: KeyboardEvent) {
             class="text-ink mt-0.5 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55 active:bg-white/70"
             @click="closeSheet"
           >
-            <span>{{ t('noonTool.nav.credits') }}</span>
+            <span>{{ t('common.nav.credits') }}</span>
           </RouterLink>
           <RouterLink
             to="/announcements"
             class="text-ink mt-0.5 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55 active:bg-white/70"
             @click="closeSheet"
           >
-            <span>{{ t('noonTool.nav.announcements') }}</span>
+            <span>{{ t('common.nav.announcements') }}</span>
           </RouterLink>
           <RouterLink
             to="/register"
             class="text-ink mt-0.5 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55 active:bg-white/70"
             @click="closeSheet"
           >
-            <span>{{ t('noonTool.nav.register') }}</span>
+            <span>{{ t('common.nav.register') }}</span>
           </RouterLink>
           <RouterLink
             to="/forgot-password"
             class="text-ink/85 mt-0.5 flex h-12 items-center justify-between rounded-xl px-3 text-[15px] font-medium transition-colors hover:bg-white/55 active:bg-white/70"
             @click="closeSheet"
           >
-            <span>{{ t('noonTool.nav.forgotPassword') }}</span>
+            <span>{{ t('common.nav.forgotPassword') }}</span>
           </RouterLink>
         </nav>
 

@@ -1,0 +1,50 @@
+export default {
+  register: {
+    meta: {
+      title: 'Create your Nomu account',
+      description:
+        'Create a Nomu account to use the whole extension. The AI assistant and AI Generation are billed in credits.',
+    },
+    headline: 'Create your Nomu account',
+    subheadline:
+      'An account unlocks everything in the extension: capture, publishing, the AI assistant and AI Generation.',
+    eyebrow: 'Account',
+    form: {
+      username: 'Username',
+      email: 'Email',
+      password: 'Password',
+      confirmPassword: 'Confirm password',
+      emailCode: 'Email code',
+      emailCodeHint: '6 digits',
+      showPassword: 'Show password',
+      hidePassword: 'Hide password',
+      sendCode: 'Send code',
+      sending: 'Sending…',
+      sent: 'Sent',
+      codeSentTo: 'The code is on its way to {email}. Check that inbox.',
+      resendIn: 'Resend in {n}s',
+      next: 'Next',
+      back: 'Back',
+      step: 'Step {current} of {total}',
+      submit: 'Create account',
+      submitting: 'Creating…',
+    },
+    errors: {
+      usernameRequired: 'Please enter a username',
+      emailRequired: 'Please enter your email',
+      emailInvalid: 'That email looks invalid',
+      passwordRequired: 'Please enter a password',
+      confirmPasswordRequired: 'Please confirm your password',
+      passwordMismatch: "Passwords don't match",
+      emailCodeRequired: 'Please enter the email code',
+      sendCodeFailed: "Couldn't send the code. Try again in a moment.",
+      submitFailed: "Couldn't create the account. Try again in a moment.",
+    },
+    success: {
+      title: "You're in",
+      body: 'Your account is ready. Install the Nomu extension — sign in and capture, listing, the AI assistant and cross-device duplication are all open.',
+      cta: 'Install Nomu',
+      back: 'Back to home',
+    },
+  },
+} as const;

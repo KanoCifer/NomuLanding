@@ -26,12 +26,12 @@ const DOCS_SUPPORT_URL = `${SITE_URL}/docs/guide/support`;
 const installHref = installUrl('credits');
 
 useHead({
-  title: () => `${t('noonTool.credits.meta.title')} · Nomu`,
+  title: () => `${t('credits.meta.title')} · Nomu`,
   link: () => [{ rel: 'canonical', href: `${SITE_URL}/credits` }],
   meta: () => [
-    { name: 'description', content: t('noonTool.credits.meta.description') },
-    { property: 'og:title', content: `${t('noonTool.credits.meta.title')} · Nomu` },
-    { property: 'og:description', content: t('noonTool.credits.meta.description') },
+    { name: 'description', content: t('credits.meta.description') },
+    { property: 'og:title', content: `${t('credits.meta.title')} · Nomu` },
+    { property: 'og:description', content: t('credits.meta.description') },
     { property: 'og:url', content: `${SITE_URL}/credits` },
   ],
 });
@@ -187,7 +187,7 @@ function sectionFadeUp() {
             rel="noopener"
             class="bg-ink text-surface hover:bg-ink/90 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[12.5px] font-medium transition-[background-color,transform] duration-150 ease-[var(--ease-out)] active:scale-[0.96]"
           >
-            {{ t('noonTool.nav.install') }}
+            {{ t('common.nav.install') }}
           </a>
         </div>
       </header>
@@ -195,38 +195,38 @@ function sectionFadeUp() {
       <main class="space-y-20 md:space-y-24">
         <motion.section v-bind="sectionFadeUp()" aria-labelledby="credits-heading" class="space-y-4">
           <p class="text-muted text-[11px] font-medium tracking-[0.22em] uppercase">
-            {{ t('noonTool.credits.eyebrow') }}
+            {{ t('credits.eyebrow') }}
           </p>
           <h1
             id="credits-heading"
             class="text-ink max-w-3xl text-[36px] leading-[1.05] font-semibold tracking-[-0.025em] md:text-[52px] md:tracking-[-0.035em]"
           >
-            {{ t('noonTool.credits.title') }}
+            {{ t('credits.title') }}
           </h1>
           <p class="text-muted max-w-2xl text-[15px] leading-[1.55] md:text-[17px]">
-            {{ t('noonTool.credits.subtitle') }}
+            {{ t('credits.subtitle') }}
           </p>
         </motion.section>
 
         <!-- 消耗表。窄屏每行折成一块，宽屏三列对齐 —— 同一份标记，grid 断点换布局。 -->
         <motion.section v-bind="sectionFadeUp()" aria-labelledby="credits-table-heading" class="space-y-4">
-          <h2 id="credits-table-heading" class="sr-only">{{ t('noonTool.credits.table.title') }}</h2>
+          <h2 id="credits-table-heading" class="sr-only">{{ t('credits.table.title') }}</h2>
           <div
             class="overflow-hidden rounded-3xl border border-white/50 bg-white/55 shadow-[0_24px_64px_-24px_rgba(0,0,0,0.16),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"
           >
             <div
               class="text-muted hidden grid-cols-[minmax(0,1fr)_9rem_8rem] gap-4 border-b border-white/50 px-6 py-3 text-[12px] font-medium tracking-wide md:grid"
             >
-              <span>{{ t('noonTool.credits.table.feature') }}</span>
-              <span>{{ t('noonTool.credits.table.unit') }}</span>
-              <span class="text-right">{{ t('noonTool.credits.table.amount') }}</span>
+              <span>{{ t('credits.table.feature') }}</span>
+              <span>{{ t('credits.table.unit') }}</span>
+              <span class="text-right">{{ t('credits.table.amount') }}</span>
             </div>
 
             <p v-if="prices === null && !loadFailed" class="text-muted px-6 py-10 text-center text-[14px]">
-              {{ t('noonTool.credits.table.loading') }}
+              {{ t('credits.table.loading') }}
             </p>
             <p v-else-if="loadFailed" class="text-muted px-6 py-10 text-center text-[14px]">
-              {{ t('noonTool.credits.table.failed') }}
+              {{ t('credits.table.failed') }}
             </p>
 
             <ul v-else>
@@ -239,27 +239,27 @@ function sectionFadeUp() {
                 <div>
                   <p class="text-ink text-[15px] font-semibold tracking-[-0.01em]">
                     <template v-if="row.nameKey">
-                      {{ t(`noonTool.credits.items.${row.nameKey}.name`) }}
+                      {{ t(`credits.items.${row.nameKey}.name`) }}
                     </template>
                     <template v-else>
                       <code class="text-[13px] font-normal">{{ row.raw }}</code>
                     </template>
                   </p>
                   <p v-if="row.nameKey" class="text-muted text-[13px] leading-[1.5]">
-                    {{ t(`noonTool.credits.items.${row.nameKey}.desc`) }}
+                    {{ t(`credits.items.${row.nameKey}.desc`) }}
                   </p>
                 </div>
                 <p class="text-muted text-[13px] md:text-[14px]">
-                  {{ t(`noonTool.credits.units.${row.unit}`) }}
+                  {{ t(`credits.units.${row.unit}`) }}
                 </p>
                 <p class="text-ink text-[17px] font-semibold tabular-nums md:text-right">
-                  {{ row.amount }} {{ t('noonTool.credits.unitFen') }}
+                  {{ row.amount }} {{ t('credits.unitFen') }}
                 </p>
               </li>
             </ul>
           </div>
           <p v-if="rows.length" class="text-muted text-[12.5px] leading-[1.5]">
-            {{ t('noonTool.credits.table.caption') }}
+            {{ t('credits.table.caption') }}
           </p>
         </motion.section>
 
@@ -269,7 +269,7 @@ function sectionFadeUp() {
               id="credits-rules-heading"
               class="text-ink text-[28px] leading-[1.1] font-semibold tracking-[-0.02em] md:text-[36px]"
             >
-              {{ t('noonTool.credits.rulesTitle') }}
+              {{ t('credits.rulesTitle') }}
             </h2>
           </header>
           <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -279,10 +279,10 @@ function sectionFadeUp() {
               class="flex flex-col gap-2 rounded-2xl border border-white/50 bg-white/55 p-6 shadow-[0_8px_32px_-12px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl backdrop-saturate-150"
             >
               <h3 class="text-ink text-[15px] font-semibold">
-                {{ t(`noonTool.credits.rules.${key}.title`) }}
+                {{ t(`credits.rules.${key}.title`) }}
               </h3>
               <p class="text-muted text-[14px] leading-[1.55]">
-                {{ t(`noonTool.credits.rules.${key}.body`) }}
+                {{ t(`credits.rules.${key}.body`) }}
               </p>
             </li>
           </ul>
