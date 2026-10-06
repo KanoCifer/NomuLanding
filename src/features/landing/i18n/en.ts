@@ -21,7 +21,7 @@ export default {
       quickStart: 'Quick start',
       account: 'Account & AI credits',
       stores: 'Store management',
-      catalogBrowse: 'Catalog browse',
+      catalogBrowse: 'Product catalog',
       quickSearch: 'Quick search',
       nomuDesign: 'NomuDesign image generation',
       nomuAssistant: 'Nomu Assistant',
@@ -93,7 +93,7 @@ export default {
         insights: {
           title: 'Performance Insights',
           tagline:
-            'Ask anything, print a label on the spot, export whatever you have shipped — the tools are there for whatever has to leave the browser.',
+            'See where the money goes, ask anything, print a label on the spot, export whatever you have shipped — the tools are there for whatever has to leave the browser.',
         },
       },
       items: {
@@ -133,9 +133,9 @@ export default {
           body: 'Capture from 1688, Taobao/Tmall, JD, and noon.com product pages; any other site can be captured on demand without waiting for a release.',
         },
         browse: {
-          title: 'Catalog browse and quick search',
-          imageAlt: 'Screenshot of the side-panel catalog and the search overlay',
-          body: "Browse the current store's active and hidden items from the side panel, or press Ctrl/⌘ + Shift + S on any page for the search overlay, where you can jump to an item or flip its live status.",
+          title: 'Three-column product catalog',
+          imageAlt: 'Screenshot of the catalog list, detail and filter columns side by side',
+          body: 'The catalog is a page of its own: list on the left, detail in the middle, filters on the right. Click a row and the full product information is there, with edits flowing straight back in; batch status changes and batch deletion both happen here, and list rows show sold rather than the selling price, so you judge what actually moves before picking stock. Press Ctrl/⌘ + Shift + S on any page for the search overlay, where you can jump to an item or flip its live status.',
         },
         design: {
           title: 'Regenerate product imagery with AI',
@@ -168,9 +168,9 @@ export default {
           body: 'Publishing and duplication each get their own concurrency and retry limits, conservative by default. Changes apply immediately, no browser restart.',
         },
         price: {
-          title: 'CNY prices converted for you',
-          imageAlt: 'Screenshot of a converted price filling the price field',
-          body: 'Source prices are converted to your store currency at the live rate, shown alongside the CNY figure, so you can stop switching to a calculator.',
+          title: 'Price conversion and profit breakdown',
+          imageAlt: 'Screenshot of the fee breakdown and profit card',
+          body: 'Source prices are converted to your store currency at the live rate, shown alongside the CNY figure, so you can stop switching to a calculator. Selecting a product in the catalog produces a fee breakdown and a profit card, showing how the price splits across commission, FBN shipping, first-mile and product cost at a glance; items with missing data are named rather than folded into a number that merely looks complete.',
         },
         export: {
           title: 'Export your product table',
@@ -180,7 +180,7 @@ export default {
         account: {
           title: 'Passwordless sign-in',
           imageAlt: 'Screenshot of the email magic-link sign-in screen',
-          body: 'One email, one link, no password. Every page in the extension opens once you are signed in. Up to 5 devices per account, so a new computer does not mean re-configuring stores.',
+          body: 'One email, one link, no password. Every page in the extension opens once you are signed in. Up to 3 devices per account, so a new computer does not mean re-configuring stores.',
         },
         cloudPool: {
           title: 'Move captures across devices',
@@ -191,6 +191,16 @@ export default {
           title: 'Sync configs to another machine',
           imageAlt: 'Screenshot of uploading and downloading cloud configs',
           body: 'Upload store configs to the cloud and pull them back on another computer, so a new machine does not need every setting typed again.',
+        },
+        overview: {
+          title: 'The overview page',
+          imageAlt: 'Screenshot of the overview track and announcement board',
+          body: "One track shows this week's captured, drafts, in progress and listed side by side, so you can see at a glance which stage things are piling up in. The attention queue lists failures only and does not take over task handling. Platform announcements sit across the top; click a row to mark it read, and it recedes into the background with the read state remembered.",
+        },
+        status: {
+          title: 'Connection status you can see',
+          imageAlt: 'Screenshot of the sync connection status and latency readout',
+          body: 'The sync connection, heartbeat and latency have a page of their own: whether it is healthy, reconnecting or running high on latency is readable at a glance instead of guessed at. Measuring latency and reconnecting are both done in place.',
         },
         assistant: {
           title: 'Ask the Nomu Assistant anything',

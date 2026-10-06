@@ -46,6 +46,8 @@ type FeatureKey = Extract<
   | 'sync'
   | 'assistant'
   | 'barcode'
+  | 'overview'
+  | 'status'
 >;
 
 type PillarKey = 'manage' | 'list' | 'track' | 'insights';
@@ -75,7 +77,7 @@ const pillars: Pillar[] = [
   {
     key: 'insights',
     number: '04',
-    featureKeys: ['assistant', 'barcode', 'export'],
+    featureKeys: ['overview', 'status', 'assistant', 'barcode', 'export'],
   },
 ];
 
@@ -119,6 +121,8 @@ const FEATURE_DOC: Partial<Record<FeatureKey, DocKey>> = {
   sync: 'configSync',
   assistant: 'nomuAssistant',
   barcode: 'barcode',
+  overview: 'features',
+  status: 'configSync',
 };
 
 function LucideIcon(name: FeatureKey) {

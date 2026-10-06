@@ -7,6 +7,7 @@
  * so template call sites stay `ICONS.foo` rather than `(LucideIcons as any)[…]`.
  */
 import {
+  Activity,
   AlarmClock,
   AppWindow,
   ArrowUpRight,
@@ -51,6 +52,7 @@ import {
   SquareMenu,
   Store,
   Table,
+  Wifi,
   Zap,
 } from '@lucide/vue';
 
@@ -84,6 +86,7 @@ export const ICONS = {
   list: ClipboardList,
   multiAccount: Store,
   notifications: Bell,
+  overview: Activity,
   password: KeyRound,
   permAlarms: AlarmClock,
   permNotifications: Bell,
@@ -98,6 +101,7 @@ export const ICONS = {
   serial: ListOrdered,
   settings: Settings,
   sources: PackageSearch,
+  status: Wifi,
   storeSetup: Store,
   support: LifeBuoy,
   sync: MonitorSmartphone,
