@@ -60,6 +60,7 @@ const ROWS: ItemRow[] = [
   { key: 'nomuAccount', dest: 'nomu', icon: 'user' },
   { key: 'nomuCloud', dest: 'nomu', icon: 'cloud' },
   { key: 'nomuAi', dest: 'nomu', icon: 'sparkles' },
+  { key: 'analytics', dest: 'nomu', icon: 'search' },
   // Noon — sent on action
   { key: 'productDetails', dest: 'noon', icon: 'shoppingBag' },
   { key: 'productImages', dest: 'noon', icon: 'image' },
@@ -68,7 +69,6 @@ const ROWS: ItemRow[] = [
   { key: 'scripting', dest: 'noon', icon: 'code' },
   // Nowhere — explicitly excluded
   { key: 'password', dest: 'nowhere', icon: 'keyRound' },
-  { key: 'analytics', dest: 'nowhere', icon: 'search' },
   { key: 'browsingHistory', dest: 'nowhere', icon: 'cookie' },
   { key: 'notifications', dest: 'nowhere', icon: 'bell' },
   { key: 'contextMenus', dest: 'nowhere', icon: 'menu' },

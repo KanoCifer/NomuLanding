@@ -293,8 +293,9 @@ export default {
           detail: 'You sign in to Noon directly; the extension never sees it.',
         },
         analytics: {
-          name: 'Analytics or telemetry',
-          detail: 'No tracking pixels or third-party analytics inside the extension.',
+          name: 'Crash diagnostics',
+          detail:
+            'One anonymous diagnostic event on crash, plus one version heartbeat after each update; no usage behaviour is recorded.',
         },
         browsingHistory: {
           name: 'Browsing history',

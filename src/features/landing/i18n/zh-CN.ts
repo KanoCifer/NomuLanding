@@ -274,8 +274,9 @@ export default {
           detail: '你直接登录 Noon，扩展看不到密码。',
         },
         analytics: {
-          name: '埋点与统计',
-          detail: '扩展内没有追踪像素或第三方分析脚本。',
+          name: '崩溃诊断',
+          detail:
+            '扩展崩溃时上报一条匿名诊断事件，版本更新后另上报一次版本心跳；不记录任何使用行为。',
         },
         browsingHistory: {
           name: '浏览历史',
