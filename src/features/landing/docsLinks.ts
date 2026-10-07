@@ -12,6 +12,8 @@
  *   2. **锚文本走 i18n**（`landing.docsLinks.<key>`），因为页面运行时能切英文；
  *      锚文本用文档自己的标题，不要写「点击这里」这种无信息量的词。
  */
+import { ZINIAO_PLUGIN_URL } from '@/constants/install';
+
 export const DOC_HREF = {
   quickStart: '/docs/guide/quick-start',
   account: '/docs/guide/account',
@@ -58,4 +60,15 @@ export const FAQ_DOC: Record<FaqKey, DocKey> = {
   ai: 'account',
   translation: 'quickStart',
   failure: 'tasks',
+};
+
+/**
+ * FAQ 条目 → 站外渠道。文档页讲流程，商店页才是真入口：紫鸟用户在紫鸟里，
+ * 让他自己再去搜索一次没有意义，直接给详情页。
+ *
+ * 只有确实有站外落点的条目才写在这里，其余 key 不渲染这条链接。
+ * labelKey 指 `landing.faq.<key>` 下的文案，锚文本要用渠道自己的名字，不要写「点这里」。
+ */
+export const FAQ_EXTERNAL: Partial<Record<FaqKey, { href: string; labelKey: string }>> = {
+  regions: { href: ZINIAO_PLUGIN_URL, labelKey: 'ziniaoCta' },
 };

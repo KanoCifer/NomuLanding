@@ -8,7 +8,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { motion } from 'motion-v';
 import { useReveal } from '@/composables/useReveal';
-import { DOCS_ORIGIN, DOC_HREF, FAQ_DOC, FAQ_KEYS } from '../docsLinks';
+import { DOCS_ORIGIN, DOC_HREF, FAQ_DOC, FAQ_EXTERNAL, FAQ_KEYS } from '../docsLinks';
 
 const { t } = useI18n();
 
@@ -80,6 +80,18 @@ const reveal = useReveal();
                 class="text-accent-slate text-[13px] font-medium hover:underline"
               >
                 {{ t('landing.docsCta') }}{{ t(`landing.docsLinks.${FAQ_DOC[key]}`) }}
+              </a>
+            </p>
+            <!-- 站外渠道（目前只有紫鸟插件中心）：文档页讲流程，商店页才是真入口。
+                 没有外部落点的条目不渲染这一行。 -->
+            <p v-if="FAQ_EXTERNAL[key]" class="px-5 pb-5">
+              <a
+                :href="FAQ_EXTERNAL[key]!.href"
+                target="_blank"
+                rel="noopener"
+                class="text-accent-slate text-[13px] font-medium hover:underline"
+              >
+                {{ t(`landing.faq.${FAQ_EXTERNAL[key]!.labelKey}`) }}
               </a>
             </p>
           </div>

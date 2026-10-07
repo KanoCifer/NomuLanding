@@ -13,7 +13,7 @@ Nomu Chrome 扩展的对外落地页,Vue 3 + Vite + Tailwind v4 + **vite-ssg 预
 
 **事实以 NoonToolv1 为准**。各模块 `i18n/` 里描述 Nomu 本体的功能、能力、数字,凡涉及 Nomu 本体的,只能来源 `/Users/liudetao/Code/NoonToolv1` 的当前实现。**禁止虚构功能描述、性能数字、客户证言**。
 
-**外部事实有两处本地镜像**,改真源后要回来同步:`src/constants/install.ts` 的 `STORE_ID`(Chrome 商店 ID)、`src/constants/version.ts` 的 `APP_VERSION`(NoonToolv1 `package.json` 的 `version`,结构化数据的 `softwareVersion` 用它)。同类的还有 `docsLinks.ts` 的 `DOC_HREF` —— slug 对应 NomuDocs 的文件,那边改文件名/改路径就要跟。
+**外部事实有三处本地镜像**,改真源后要回来同步:`src/constants/install.ts` 的 `STORE_ID`(Chrome 商店 ID)与同文件的 `ZINIAO_PLUGIN_URL`(紫鸟插件中心详情页,slug 变了要改)、`src/constants/version.ts` 的 `APP_VERSION`(NoonToolv1 `package.json` 的 `version`,结构化数据的 `softwareVersion` 用它)。同类的还有 `docsLinks.ts` 的 `DOC_HREF` —— slug 对应 NomuDocs 的文件,那边改文件名/改路径就要跟;`FAQ_EXTERNAL` 是同一张表的站外版本,只有紫鸟那一条。
 
 **文案跟着模块走**:文案在各自模块的 `i18n/{zh-CN,en}.ts`,不在 `src/locales/` 里(那儿只有聚合入口和共享层)。调用处用模块全路径:`t('credits.title')`、`t('landing.hero.headline')`;历史上统一的 `noonTool.` 前缀已拆掉,别再加回来。
 

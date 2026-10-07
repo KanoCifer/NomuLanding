@@ -361,6 +361,8 @@ export default {
     },
     faq: {
       sectionTitle: 'Frequently asked',
+      // 站外渠道的锚文本：FAQ_EXTERNAL 里那份表引用的就是它
+      ziniaoCta: 'Open "Nomu - Tool for Noon" in the Purple Bird plugin center',
       items: {
         free: {
           q: 'Is Nomu free?',
@@ -376,7 +378,7 @@ export default {
         },
         regions: {
           q: 'How to install Nomu on the Purple Bird Browser?',
-          a: 'Nomu is supported on the Purple Bird Browser: search for Nomu in its plugin center and install it there.',
+          a: 'Nomu is listed in the Purple Bird (紫鸟) plugin center. Search for "Nomu - Tool for Noon" there and install it, then tick the store environments that need Nomu under "Assign stores" — multi-store teams install per store instead of everywhere.',
         },
         sources: {
           q: 'Can I use sources other than 1688?',

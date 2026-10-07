@@ -285,8 +285,7 @@ export default {
         },
         analytics: {
           name: '崩溃诊断',
-          detail:
-            '扩展崩溃时上报一条匿名诊断事件，版本更新后另上报一次版本心跳；不记录任何使用行为。',
+          detail: '扩展崩溃时上报一条匿名诊断事件，版本更新后另上报一次版本心跳；不记录任何使用行为。',
         },
         browsingHistory: {
           name: '浏览历史',
@@ -342,6 +341,8 @@ export default {
     },
     faq: {
       sectionTitle: '常见疑问',
+      // 站外渠道的锚文本：FAQ_EXTERNAL 里那份表引用的就是它
+      ziniaoCta: '在紫鸟插件中心查看「Nomu - Tool for Noon」',
       items: {
         free: {
           q: 'Nomu 是免费的吗？',
@@ -357,7 +358,7 @@ export default {
         },
         regions: {
           q: '紫鸟浏览器怎么安装？',
-          a: '紫鸟浏览器已支持，在紫鸟的插件中心搜索 Nomu 并安装即可。',
+          a: '已上架紫鸟浏览器插件中心。在插件中心搜索「Nomu - Tool for Noon」安装，装好后可以在「分配店铺」里勾选要用 Nomu 的店铺环境——多店铺团队按店分配就行，不必每个店铺都装。',
         },
         sources: {
           q: '除了 1688 还支持其它源吗？',
